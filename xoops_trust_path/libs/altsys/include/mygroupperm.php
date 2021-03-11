@@ -74,6 +74,9 @@ if (1 == $modid) {
 $member_handler = xoops_getHandler('member');
 $group_list = $member_handler->getGroupList();
 if (!empty($_POST['perms']) && is_array($_POST['perms'])) {
+    if (!isset($msg) || !is_array($msg)) {
+        $msg = isset($msg)? [$msg] : [];
+    }
     $grouppermHandler = xoops_getHandler('groupperm');
 
     foreach ($_POST['perms'] as $perm_name => $perm_data) {
