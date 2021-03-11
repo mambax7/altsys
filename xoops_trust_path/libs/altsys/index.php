@@ -35,7 +35,7 @@ if (!in_array($page, $controllers, true)) {
 if (empty($_GET['dirname'])) {
     $module_handler = xoops_getHandler('module');
 
-    list($top_module) = $module_handler->getObjects(new Criteria('isactive', 1));
+    [$top_module] = $module_handler->getObjects(new Criteria('isactive', 1));
 
     $_GET['dirname'] = $top_module->getVar('dirname');
 }

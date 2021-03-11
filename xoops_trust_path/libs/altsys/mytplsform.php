@@ -261,7 +261,7 @@ if ('default' != $tpl['tpl_tplset']) {
 
     error_reporting($original_error_level & ~E_NOTICE & ~E_WARNING);
 
-    list($default_source) = $db->fetchRow($db->query('SELECT tpl_source FROM ' . $db->prefix('tplfile') . ' NATURAL LEFT JOIN ' . $db->prefix('tplsource') . " WHERE tpl_tplset='default' AND tpl_file='" . addslashes($tpl['tpl_file']) . "' AND tpl_module='" . addslashes($tpl['tpl_module']) . "'"));
+    [$default_source] = $db->fetchRow($db->query('SELECT tpl_source FROM ' . $db->prefix('tplfile') . ' NATURAL LEFT JOIN ' . $db->prefix('tplsource') . " WHERE tpl_tplset='default' AND tpl_file='" . addslashes($tpl['tpl_file']) . "' AND tpl_module='" . addslashes($tpl['tpl_module']) . "'"));
 
     $diff = new Text_Diff(explode("\n", $default_source), explode("\n", $tpl['tpl_source']));
 

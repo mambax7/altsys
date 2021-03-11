@@ -16,7 +16,7 @@ function tplsadmin_import_data($tplset, $tpl_file, $tpl_source, $lastmodified = 
 
     // check the file is valid template
 
-    list($count) = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='default' AND tpl_file='" . addslashes($tpl_file) . "'"));
+    [$count] = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='default' AND tpl_file='" . addslashes($tpl_file) . "'"));
 
     if (!$count) {
         return false;
@@ -25,7 +25,7 @@ function tplsadmin_import_data($tplset, $tpl_file, $tpl_source, $lastmodified = 
     // check the template exists in the tplset
 
     if ('default' != $tplset) {
-        list($count) = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='" . addslashes($tplset) . "' AND tpl_file='" . addslashes($tpl_file) . "'"));
+        [$count] = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='" . addslashes($tplset) . "' AND tpl_file='" . addslashes($tpl_file) . "'"));
 
         if ($count <= 0) {
             // copy from 'default' to the tplset

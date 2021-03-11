@@ -46,7 +46,7 @@ function altsys_admin_in_theme($s)
         return $s;
     }
 
-    list($tmp_s, $tmp_after) = explode("<td width='1%' background='" . XOOPS_URL . "/modules/system/images/bg_content.gif'>", $tmp_s);
+    [$tmp_s, $tmp_after] = explode("<td width='1%' background='" . XOOPS_URL . "/modules/system/images/bg_content.gif'>", $tmp_s);
 
     if (empty($tmp_after)) {
         define('ALTSYS_DONT_USE_ADMIN_IN_THEME', 1);

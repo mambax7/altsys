@@ -112,7 +112,7 @@ if ($dh) {
         }
 
         if (is_dir("$baseDir/$file")) {
-            list($count) = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('altsys_language_constants') . " WHERE mid=$target_mid AND language='" . addslashes($file) . "'"));
+            [$count] = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('altsys_language_constants') . " WHERE mid=$target_mid AND language='" . addslashes($file) . "'"));
 
             $languages[] = $file;
 
@@ -165,12 +165,12 @@ if (!in_array($target_file, $lang_files, true)) {
 $langfile_unique_path = "$lang_base_dir/$target_file";
 
 // get constants defined by the target_file
-list($langfile_names, $constpref, $already_read) = altsys_mylangadmin_get_constant_names($langfile_unique_path, $target_dirname);
+[$langfile_names, $constpref, $already_read] = altsys_mylangadmin_get_constant_names($langfile_unique_path, $target_dirname);
 
 // get user_values should be overridden
 $langfile_constants = [];
 foreach ($langfile_names as $name) {
-    list($value) = $db->fetchRow($db->query('SELECT value FROM ' . $db->prefix('altsys_language_constants') . " WHERE mid=$target_mid AND language='$target_lang4sql' AND name='" . addslashes($name) . "'"));
+    [$value] = $db->fetchRow($db->query('SELECT value FROM ' . $db->prefix('altsys_language_constants') . " WHERE mid=$target_mid AND language='$target_lang4sql' AND name='" . addslashes($name) . "'"));
 
     $langfile_constants[$name] = $value;
 }

@@ -1076,7 +1076,7 @@ class MyBlocksAdmin
         do {
             $func_num--;
 
-            list($count) = $this->db->fetchRow($this->db->query('SELECT COUNT(*) FROM ' . $this->db->prefix('newblocks') . ' WHERE mid=' . (int)$mid . ' AND func_num=' . $func_num));
+            [$count] = $this->db->fetchRow($this->db->query('SELECT COUNT(*) FROM ' . $this->db->prefix('newblocks') . ' WHERE mid=' . (int)$mid . ' AND func_num=' . $func_num));
         } while ($count > 0);
 
         return $func_num > 128 ? $func_num : 255;

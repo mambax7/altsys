@@ -105,13 +105,13 @@ if (!empty($_POST['clone_tplset_do']) && !empty($_POST['clone_tplset_from']) && 
         tplsadmin_die(_MYTPLSADMIN_ERR_INVALIDSETNAME, $target_dirname);
     }
 
-    list($is_exist) = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='" . addslashes($tplset_to) . "'"));
+    [$is_exist] = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='" . addslashes($tplset_to) . "'"));
 
     if ($is_exist) {
         tplsadmin_die(_MYTPLSADMIN_ERR_DUPLICATEDSETNAME, $target_dirname);
     }
 
-    list($is_exist) = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplset') . " WHERE tplset_name='" . addslashes($tplset_to) . "'"));
+    [$is_exist] = $db->fetchRow($db->query('SELECT COUNT(*) FROM ' . $db->prefix('tplset') . " WHERE tplset_name='" . addslashes($tplset_to) . "'"));
 
     if ($is_exist) {
         tplsadmin_die(_MYTPLSADMIN_ERR_DUPLICATEDSETNAME, $target_dirname);
