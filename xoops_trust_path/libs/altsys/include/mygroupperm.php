@@ -97,7 +97,7 @@ if (!empty($_POST['perms']) && is_array($_POST['perms'])) {
                 foreach ($perm_data['groups'] as $group_id => $item_ids) {
                     //              foreach ($item_ids as $item_id => $selected) {
 
-                    $selected = isset($item_ids[$item_id]) ? $item_ids[$item_id] : 0;
+                    $selected = $item_ids[$item_id] ?? 0;
 
                     if (1 == $selected) {
                         // make sure that all parent ids are selected as well
@@ -106,7 +106,7 @@ if (!empty($_POST['perms']) && is_array($_POST['perms'])) {
                             $parent_ids = explode(':', $perm_data['parents'][$item_id]);
 
                             foreach ($parent_ids as $pid) {
-                                if (0 != $pid && !in_array($pid, array_keys($item_ids), true)) {
+                                if (0 != $pid && !array_key_exists($pid, $item_ids)) {
                                     // one of the parent items were not selected, so skip this item
 
                                     $msg[] = sprintf(_MD_A_MYBLOCKSADMIN_PERMADDNG, '<b>' . $perm_name . '</b>', '<b>' . $perm_data['itemname'][$item_id] . '</b>', '<b>' . $group_list[$group_id] . '</b>') . ' (' . _MD_A_MYBLOCKSADMIN_PERMADDNGP . ')';
