@@ -91,7 +91,7 @@ function smarty_resource_db_tplinfo($tpl_name)
 
     $tplset = $xoopsConfig['template_set'];
 
-    $theme = isset($xoopsConfig['theme_set']) ? $xoopsConfig['theme_set'] : 'default';
+    $theme = $xoopsConfig['theme_set'] ?? 'default';
 
     $tplfile_handler = xoops_getHandler('tplfile');
 

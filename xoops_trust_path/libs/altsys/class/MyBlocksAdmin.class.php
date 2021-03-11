@@ -1363,7 +1363,7 @@ class MyBlocksAdmin
             'P' => _MD_A_MYBLOCKSADMIN_CTYPE_PHP,
         ];
 
-        return isset($ctypes[$bctype]) ? $ctypes[$bctype] : _MD_A_MYBLOCKSADMIN_CTYPE_SMILE;
+        return $ctypes[$bctype] ?? _MD_A_MYBLOCKSADMIN_CTYPE_SMILE;
     }
 
     public function processPost()
