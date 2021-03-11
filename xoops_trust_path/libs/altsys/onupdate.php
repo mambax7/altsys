@@ -1,6 +1,6 @@
 <?php
 
-eval(' function xoops_module_update_' . $mydirname . '( $module ) { return altsys_onupdate_base( $module , "' . $mydirname . '" ) ; } ');
+eval(' function xoops_module_update_' . $mydirname . '( $module ) { return altsys_onupdate_base( $module , \'' . $mydirname . '\' ) ; } ');
 
 if (!function_exists('altsys_onupdate_base')) {
     /**

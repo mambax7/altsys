@@ -1,6 +1,6 @@
 <?php
 
-eval(' function xoops_module_uninstall_' . $mydirname . '( $module ) { return altsys_onuninstall_base( $module , "' . $mydirname . '" ) ; } ');
+eval(' function xoops_module_uninstall_' . $mydirname . '( $module ) { return altsys_onuninstall_base( $module , \'' . $mydirname . '\' ) ; } ');
 
 if (!function_exists('altsys_onuninstall_base')) {
     /**

@@ -41,7 +41,7 @@ $compile_hooks = [
     ],
 
     'hooksavevars' => [
-        'pre' => '<?php include_once "' . XOOPS_TRUST_PATH . '/libs/altsys/include/compilehook.inc.php" ; tplsadmin_save_tplsvars(\'%s\',$this) ; ?>',
+        'pre' => '<?php include_once \'' . XOOPS_TRUST_PATH . ',$this) ; ?>',
         'post' => '',
         'success_msg' => _TPLSADMIN_FMT_MSG_HOOKSAVEVARS,
         'dt' => _TPLSADMIN_DT_HOOKSAVEVARS,

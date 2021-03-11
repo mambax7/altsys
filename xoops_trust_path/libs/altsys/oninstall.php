@@ -1,6 +1,6 @@
 <?php
 
-eval(' function xoops_module_install_' . $mydirname . '( $module ) { return altsys_oninstall_base( $module , "' . $mydirname . '" ) ; } ');
+eval(' function xoops_module_install_' . $mydirname . '( $module ) { return altsys_oninstall_base( $module , \'' . $mydirname . '\' ) ; } ');
 
 if (!function_exists('altsys_oninstall_base')) {
     /**

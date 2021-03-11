@@ -56,10 +56,11 @@ Altsys supports three types of auto-updating into the DB.
 (1) auto-updating template under the theme.
 This feature is useful for developper of site/theme.
 Insert a line just after including common.php of mainfile.php.
+
 ```php
-		include XOOPS_ROOT_PATH."/include/common.php";
+		include XOOPS_ROOT_PATH.'/include/common.php';
 		[color=ff0000]
-		include XOOPS_TRUST_PATH."/libs/altsys/include/autoupdate_from_theme.inc.php" ;
+		include XOOPS_TRUST_PATH.'/libs/altsys/include/autoupdate_from_theme.inc.php' ;
 		[/color]
 ```
 Then, just modifying the templates of /themes/(your_theme)/templates/* will be updated into the DB
@@ -67,11 +68,12 @@ Then, just modifying the templates of /themes/(your_theme)/templates/* will be u
 (2) auto-updating template under the module
 This feature is useful for developper of modules.
 Insert two lines just after including common.php of mainfile.php.
+
 ```php
-		include XOOPS_ROOT_PATH."/include/common.php";
+		include XOOPS_ROOT_PATH.'/include/common.php';
 		[color=ff0000]
 		$tplsadmin_autoupdate_dirnames = array( '(your_module)' ) ;
-		include XOOPS_TRUST_PATH."/libs/altsys/include/autoupdate_from_module.inc.php" ;
+		include XOOPS_TRUST_PATH.'/libs/altsys/include/autoupdate_from_module.inc.php' ;
 		[/color]
 ```
 Then, just modifying the templates of /modules/(your_module)/templates/* will be updated into the DB.
@@ -80,11 +82,12 @@ You can specify modules multiply. eg) array( 'piCal' , 'tinyd0' )
 (3) auto-updating template under XOOPS_TRUST_PATH
 This feature is useful for developper of D3 modules.
 Insert two lines just after including common.php of mainfile.php.
+
 ```php
-		include XOOPS_ROOT_PATH."/include/common.php";
+		include XOOPS_ROOT_PATH.'/include/common.php';
 		[color=ff0000]
 		$tplsadmin_autoupdate_mydirnames = array( 'pico' , 'd3forum' ) ;
-		include XOOPS_TRUST_PATH."/libs/altsys/include/autoupdate_from_d3module.inc.php" ;
+		include XOOPS_TRUST_PATH.'/libs/altsys/include/autoupdate_from_d3module.inc.php' ;
 		[/color]
 ```
 Then, just modifying the templates of XOOPS_TRUST_PATH/modules/pico/templates/* and XOOPS_TRUST_PATH/modules/d3forum/templates/* will be updated into the DB.
@@ -197,10 +200,11 @@ DBテンプレートをローカルで編集する際には、ファイルを更
 (1)テーマ内テンプレート自動更新機能
 サイトやテーマ開発者にとって便利な機能です。
 mainfile.phpのcommon.php読込行の直後に、以下のように１行挿入します。
+
 ```php
-		include XOOPS_ROOT_PATH."/include/common.php";
+		include XOOPS_ROOT_PATH.'/include/common.php';
 		[color=ff0000]
-		include XOOPS_TRUST_PATH."/libs/altsys/include/autoupdate_from_theme.inc.php" ;
+		include XOOPS_TRUST_PATH.'/libs/altsys/include/autoupdate_from_theme.inc.php' ;
 		[/color]
 ```
 これにより、選択されたテーマ内のtemplates/フォルダ内に置かれたテンプレートを自動的に読み込むようになります。
@@ -208,11 +212,12 @@ mainfile.phpのcommon.php読込行の直後に、以下のように１行挿入�
 (2)モジュール内テンプレート自動更新機能
 モジュール開発者にとって便利な機能です。
 mainfile.phpのcommon.php読込行の直後に、以下のように２行挿入します。
+
 ```php
-		include XOOPS_ROOT_PATH."/include/common.php";
+		include XOOPS_ROOT_PATH.'/include/common.php';
 		[color=ff0000]
 		$tplsadmin_autoupdate_dirnames = array( 'piCal' ) ;
-		include XOOPS_TRUST_PATH."/libs/altsys/include/autoupdate_from_module.inc.php" ;
+		include XOOPS_TRUST_PATH.'/libs/altsys/include/autoupdate_from_module.inc.php' ;
 		[/color]
 ```
 このように記述することで、piCalモジュールのテンプレートの元ファイルを編集するだけで、即時にデータベースに反映されます。includeする前に、$tplsadmin_autoupdate_dirnamesに配列をセットしておくことが重要です。
@@ -221,11 +226,14 @@ mainfile.phpのcommon.php読込行の直後に、以下のように２行挿入�
 (3)TRUST_PATH内テンプレート自動更新機能
 D3モジュール開発者にとって便利な機能です。
 mainfile.phpのcommon.php読込行の直後に、以下のように２行挿入します。
+
 ```php
 		include XOOPS_ROOT_PATH."/include/common.php";
 		[color=ff0000]
-		$tplsadmin_autoupdate_mydirnames = array( 'pico' , 'd3forum' ) ;
-		include XOOPS_TRUST_PATH."/libs/altsys/include/autoupdate_from_d3module.inc.php" ;
+		$tplsadmin_autoupdate_mydirnames = array( 'pico' , 'd3forum' )		include XOOPS_ROOT_PATH.'/include/common.php';
+		[color=ff0000]
+		$tplsadmin_autoupdate_mydirnames = [ 'pico' , 'd3forum' ] ;
+		include XOOPS_TRUST_PATH.'/libs/altsys/include/autoupdate_from_d3module.inc.php' ;
 		[/color]
 ```
 このように記述することで、picoモジュールやd3forumのテンプレートの元ファイルを編集するだけで、即時にデータベースに反映されます。includeする前に、$tplsadmin_autoupdate_mydirnamesに配列をセットしておくことが重要です。
