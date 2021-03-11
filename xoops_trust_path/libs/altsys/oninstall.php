@@ -23,10 +23,8 @@ if (!function_exists('altsys_oninstall_base')) {
             $root->mDelegateManager->add('Legacy.Admin.Event.ModuleInstall.' . ucfirst($mydirname) . '.Success', 'altsys_message_append_oninstall');
 
             $ret = [];
-        } else {
-            if (!is_array($ret)) {
+        } elseif (!is_array($ret)) {
                 $ret = [];
-            }
         }
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();

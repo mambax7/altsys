@@ -14,8 +14,7 @@ if (!class_exists('XoopsGTicket')) {
         public $_latest_token = '';
 
         public $messages = [];
-
-        const PBKDF2_SALT_BYTES = 24;
+        public const PBKDF2_SALT_BYTES = 24;
 
         /**
          * XoopsGTicket constructor.
@@ -143,7 +142,7 @@ if (!class_exists('XoopsGTicket')) {
 
             // create a token
 
-            list($usec, $sec) = explode(' ', microtime());
+            [$usec, $sec] = explode(' ', microtime());
 
             $appendix_salt = empty($_SERVER['PATH']) ? XOOPS_DB_NAME : $_SERVER['PATH'];
 
@@ -235,12 +234,10 @@ if (!class_exists('XoopsGTicket')) {
 
                         $_SESSION['XOOPS_G_STUBS'][] = $stub;
                     }
-                } else {
-                    if (md5($stub['token'] . XOOPS_DB_PREFIX) === $ticket) {
+                } elseif (md5($stub['token'] . XOOPS_DB_PREFIX) === $ticket) {
                         // not CSRF but Time-Out
 
                         $timeout_flag = true;
-                    }
                 }
             }
 
@@ -333,7 +330,7 @@ if (!class_exists('XoopsGTicket')) {
                 }
 
                 if (is_array($val)) {
-                    list($tmp_table, $tmp_form) = $this->extract_post_recursive(htmlspecialchars($key, ENT_QUOTES), $val);
+                    [$tmp_table, $tmp_form] = $this->extract_post_recursive(htmlspecialchars($key, ENT_QUOTES), $val);
 
                     $table .= $tmp_table;
 
@@ -379,7 +376,7 @@ if (!class_exists('XoopsGTicket')) {
                 }
 
                 if (is_array($val)) {
-                    list($tmp_table, $tmp_form) = $this->extract_post_recursive($key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']', $val);
+                    [$tmp_table, $tmp_form] = $this->extract_post_recursive($key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']', $val);
 
                     $table .= $tmp_table;
 

@@ -81,12 +81,9 @@ if (!empty($_POST['clearcache']) || !empty($_POST['cleartplsvars'])) {
                 if ('.php' !== mb_substr($file, -4)) {
                     continue;
                 }
-            } else {
                 // judging tplsvars cache 'tplsvars_*'
-
-                if ('tplsvars_' !== mb_substr($file, 0, 9)) {
+            } elseif ('tplsvars_' !== mb_substr($file, 0, 9)) {
                     continue;
-                }
             }
 
             $file_path = XOOPS_COMPILE_PATH . '/' . $file;
