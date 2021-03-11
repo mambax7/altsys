@@ -80,7 +80,7 @@ class altsysUtils
      * @param int  $flags
      * @param null $encoding
      * @param bool $double_encode
-     * @return mixed|string
+     * @return array|string|string[]
      */
 
     public static function htmlSpecialChars($str, $flags = ENT_COMPAT, $encoding = null, $double_encode = true)

@@ -182,7 +182,7 @@ class Archive_Zip
      *                             It can be a string with filenames separated
      *                             by a comma, or an array of filenames.
      * @param mixed $p_params      An array of variable parameters and values.
-     * @return mixed An array of file description on success,
+     * @return array|int An array of file description on success,
      *                             an error code on error
      */
 
@@ -263,7 +263,7 @@ class Archive_Zip
      *                               It can be a string with filenames separated
      *                               by a comma, or an array of filenames.
      * @param mixed $p_params        An array of variable parameters and values.
-     * @return mixed An array of file description on success,
+     * @return array|int An array of file description on success,
      *                               0 on an unrecoverable failure, an error code is logged.
      */
 
@@ -370,7 +370,7 @@ class Archive_Zip
      * is an error on a single file, the error is only logged in the file status.
      *
      * @access public
-     * @return mixed An array of file description on success,
+     * @return array|int An array of file description on success,
      *               0 on an unrecoverable failure, an error code is logged.
      */
 
@@ -433,7 +433,7 @@ class Archive_Zip
      *
      * @access public
      * @param mixed $p_params    An array of variable parameters and values.
-     * @return mixed An array of file description on success,
+     * @return array|int An array of file description on success,
      *                           0 on an unrecoverable failure, an error code is logged.
      */
 
@@ -507,7 +507,7 @@ class Archive_Zip
      *
      * @access public
      * @param mixed $p_params    An array of variable parameters and values.
-     * @return mixed An array of file description on success,
+     * @return array|int An array of file description on success,
      *                           0 on an unrecoverable failure, an error code is logged.
      */
 
@@ -571,7 +571,7 @@ class Archive_Zip
      *    status : not_exist, ok
      *
      * @access   public
-     * @return mixed An array with the global properties or 0 on error.
+     * @return array|int An array with the global properties or 0 on error.
      * @internal param mixed $p_params {Description}
      */
 
@@ -1247,6 +1247,7 @@ class Archive_Zip
      * Archive_Zip::_closeFd()
      *
      * { Description }
+     * @return int
      */
 
     public function _closeFd()
@@ -3685,9 +3686,8 @@ class Archive_Zip
      *
      * { Description }
      *
-     * @param [type] $p_is_dir
-     * @param bool  $p_is_dir
      * @param mixed $p_dir
+     * @param bool  $p_is_dir
      * @return int
      */
 
@@ -4542,9 +4542,8 @@ class Archive_Zip
      *
      * { Description }
      *
-     * @param [type] $p_remove_disk_letter
-     * @param bool  $p_remove_disk_letter
      * @param mixed $p_path
+     * @param bool  $p_remove_disk_letter
      * @return bool|string
      */
 

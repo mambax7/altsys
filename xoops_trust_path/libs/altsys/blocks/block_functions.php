@@ -4,7 +4,7 @@ require_once dirname(__DIR__) . '/include/altsys_functions.php';
 
 /**
  * @param $options
- * @return mixed
+ * @return array
  */
 function b_altsys_admin_menu_show($options)
 {

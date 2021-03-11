@@ -32,7 +32,7 @@ class D3NotificationHandler
     /**
      * @param        $mydirname
      * @param string $mytrustdirname
-     * @return mixed|string
+     * @return string
      */
 
     public function getMailTemplateDir($mydirname, $mytrustdirname = '')

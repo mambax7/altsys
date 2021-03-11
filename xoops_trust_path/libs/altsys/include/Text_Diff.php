@@ -23,7 +23,6 @@ class Text_Diff
      */
 
     public $_edits;
-
     /**
      * Computes diffs between sequences of strings.
      *
@@ -53,6 +52,7 @@ class Text_Diff
 
     /**
      * Returns the array of differences.
+     * @return array
      */
 
     public function getDiff()
@@ -546,7 +546,7 @@ class Text_Diff_Engine_native
 
             $flip = true;
 
-            list($xoff, $xlim, $yoff, $ylim) = [$yoff, $ylim, $xoff, $xlim];
+            [$xoff, $xlim, $yoff, $ylim] = [$yoff, $ylim, $xoff, $xlim];
         }
 
         if ($flip) {
@@ -727,7 +727,7 @@ class Text_Diff_Engine_native
 
             $nchunks = min(7, $xlim - $xoff, $ylim - $yoff) + 1;
 
-            list($lcs, $seps) = $this->_diag($xoff, $xlim, $yoff, $ylim, $nchunks);
+            [$lcs, $seps] = $this->_diag($xoff, $xlim, $yoff, $ylim, $nchunks);
         }
 
         if (0 == $lcs) {
@@ -927,7 +927,7 @@ class Text_Diff_Op
     }
 
     /**
-     * @return int|void
+     * @return int
      */
 
     public function norig()
@@ -936,7 +936,7 @@ class Text_Diff_Op
     }
 
     /**
-     * @return int|void
+     * @return int
      */
 
     public function nfinal()

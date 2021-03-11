@@ -216,6 +216,9 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
         return $words;
     }
 
+    /**
+     * @param $string
+     */
     public function _encode(&$string)
     {
         $string = htmlspecialchars($string, ENT_QUOTES | ENT_HTML5);

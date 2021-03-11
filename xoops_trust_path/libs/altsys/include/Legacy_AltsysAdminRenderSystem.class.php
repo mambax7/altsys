@@ -9,6 +9,9 @@ require_once XOOPS_TRUST_PATH . '/libs/altsys/include/admin_in_theme_functions.p
  */
 class Legacy_AltsysAdminRenderSystem extends Legacy_AdminRenderSystem
 {
+    /**
+     * @param $target
+     */
     public function renderTheme(&$target)
     {
         global $altsysModuleConfig;
