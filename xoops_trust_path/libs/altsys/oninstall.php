@@ -60,12 +60,12 @@ if (!function_exists('altsys_oninstall_base')) {
 
             $sql_query = trim(file_get_contents($sql_file_path));
 
-            $sqlutil->splitMySqlFile($pieces, $sql_query);
+            $sqlutil::splitMySqlFile($pieces, $sql_query);
 
             $created_tables = [];
 
             foreach ($pieces as $piece) {
-                $prefixed_query = $sqlutil->prefixQuery($piece, $prefix_mod);
+                $prefixed_query = $sqlutil::prefixQuery($piece, $prefix_mod);
 
                 if (!$prefixed_query) {
                     $ret[] = 'Invalid SQL <b>' . htmlspecialchars($piece, ENT_QUOTES | ENT_HTML5) . '</b><br />';
