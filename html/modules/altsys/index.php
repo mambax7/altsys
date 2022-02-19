@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 $xoopsOption['nocommon'] = 1;
 define('_LEGACY_PREVENT_LOAD_CORE_', true);

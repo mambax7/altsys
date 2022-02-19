@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 $xoopsOption['nocommon'] = 1;
 define('_LEGACY_PREVENT_LOAD_CORE_', 1);
@@ -14,7 +14,7 @@ $hint = '';
 if (XOOPS_DB_PASS == @$_POST['dbpassword']) {
     // find XOOPS_TRUST_PATH
     $xoops_trust_path = '';
-    $base_dirs        = [XOOPS_ROOT_PATH, dirname(XOOPS_ROOT_PATH), dirname(dirname(XOOPS_ROOT_PATH))];
+    $base_dirs        = [XOOPS_ROOT_PATH, \dirname(XOOPS_ROOT_PATH), dirname(XOOPS_ROOT_PATH, 2)];
     foreach ($base_dirs as $baseDir) {
         $dh = @opendir($baseDir);
         if (!empty($dh)) {
@@ -35,7 +35,7 @@ if (XOOPS_DB_PASS == @$_POST['dbpassword']) {
     }
     // fall back
     if (empty($xoops_trust_path)) {
-        $xoops_trust_path = dirname(XOOPS_ROOT_PATH) . '/xoops_trust_path';
+        $xoops_trust_path = \dirname(XOOPS_ROOT_PATH) . '/xoops_trust_path';
     }
     // create the hint
     if (!defined('XOOPS_TRUST_PATH')) {

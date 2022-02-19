@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 if (!defined('XOOPS_TRUST_PATH')) {
     exit('set XOOPS_TRUST_PATH into mainfile.php');
