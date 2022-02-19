@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class altsysUtils
@@ -10,7 +10,6 @@ class altsysUtils
      * @param bool $doRegist
      * @return array
      */
-
     public static function getDelegateCallbackClassNames($name, $doRegist = true)
     {
         $names = [];
@@ -57,7 +56,6 @@ class altsysUtils
     /**
      * @return bool
      */
-
     public static function isInstalledXclHtmleditor()
     {
         if (defined('LEGACY_BASE_VERSION') && version_compare(LEGACY_BASE_VERSION, '2.2.0.0', '>=')) {
@@ -82,7 +80,6 @@ class altsysUtils
      * @param bool $double_encode
      * @return array|string|string[]
      */
-
     public static function htmlSpecialChars($str, $flags = ENT_COMPAT, $encoding = null, $double_encode = true)
     {
         static $php523 = null;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /********* mymenu only for ALTSYS ********/
 
@@ -20,7 +20,7 @@ if (!isset($module) || !is_object($module)) {
 // language files (modinfo.php)
 altsys_include_language_file('modinfo');
 
-include __DIR__ . '/admin_menu.php';
+require __DIR__ . '/admin_menu.php';
 
 $adminmenu = array_merge($adminmenu, $adminmenu4altsys);
 
@@ -72,5 +72,5 @@ $tpl->display('db:altsys_inc_mymenu.tpl');
 // submenu
 $page = preg_replace('/[^0-9a-zA-Z_-]/', '', @$_GET['page']);
 if (file_exists(__DIR__ . '/mymenusub/' . $page . '.php')) {
-    include __DIR__ . '/mymenusub/' . $page . '.php';
+    require __DIR__ . '/mymenusub/' . $page . '.php';
 }

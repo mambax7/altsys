@@ -1,23 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                          mytplsform.php (altsys)                          //
 //               - XOOPS templates admin for each modules -                  //
-//                       GIJOE <http://www.peak.ne.jp/>                      //
+//                       GIJOE <https://www.peak.ne.jp>                      //
 // ------------------------------------------------------------------------- //
 
 require_once __DIR__ . '/class/AltsysBreadcrumbs.class.php';
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
-include_once __DIR__ . '/include/tpls_functions.php';
-include_once __DIR__ . '/include/Text_Diff.php';
-include_once __DIR__ . '/include/Text_Diff_Renderer.php';
-include_once __DIR__ . '/include/Text_Diff_Renderer_unified.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/tpls_functions.php';
+require_once __DIR__ . '/include/Text_Diff.php';
+require_once __DIR__ . '/include/Text_Diff_Renderer.php';
+require_once __DIR__ . '/include/Text_Diff_Renderer_unified.php';
 
 // only groups have 'module_admin' of 'altsys' can do that.
-$module_handler = xoops_getHandler('module');
-$module = $module_handler->getByDirname('altsys');
-$moduleperm_handler = xoops_getHandler('groupperm');
-if (!is_object(@$xoopsUser) || !$moduleperm_handler->checkRight('module_admin', $module->getVar('mid'), $xoopsUser->getGroups())) {
+$moduleHandler = xoops_getHandler('module');
+$module = $moduleHandler->getByDirname('altsys');
+$grouppermHandler = xoops_getHandler('groupperm');
+if (!is_object(@$xoopsUser) || !$grouppermHandler->checkRight('module_admin', $module->getVar('mid'), $xoopsUser->getGroups())) {
     die('only admin of altsys can access this area');
 }
 
@@ -100,9 +100,9 @@ if (empty($_GET['tpl_file']) || '_custom' == $_GET['tpl_file']) {
 
         $target_mname = _MYTPLSADMIN_CUSTOMTEMPLATE;
     } else {
-        $module_handler = xoops_getHandler('module');
+        $moduleHandler = xoops_getHandler('module');
 
-        $target_module = $module_handler->getByDirname($tpl['tpl_module']);
+        $target_module = $moduleHandler->getByDirname($tpl['tpl_module']);
 
         $target_mname = is_object($target_module) ? $target_module->getVar('name') : '';
     }
@@ -153,7 +153,7 @@ if (!empty($_POST['do_modifycont']) || !empty($_POST['do_modify'])) {
 
     $result = $db->query('SELECT tpl_id FROM ' . $db->prefix('tplfile') . " WHERE tpl_file='$tpl_file4sql' AND tpl_tplset='" . addslashes($tpl['tpl_tplset']) . "'");
 
-    while (list($tpl_id) = $db->fetchRow($result)) {
+    while ([$tpl_id] = $db->fetchRow($result)) {
         $sql = 'UPDATE ' . $db->prefix('tplsource') . " SET tpl_source='" . addslashes(($_POST['tpl_source'])) . "' WHERE tpl_id=$tpl_id";
 
         if (!$db->query($sql)) {
@@ -199,7 +199,7 @@ if (!empty($_POST['do_create'])) {
         die('SQL Error' . __LINE__);
     }
 
-    $tpl_id = (int)$db->getInsertId();
+    $tpl_id = (int) $db->getInsertId();
 
     $sql = 'INSERT INTO ' . $db->prefix('tplsource') . " SET tpl_id=$tpl_id,tpl_source='" . addslashes(($_POST['tpl_source'])) . "'";
 
@@ -285,11 +285,11 @@ if ('default' != $tpl['tpl_tplset']) {
 echo "
     <form name='diff_form' id='diff_form' action='' method='get'>\n";
 if ($diff_from_file4disp) {
-    echo "<input type='checkbox' name='display_diff2file' value='1' onClick=\"if(this.checked){document.getElementById('diff2file').style.display='block'}else{document.getElementById('diff2file').style.display='none'};\" id='display_diff2file' checked='checked' />&nbsp;<label for='display_diff2file'>diff from file</label>
+    echo "<input type='checkbox' name='display_diff2file' value='1' onClick=\"if(this.checked){document.getElementById('diff2file').style.display='block'}else{document.getElementById('diff2file').style.display='none'};\" id='display_diff2file' checked>&nbsp;<label for='display_diff2file'>diff from file</label>
     <pre id='diff2file' style='display:block;border:1px solid black;'>$diff_from_file4disp</pre>\n";
 }
 if ($diff_from_default4disp) {
-    echo "<input type='checkbox' name='display_diff2default' value='1' onClick=\"if(this.checked){document.getElementById('diff2default').style.display='block'}else{document.getElementById('diff2default').style.display='none'};\" id='display_diff2default' />&nbsp;<label for='display_diff2default'>diff from default</label>
+    echo "<input type='checkbox' name='display_diff2default' value='1' onClick=\"if(this.checked){document.getElementById('diff2default').style.display='block'}else{document.getElementById('diff2default').style.display='none'};\" id='display_diff2default'>&nbsp;<label for='display_diff2default'>diff from default</label>
     <pre id='diff2default' style='display:none;border:1px solid black;'>$diff_from_default4disp</pre>\n";
 }
 echo "
@@ -300,22 +300,22 @@ echo "
 <form name='MainForm' id='altsys_tplsform' action='?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file=" . htmlspecialchars($tpl_file, ENT_QUOTES) . '&amp;tpl_tplset=' . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES) . '&amp;dirname=' . $target_mname . "' method='post'>
     " . $xoopsGTicket->getTicketHtml(__LINE__, 1800, 'altsys_tplsform') . "
     <textarea name='tpl_source' id='altsys_tpl_source' wrap='off' style='width:600px;height:400px;'>" . htmlspecialchars($tpl['tpl_source'], ENT_QUOTES) . '</textarea>
-    <br />
+    <br>
 ';
 if ('create' == $edit_mode) {
     // create form
 
     echo "
     <label for='tpl_file'>" . _MD_A_MYTPLSFORM_LABEL_TPLFILE . "</label>
-    <input type='text' name='tpl_file' id='tpl_file' value='" . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES) . "' size='64' /><br />
-    <input type='submit' name='do_create' id='do_create' value='" . _MD_A_MYTPLSFORM_BTN_CREATE . "' />\n";
+    <input type='text' name='tpl_file' id='tpl_file' value='" . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES) . "' size='64'><br>
+    <input type='submit' name='do_create' id='do_create' value='" . _MD_A_MYTPLSFORM_BTN_CREATE . "'>\n";
 } else {
     // modify form
 
     echo "
-    <input type='submit' name='do_modifycont' id='do_modifycont' value='" . _MD_A_MYTPLSFORM_BTN_MODIFYCONT . "' />
-    <input type='submit' name='do_modify' id='do_modify' value='" . _MD_A_MYTPLSFORM_BTN_MODIFYEND . "' />
-    <input type='reset' name='reset' value='" . _MD_A_MYTPLSFORM_BTN_RESET . "' />
+    <input type='submit' name='do_modifycont' id='do_modifycont' value='" . _MD_A_MYTPLSFORM_BTN_MODIFYCONT . "'>
+    <input type='submit' name='do_modify' id='do_modify' value='" . _MD_A_MYTPLSFORM_BTN_MODIFYEND . "'>
+    <input type='reset' name='reset' value='" . _MD_A_MYTPLSFORM_BTN_RESET . "'>
 </form>\n";
 }
 

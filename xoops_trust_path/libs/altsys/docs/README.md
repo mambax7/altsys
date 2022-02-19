@@ -2,7 +2,6 @@
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/mambax7/altsys.svg?style=flat)](https://scrutinizer-ci.com/g/mambax7/altsys/?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2d144581b7d3488e8530e6254e0fd81d)](https://www.codacy.com/app/mambax7/altsys)
 [![Code Climate](https://img.shields.io/codeclimate/github/xoopscube/altsys.svg?style=flat)](https://codeclimate.com/github/xoopscube/altsys)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/4596e0af-49a6-4bde-8937-be5bb562e1d5/mini.png)](https://insight.sensiolabs.com/projects/4596e0af-49a6-4bde-8937-be5bb562e1d5)
 [![Latest Pre-Release](https://img.shields.io/github/tag/xoopscube/altsys.svg?style=flat)](https://github.com/xoopscube/altsys/tags/)
 [![Latest Version](https://img.shields.io/github/release/xoopscube/altsys.svg?style=flat)](https://github.com/xoopscube/altsys/releases/)
 

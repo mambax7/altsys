@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Text_Diff
@@ -11,7 +11,6 @@
  *
  * $Horde: framework/Text_Diff/Diff.php,v 1.13 2005/05/26 20:26:06 selsky Exp $
  *
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
 class Text_Diff
@@ -21,7 +20,6 @@ class Text_Diff
      *
      * @var array
      */
-
     public $_edits;
     /**
      * Computes diffs between sequences of strings.
@@ -54,7 +52,6 @@ class Text_Diff
      * Returns the array of differences.
      * @return array
      */
-
     public function getDiff()
     {
         return $this->_edits;
@@ -74,11 +71,10 @@ class Text_Diff
      *                    reference here, since this essentially is a clone()
      *                    method.
      */
-
     public function reverse()
     {
         if (version_compare(zend_version(), '2', '>')) {
-            $rev = clone$obj;
+            $rev = clone $obj;
         } else {
             $rev = $this;
         }
@@ -97,7 +93,6 @@ class Text_Diff
      *
      * @return bool  True if two sequences were identical.
      */
-
     public function isEmpty()
     {
         foreach ($this->_edits as $edit) {
@@ -116,7 +111,6 @@ class Text_Diff
      *
      * @return int  The length of the LCS.
      */
-
     public function lcs()
     {
         $lcs = 0;
@@ -137,7 +131,6 @@ class Text_Diff
      *
      * @return array  The original sequence of strings.
      */
-
     public function getOriginal()
     {
         $lines = [];
@@ -158,7 +151,6 @@ class Text_Diff
      *
      * @return array  The sequence of strings.
      */
-
     public function getFinal()
     {
         $lines = [];
@@ -179,8 +171,7 @@ class Text_Diff
      * @param string  $line The line to trim.
      * @param int $key  The index of the line in the array. Not used.
      */
-
-    public function _trimNewlines(&$line, $key)
+    public function _trimNewlines(&$line, $key): void
     {
         $line = str_replace(["\n", "\r"], '', $line);
     }
@@ -193,7 +184,6 @@ class Text_Diff
      * @param $to_lines
      * @return bool
      */
-
     public function _check($from_lines, $to_lines)
     {
         if (serialize($from_lines) != serialize($this->getOriginal())) {
@@ -231,7 +221,6 @@ class Text_Diff
 /**
  * $Horde: framework/Text_Diff/Diff.php,v 1.13 2005/05/26 20:26:06 selsky Exp $
  *
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
 class Text_MappedDiff extends Text_Diff
@@ -252,7 +241,6 @@ class Text_MappedDiff extends Text_Diff
      * @param array $mapped_to_lines    This array should have the same number
      *                                  of elements as $to_lines.
      */
-
     public function __construct(
         $from_lines,
         $to_lines,
@@ -293,9 +281,6 @@ class Text_MappedDiff extends Text_Diff
  * the differences between the two input arrays.
  *
  * @author  Jon Parise <jon@horde.org>
- * @package Text_Diff
- *
- * @access  private
  */
 class Text_Diff_Engine_xdiff
 {
@@ -304,7 +289,6 @@ class Text_Diff_Engine_xdiff
      * @param $to_lines
      * @return array
      */
-
     public function diff($from_lines, $to_lines)
     {
         /* Convert the two input arrays into strings for xdiff processing. */
@@ -368,9 +352,6 @@ class Text_Diff_Engine_xdiff
  * code was written by him, and is used/adapted with his permission.
  *
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- * @package Text_Diff
- *
- * @access  private
  */
 class Text_Diff_Engine_native
 {
@@ -379,7 +360,6 @@ class Text_Diff_Engine_native
      * @param $to_lines
      * @return array
      */
-
     public function diff($from_lines, $to_lines)
     {
         $n_from = count($from_lines);
@@ -535,7 +515,6 @@ class Text_Diff_Engine_native
      * @param $nchunks
      * @return array
      */
-
     public function _diag($xoff, $xlim, $yoff, $ylim, $nchunks)
     {
         $flip = false;
@@ -578,7 +557,7 @@ class Text_Diff_Engine_native
                 }
             }
 
-            $x1 = $xoff + (int)(($numer + ($xlim - $xoff) * $chunk) / $nchunks);
+            $x1 = $xoff + (int) (($numer + ($xlim - $xoff) * $chunk) / $nchunks);
 
             for (; $x < $x1; $x++) {
                 $line = $flip ? $this->yv[$x] : $this->xv[$x];
@@ -601,7 +580,7 @@ class Text_Diff_Engine_native
                     }
                 }
 
-                while (list($junk, $y) = each($matches)) {
+                while ([$junk, $y] = each($matches)) {
                     if ($y > $this->seq[$k - 1]) {
                         // assert($y < $this->seq[$k]); // GIJ Patched
 
@@ -629,7 +608,7 @@ class Text_Diff_Engine_native
         $ymid = $ymids[$this->lcs];
 
         for ($n = 0; $n < $nchunks - 1; $n++) {
-            $x1 = $xoff + (int)(($numer + ($xlim - $xoff) * $n) / $nchunks);
+            $x1 = $xoff + (int) (($numer + ($xlim - $xoff) * $n) / $nchunks);
 
             $y1 = $ymid[$n] + 1;
 
@@ -645,7 +624,6 @@ class Text_Diff_Engine_native
      * @param $ypos
      * @return int
      */
-
     public function _lcsPos($ypos)
     {
         $end = $this->lcs;
@@ -661,7 +639,7 @@ class Text_Diff_Engine_native
         $beg = 1;
 
         while ($beg < $end) {
-            $mid = (int)(($beg + $end) / 2);
+            $mid = (int) (($beg + $end) / 2);
 
             if ($ypos > $this->seq[$mid]) {
                 $beg = $mid + 1;
@@ -697,8 +675,7 @@ class Text_Diff_Engine_native
      * @param $yoff
      * @param $ylim
      */
-
-    public function _compareseq($xoff, $xlim, $yoff, $ylim)
+    public function _compareseq($xoff, $xlim, $yoff, $ylim): void
     {
         /* Slide down the bottom initial diagonal. */
 
@@ -771,8 +748,7 @@ class Text_Diff_Engine_native
      * @param $other_changed
      * @param mixed $changed
      */
-
-    public function _shiftBoundaries($lines, &$changed, $other_changed)
+    public function _shiftBoundaries($lines, &$changed, $other_changed): void
     {
         $i = 0;
 
@@ -910,10 +886,7 @@ class Text_Diff_Engine_native
 }
 
 /**
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- *
- * @access  private
  */
 class Text_Diff_Op
 {
@@ -921,7 +894,7 @@ class Text_Diff_Op
 
     public $final;
 
-    public function reverse()
+    public function reverse(): void
     {
         trigger_error('Abstract method', E_USER_ERROR);
     }
@@ -929,7 +902,6 @@ class Text_Diff_Op
     /**
      * @return int
      */
-
     public function norig()
     {
         return $this->orig ? count($this->orig) : 0;
@@ -938,7 +910,6 @@ class Text_Diff_Op
     /**
      * @return int
      */
-
     public function nfinal()
     {
         return $this->final ? count($this->final) : 0;
@@ -946,10 +917,7 @@ class Text_Diff_Op
 }
 
 /**
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- *
- * @access  private
  */
 class Text_Diff_Op_copy extends Text_Diff_Op
 {
@@ -958,7 +926,6 @@ class Text_Diff_Op_copy extends Text_Diff_Op
      * @param      $orig
      * @param bool $final
      */
-
     public function __construct($orig, $final = false)
     {
         if (!is_array($final)) {
@@ -973,7 +940,6 @@ class Text_Diff_Op_copy extends Text_Diff_Op
     /**
      * @return \Text_Diff_Op_copy
      */
-
     public function reverse()
     {
         return $reverse = new self($this->final, $this->orig);
@@ -981,10 +947,7 @@ class Text_Diff_Op_copy extends Text_Diff_Op
 }
 
 /**
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- *
- * @access  private
  */
 class Text_Diff_Op_delete extends Text_Diff_Op
 {
@@ -992,7 +955,6 @@ class Text_Diff_Op_delete extends Text_Diff_Op
      * Text_Diff_Op_delete constructor.
      * @param $lines
      */
-
     public function __construct($lines)
     {
         $this->orig = $lines;
@@ -1003,7 +965,6 @@ class Text_Diff_Op_delete extends Text_Diff_Op
     /**
      * @return \Text_Diff_Op_add
      */
-
     public function reverse()
     {
         return $reverse = new Text_Diff_Op_add($this->orig);
@@ -1011,10 +972,7 @@ class Text_Diff_Op_delete extends Text_Diff_Op
 }
 
 /**
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- *
- * @access  private
  */
 class Text_Diff_Op_add extends Text_Diff_Op
 {
@@ -1022,7 +980,6 @@ class Text_Diff_Op_add extends Text_Diff_Op
      * Text_Diff_Op_add constructor.
      * @param $lines
      */
-
     public function __construct($lines)
     {
         $this->final = $lines;
@@ -1033,7 +990,6 @@ class Text_Diff_Op_add extends Text_Diff_Op
     /**
      * @return \Text_Diff_Op_delete
      */
-
     public function reverse()
     {
         return $reverse = new Text_Diff_Op_delete($this->final);
@@ -1041,10 +997,7 @@ class Text_Diff_Op_add extends Text_Diff_Op
 }
 
 /**
- * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- *
- * @access  private
  */
 class Text_Diff_Op_change extends Text_Diff_Op
 {
@@ -1053,7 +1006,6 @@ class Text_Diff_Op_change extends Text_Diff_Op
      * @param $orig
      * @param $final
      */
-
     public function __construct($orig, $final)
     {
         $this->orig = $orig;
@@ -1064,7 +1016,6 @@ class Text_Diff_Op_change extends Text_Diff_Op
     /**
      * @return \Text_Diff_Op_change
      */
-
     public function reverse()
     {
         return $reverse = new self($this->final, $this->orig);

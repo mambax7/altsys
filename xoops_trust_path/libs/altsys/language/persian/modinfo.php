@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Translation of altsys for Persian users
  *
  * @copyright          https://www.impresscms.ir/ The Persian ImpressCMS Project
  * @copyright          https://www.irxoops.org/ The Persian XOOPS support site
  * @license            https://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
- * @package            Translations
  * @since              0.70
  * @author             stranger <pesian_stranger@users.sourceforge.net>
  * @author             voltan   <djvoltan@gmail.com>
@@ -26,7 +25,7 @@ define('_MI_ALTSYS_IMAGES_DIRDSC', 'مسیر وابسته برای ارسال ع
 
 // Appended by Xoops Language Checker -GIJOE- in 2007-03-21 05:34:59
 define('_MI_ALTSYS_ADMIN_IN_THEME', 'قالب بخش مدیریت');
-define('_MI_ALTSYS_ADMIN_IN_THEMEDSC', 'این گزینه برای انتخاب قالب منوی مدیریت به کار میرود . خط زیر را باید به فایل mainfile.php اضافه کنید . درست بعد از خطی که برای شناساندن فایل common.php اضافه شده است .( include XOOPS_ROOT_PATH."/include/common.php";) توجه داشته باشید در زبان فارسی ممکن است ظاهر منوی مدیریت اندکی به هم بریزد. <br /><br />include XOOPS_TRUST_PATH.\'/libs/altsys/include/admin_in_theme.inc.php\';	<br /><br />این قابلیت فقط در زوپس ۲.۰ و ایمپرس سی‌ام‌اس کار میکند');
+define('_MI_ALTSYS_ADMIN_IN_THEMEDSC', 'این گزینه برای انتخاب قالب منوی مدیریت به کار میرود . خط زیر را باید به فایل mainfile.php اضافه کنید . درست بعد از خطی که برای شناساندن فایل common.php اضافه شده است .( require XOOPS_ROOT_PATH."/include/common.php";) توجه داشته باشید در زبان فارسی ممکن است ظاهر منوی مدیریت اندکی به هم بریزد. <br><br>include XOOPS_TRUST_PATH.\'/libs/altsys/include/admin_in_theme.inc.php\';	<br><br>این قابلیت فقط در زوپس ۲.۰ و ایمپرس سی‌ام‌اس کار میکند');
 define('_MI_ALTSYS_MODULENAME', 'آلت سیس');
 define('_MI_ALTSYS_MODULEDESC', 'مدیریت ساده‌ی سیستم');
 

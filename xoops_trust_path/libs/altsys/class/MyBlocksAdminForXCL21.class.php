@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 // $Id: MyBlocksAdminForXCL21.class.php ,ver 0.0.7.1 2011/01/27 16:10:00 domifara Exp $
 
 require_once __DIR__ . '/MyBlocksAdmin.class.php';
@@ -8,7 +8,7 @@ require_once __DIR__ . '/MyBlocksAdmin.class.php';
  */
 class MyBlocksAdminForXCL21 extends MyBlocksAdmin
 {
-    public function MyBlocksAadminForXCL21()
+    public function MyBlocksAadminForXCL21(): void
     {
     }
 
@@ -19,7 +19,6 @@ class MyBlocksAdminForXCL21 extends MyBlocksAdmin
     /**
      * @return \MyBlocksAdminForXCL21
      */
-
     public static function getInstance()
     {
         static $instance;
@@ -41,7 +40,6 @@ class MyBlocksAdminForXCL21 extends MyBlocksAdmin
      * @param $block_data
      * @return mixed
      */
-
     public function renderCell4BlockOptions($block_data)
     {
         if ($this->target_dirname && '_' != mb_substr($this->target_dirname, 0, 1)) {
@@ -50,7 +48,7 @@ class MyBlocksAdminForXCL21 extends MyBlocksAdmin
             $langman->read('admin.php', $this->target_dirname);
         }
 
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
         //HACK by domifara
 
@@ -70,7 +68,6 @@ class MyBlocksAdminForXCL21 extends MyBlocksAdmin
     /**
      * @return bool
      */
-
     public function checkFck()
     {
         return (!altsysUtils::isInstalledXclHtmleditor() && file_exists(XOOPS_ROOT_PATH . '/common/fckeditor/fckeditor.js'));

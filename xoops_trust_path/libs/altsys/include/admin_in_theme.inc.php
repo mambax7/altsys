@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // render admin in theme.html
 if (is_object($xoopsUser)) {

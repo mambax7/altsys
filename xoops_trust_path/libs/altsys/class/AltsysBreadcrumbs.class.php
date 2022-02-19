@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // singleton for xoops_breadcrumbs
 
@@ -12,7 +12,6 @@ class AltsysBreadcrumbs
     /**
      * AltsysBreadcrumbs constructor.
      */
-
     public function __construct()
     {
     }
@@ -24,7 +23,6 @@ class AltsysBreadcrumbs
     /**
      * @return \AltsysBreadcrumbs
      */
-
     public static function getInstance()
     {
         static $instance;
@@ -39,7 +37,6 @@ class AltsysBreadcrumbs
     /**
      * @return array
      */
-
     public function getXoopsBreadcrumbs()
     {
         $ret = [];
@@ -68,8 +65,7 @@ class AltsysBreadcrumbs
      * @param        $url_or_path
      * @param string $name
      */
-
-    public function appendPath($url_or_path, $name = '...')
+    public function appendPath($url_or_path, string $name = '...'): void
     {
         if (is_array($url_or_path)) {
             if (empty($url_or_path['name'])) {
@@ -91,8 +87,7 @@ class AltsysBreadcrumbs
     /**
      * @return bool
      */
-
-    public function hasPaths()
+    public function hasPaths(): bool
     {
         return !empty($this->paths);
     }

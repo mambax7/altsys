@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 eval(' function xoops_module_update_' . $mydirname . '( $module ) { return altsys_onupdate_base( $module , \'' . $mydirname . '\' ) ; } ');
 
@@ -8,7 +8,6 @@ if (!function_exists('altsys_onupdate_base')) {
      * @param $mydirname
      * @return bool
      */
-
     function altsys_onupdate_base($module, $mydirname)
     {
         // transations on module update
@@ -24,7 +23,7 @@ if (!function_exists('altsys_onupdate_base')) {
 
             $msgs = [];
         } elseif (!is_array($msgs)) {
-                $msgs = [];
+            $msgs = [];
         }
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -51,7 +50,7 @@ if (!function_exists('altsys_onupdate_base')) {
 
         // TEMPLATES (all templates have been already removed by modulesadmin)
 
-        $tplfile_handler = xoops_getHandler('tplfile');
+        $tplfileHandler = xoops_getHandler('tplfile');
 
         $tpl_path = __DIR__ . '/templates';
 
@@ -64,9 +63,9 @@ if (!function_exists('altsys_onupdate_base')) {
                 $file_path = $tpl_path . '/' . $file;
 
                 if (is_file($file_path)) {
-                    $mtime = (int)(@filemtime($file_path));
+                    $mtime = (int) (@filemtime($file_path));
 
-                    $tplfile = $tplfile_handler->create();
+                    $tplfile = $tplfileHandler->create();
 
                     $tplfile->setVar('tpl_source', file_get_contents($file_path), true);
 
@@ -86,7 +85,7 @@ if (!function_exists('altsys_onupdate_base')) {
 
                     $tplfile->setVar('tpl_type', 'module');
 
-                    if (!$tplfile_handler->insert($tplfile)) {
+                    if (!$tplfileHandler->insert($tplfile)) {
                         $msgs[] = '<span style="color:#ff0000;">ERROR: Could not insert template <b>' . htmlspecialchars($mydirname . '_' . $file, ENT_QUOTES | ENT_HTML5) . '</b> to the database.</span>';
                     } else {
                         $tplid = $tplfile->getVar('tpl_id');
@@ -99,7 +98,7 @@ if (!function_exists('altsys_onupdate_base')) {
 
                         altsys_clear_templates_c();
 
-                        /*include_once XOOPS_ROOT_PATH.'/class/xoopsblock.php' ;
+                        /*require_once XOOPS_ROOT_PATH.'/class/xoopsblock.php' ;
                         if( ! xoops_template_touch( $tplid ) ) {
                             $msgs[] = '<span style="color:#ff0000;">ERROR: Failed compiling template <b>'.htmlspecialchars($mydirname.'_'.$file).'</b>.</span>';
                         } else {
@@ -112,9 +111,9 @@ if (!function_exists('altsys_onupdate_base')) {
             closedir($handler);
         }
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
-        include_once XOOPS_ROOT_PATH . '/class/template.php';
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
 
         xoops_template_clear_module_cache($mid);
 
@@ -125,8 +124,7 @@ if (!function_exists('altsys_onupdate_base')) {
      * @param $log
      * @param mixed $module_obj
      */
-
-    function altsys_message_append_onupdate(&$module_obj, $log)
+    function altsys_message_append_onupdate(&$module_obj, $log): void
     {
         if (is_array(@$GLOBALS['msgs'])) {
             foreach ($GLOBALS['msgs'] as $message) {

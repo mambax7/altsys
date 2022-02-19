@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * @param $s
@@ -32,13 +32,13 @@ function altsys_admin_in_theme($s)
 
     // outputs before cp_header()
 
-    @list($former_outputs, $tmp_s) = explode('<!DOCTYPE', $s, 2);
+    @[$former_outputs, $tmp_s] = explode('<!DOCTYPE', $s, 2);
 
     if (empty($tmp_s)) {
         $tmp_s = $s;
     }
 
-    @list(, $tmp_s) = explode("<div class='content'>", $tmp_s, 2);
+    @[, $tmp_s] = explode("<div class='content'>", $tmp_s, 2);
 
     if (empty($tmp_s)) {
         define('ALTSYS_DONT_USE_ADMIN_IN_THEME', 1);
@@ -62,7 +62,7 @@ function altsys_admin_in_theme($s)
 /**
  * @param null $contents
  */
-function altsys_admin_in_theme_in_last($contents = null)
+function altsys_admin_in_theme_in_last($contents = null): void
 {
     global $xoops_admin_contents, $xoopsConfig, $xoopsModule, $xoopsUser, $xoopsUserIsAdmin, $xoopsLogger, $altsysModuleConfig, $altsysModuleId;
 
@@ -89,9 +89,9 @@ function altsys_admin_in_theme_in_last($contents = null)
     // language files
 
     if (is_file(dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/admin_in_theme.php')) {
-        include_once dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/admin_in_theme.php';
+        require_once dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/admin_in_theme.php';
     } else {
-        include_once dirname(__DIR__) . '/language/english/admin_in_theme.php';
+        require_once dirname(__DIR__) . '/language/english/admin_in_theme.php';
     }
 
     // set the theme
@@ -105,23 +105,23 @@ function altsys_admin_in_theme_in_last($contents = null)
     error_reporting($original_error_level & ~E_NOTICE);
 
     if (is_file(XOOPS_THEME_PATH . '/' . $xoopsConfig['theme_set'] . '/language/' . $xoopsConfig['language'] . '.php')) {
-        include_once XOOPS_THEME_PATH . '/' . $xoopsConfig['theme_set'] . '/language/' . $xoopsConfig['language'] . '.php';
+        require_once XOOPS_THEME_PATH . '/' . $xoopsConfig['theme_set'] . '/language/' . $xoopsConfig['language'] . '.php';
     } elseif (is_file(XOOPS_THEME_PATH . '/' . $xoopsConfig['theme_set'] . '/language/english.php')) {
-        include_once XOOPS_THEME_PATH . '/' . $xoopsConfig['theme_set'] . '/language/english.php';
+        require_once XOOPS_THEME_PATH . '/' . $xoopsConfig['theme_set'] . '/language/english.php';
     }
 
     error_reporting($original_error_level);
 
-    include __DIR__ . '/admin_in_theme_header.inc.php';
+    require __DIR__ . '/admin_in_theme_header.inc.php';
 
     /*  // include adminmenu
         include XOOPS_CACHE_PATH.'/adminmenu.php' ;
 
         // admin permissions
-        $moduleperm_handler = xoops_getHandler('groupperm');
-        $admin_mids = $moduleperm_handler->getItemIds('module_admin', $xoopsUser->getGroups());
-        $module_handler = xoops_getHandler('module');
-        $modules = $module_handler->getObjects(new Criteria('mid', "(".implode(',', $admin_mids).")", 'IN'), true);
+        $grouppermHandler = xoops_getHandler('groupperm');
+        $admin_mids = $grouppermHandler->getItemIds('module_admin', $xoopsUser->getGroups());
+        $moduleHandler = xoops_getHandler('module');
+        $modules = $moduleHandler->getObjects(new Criteria('mid', "(".implode(',', $admin_mids).")", 'IN'), true);
         $admin_mids = array_keys($modules);
 
         // menu items &= admin permissions
@@ -152,10 +152,10 @@ function altsys_admin_in_theme_in_last($contents = null)
     $xoops_module_header = '';
 
     if (ALTSYS_CORE_TYPE_XCL21 == altsys_get_core_type()) {
-        $xoops_module_header .= '<link rel="stylesheet" type="text/css" media="all" href="' . XOOPS_URL . '/modules/legacyRender/admin/css.php?file=style.css" />' . "\n";
+        $xoops_module_header .= '<link rel="stylesheet" type="text/css" media="all" href="' . XOOPS_URL . '/modules/legacyRender/admin/css.php?file=style.css">' . "\n";
 
         if (is_object(@$xoopsModule)) {
-            $xoops_module_header .= '<link rel="stylesheet" type="text/css" media="all" href="' . XOOPS_URL . '/modules/legacyRender/admin/css.php?file=module.css&amp;dirname=' . $xoopsModule->getVar('dirname') . '" />' . "\n";
+            $xoops_module_header .= '<link rel="stylesheet" type="text/css" media="all" href="' . XOOPS_URL . '/modules/legacyRender/admin/css.php?file=module.css&amp;dirname=' . $xoopsModule->getVar('dirname') . '">' . "\n";
         }
     }
 

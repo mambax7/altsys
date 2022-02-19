@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class D3LanguageManager
@@ -15,7 +15,8 @@ class D3LanguageManager
 
     public $cache_prefix = 'lang';
 
-    public $my_language = false;
+//    public $my_language = false;
+    public $my_language = '';
 
     //HACK by domifara
 
@@ -24,7 +25,6 @@ class D3LanguageManager
     /**
      * D3LanguageManager constructor.
      */
-
     public function __construct()
     {
         $this->language = preg_replace('/[^0-9a-zA-Z_-]/', '', @$GLOBALS['xoopsConfig']['language']);
@@ -46,7 +46,6 @@ class D3LanguageManager
      * @param null $conn
      * @return \D3LanguageManager
      */
-
     public static function getInstance($conn = null)
     {
         static $instance;
@@ -64,8 +63,7 @@ class D3LanguageManager
      * @param null $mytrustdirname
      * @param bool $read_once
      */
-
-    public function read($resource, $mydirname, $mytrustdirname = null, $read_once = true)
+    public function read($resource, $mydirname, $mytrustdirname = null, $read_once = true): void
     {
         $d3file = XOOPS_ROOT_PATH . '/modules/' . $mydirname . '/mytrustdirname.php';
 
@@ -148,7 +146,6 @@ class D3LanguageManager
      * @param null $language
      * @return string
      */
-
     public function getCacheFileName($resource, $mydirname, $language = null)
     {
         if (empty($language)) {

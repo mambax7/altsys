@@ -1,15 +1,15 @@
 <form name="SelectLangFile" action="index.php" method="get">
-    <input type="hidden" name="mode" value="admin" />
-    <input type="hidden" name="lib" value="altsys" />
-    <input type="hidden" name="page" value="mylangadmin" />
-    <input type="hidden" name="dirname" value="<{$target_dirname}>" />
+    <input type="hidden" name="mode" value="admin">
+    <input type="hidden" name="lib" value="altsys">
+    <input type="hidden" name="page" value="mylangadmin">
+    <input type="hidden" name="dirname" value="<{$target_dirname}>">
     <select name="target_lang" onchange="submit();">
         <{html_options values=$languages output=$languages4disp selected=$target_lang}>
     </select>
     <select name="target_file" onchange="submit();">
         <{html_options values=$lang_files output=$lang_files selected=$target_file}>
     </select>
-    <input type="submit" value="<{$smarty.const._SUBMIT}>" />
+    <input type="submit" value="<{$smarty.const._SUBMIT}>">
 </form>
 
 <h3 style="text-align:<{$smarty.const._GLOBAL_LEFT}>;"><{$smarty.const._MYLANGADMIN_H3_MODULE}> : <{$target_mname}> : <{$target_lang|escape}> : <{$target_file|escape}></h3>
@@ -31,7 +31,7 @@
             <th><{$smarty.const._MYLANGADMIN_TH_CONSTANTNAME}></th>
             <th>
                 <{$smarty.const._MYLANGADMIN_TH_DEFAULTVALUE}>
-                <{if $already_read}><br />(<{$smarty.const._MYLANGADMIN_MSG_NOTICE4ALREADYREAD}>)<{/if}>
+                <{if $already_read}><br>(<{$smarty.const._MYLANGADMIN_MSG_NOTICE4ALREADYREAD}>)<{/if}>
             </th>
             <th><{$smarty.const._MYLANGADMIN_TH_USERVALUE}></th>
         </tr>
@@ -47,7 +47,7 @@
             <td>
                 <{if empty($mylang_constants.$langfile_name)}>
                     <{if strlen(constant($langfile_name)) < 32}>
-                        <input type="text" name="<{$langfile_name|escape}>" id="input_<{$langfile_name|escape}>" value="<{$langfile_uservalue|escape}>" style="width:240px;<{if $langfile_uservalue}>background-color:#ffffcc;<{/if}>" />
+                        <input type="text" name="<{$langfile_name|escape}>" id="input_<{$langfile_name|escape}>" value="<{$langfile_uservalue|escape}>" style="width:240px;<{if $langfile_uservalue}>background-color:#ffffcc;<{/if}>">
                     <{else}>
                         <textarea name="<{$langfile_name|escape}>" id="input_<{$langfile_name|escape}>" style="width:240px;<{if $langfile_uservalue}>background-color:#ffffcc;<{/if}>"><{$langfile_uservalue|escape}></textarea>
                     <{/if}>
@@ -60,8 +60,8 @@
 
     </table>
     <div align="center">
-        <input type="submit" name="do_update" value="<{$smarty.const._MYLANGADMIN_BTN_UPDATE}>" />
-        <input type="reset" value="<{$smarty.const._MYLANGADMIN_BTN_RESET}>" />
+        <input type="submit" name="do_update" value="<{$smarty.const._MYLANGADMIN_BTN_UPDATE}>">
+        <input type="reset" value="<{$smarty.const._MYLANGADMIN_BTN_RESET}>">
         <{$gticket_hidden}>
     </div>
 </form>

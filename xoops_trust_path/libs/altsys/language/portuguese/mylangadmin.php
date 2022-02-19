@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 // $Id: mylangadmin.php 1040 2011-11-06 05:24:00Z mikhail $
 // License https://creativecommons.org/licenses/by/2.5/br/
 define('_MYLANGADMIN_BTN_RESET', 'Redefinir');
@@ -14,8 +14,10 @@ define('_MYLANGADMIN_ERR_MODNOLANGUAGE', 'O módulo selecionado não tem pasta d
 define('_MYLANGADMIN_FMT_HOWTOENABLED3LANGMAN4XCL', 'O sistema de substituição está desabilitado agora. Para habilitá-lo, copie <q>%s</q> em <q>%s</q>');
 define('_MYLANGADMIN_H3_MODULE', 'Módulo alvo');
 define('_MYLANGADMIN_MSG_D3LANGMANENABLED', 'O sistema de substituição está habilitado agora.');
-define('_MYLANGADMIN_MSG_HOWTOENABLED3LANGMAN4X2',
-       'O sistema de substituição não está funcionando com o núcleo desta versão do XOOPS Cube, exceto alguns módulos D3. Se você deseja habilitá-lo neste core, tente um hack como este:');
+define(
+    '_MYLANGADMIN_MSG_HOWTOENABLED3LANGMAN4X2',
+    'O sistema de substituição não está funcionando com o núcleo desta versão do XOOPS Cube, exceto alguns módulos D3. Se você deseja habilitá-lo neste core, tente um hack como este:'
+);
 define('_MYLANGADMIN_MSG_NOTICE4ALREADYREAD', 'Desde que este arquivo já tenha sido lido pelo sistema, esta coluna significa o valor corrente');
 define('_MYLANGADMIN_NOTCREATED', 'Ainda não foi criado');
 define('_MYLANGADMIN_NOTE_ADDEDBYMYLANG', '(uma constante criada pelo utilizador)');

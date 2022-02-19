@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * A class to render Diffs in different formats.
@@ -7,8 +7,6 @@
  * this class be customized via inheritance, to obtain fancier outputs.
  *
  * $Horde: framework/Text_Diff/Diff/Renderer.php,v 1.9 2005/05/04 20:21:52 chuck Exp $
- *
- * @package Text_Diff
  */
 class Text_Diff_Renderer
 {
@@ -18,7 +16,6 @@ class Text_Diff_Renderer
      * This should be left at zero for this class, but subclasses may want to
      * set this to other values.
      */
-
     public $_leading_context_lines = 0;
 
     /**
@@ -27,9 +24,7 @@ class Text_Diff_Renderer
      * This should be left at zero for this class, but subclasses may want to
      * set this to other values.
      */
-
     public $_trailing_context_lines = 0;
-
     /**
      * Constructor.
      * @param array $params
@@ -55,7 +50,6 @@ class Text_Diff_Renderer
      *
      * @return array  All parameters of this renderer object.
      */
-
     public function getParams()
     {
         $params = [];
@@ -76,7 +70,6 @@ class Text_Diff_Renderer
      *
      * @return string  The formatted output.
      */
-
     public function render($diff)
     {
         $xi = $yi = 1;
@@ -152,7 +145,6 @@ class Text_Diff_Renderer
      * @param $edits
      * @return string
      */
-
     public function _block($xbeg, $xlen, $ybeg, $ylen, $edits)
     {
         $output = $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
@@ -180,7 +172,6 @@ class Text_Diff_Renderer
     /**
      * @return string
      */
-
     public function _startDiff()
     {
         return '';
@@ -189,7 +180,6 @@ class Text_Diff_Renderer
     /**
      * @return string
      */
-
     public function _endDiff()
     {
         return '';
@@ -202,7 +192,6 @@ class Text_Diff_Renderer
      * @param $ylen
      * @return string
      */
-
     public function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
     {
         if ($xlen > 1) {
@@ -220,7 +209,6 @@ class Text_Diff_Renderer
      * @param $header
      * @return string
      */
-
     public function _startBlock($header)
     {
         return $header . "\n";
@@ -229,7 +217,6 @@ class Text_Diff_Renderer
     /**
      * @return string
      */
-
     public function _endBlock()
     {
         return '';
@@ -240,7 +227,6 @@ class Text_Diff_Renderer
      * @param string $prefix
      * @return string
      */
-
     public function _lines($lines, $prefix = ' ')
     {
         return $prefix . implode("\n$prefix", $lines) . "\n";
@@ -250,7 +236,6 @@ class Text_Diff_Renderer
      * @param $lines
      * @return string
      */
-
     public function _context($lines)
     {
         return $this->_lines($lines);
@@ -260,7 +245,6 @@ class Text_Diff_Renderer
      * @param $lines
      * @return string
      */
-
     public function _added($lines)
     {
         return $this->_lines($lines, '>');
@@ -270,7 +254,6 @@ class Text_Diff_Renderer
      * @param $lines
      * @return string
      */
-
     public function _deleted($lines)
     {
         return $this->_lines($lines, '<');
@@ -281,7 +264,6 @@ class Text_Diff_Renderer
      * @param $final
      * @return string
      */
-
     public function _changed($orig, $final)
     {
         return $this->_deleted($orig) . "---\n" . $this->_added($final);

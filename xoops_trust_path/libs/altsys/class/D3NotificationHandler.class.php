@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // notification handler for D3 modules
 
@@ -17,7 +17,6 @@ class D3NotificationHandler
      * @param null $conn
      * @return \D3NotificationHandler
      */
-
     public static function getInstance($conn = null)
     {
         static $instance;
@@ -34,7 +33,6 @@ class D3NotificationHandler
      * @param string $mytrustdirname
      * @return string
      */
-
     public function getMailTemplateDir($mydirname, $mytrustdirname = '')
     {
         global $xoopsConfig;
@@ -76,14 +74,13 @@ class D3NotificationHandler
      * @param null  $omit_user_id
      * @return bool|void
      */
-
     public function triggerEvent($mydirname, $mytrustdirname, $category, $item_id, $event, $extra_tags = [], $user_list = [], $omit_user_id = null)
     {
-        $module_handler = xoops_getHandler('module');
+        $moduleHandler = xoops_getHandler('module');
 
-        $module = $module_handler->getByDirname($mydirname);
+        $module = $moduleHandler->getByDirname($mydirname);
 
-        $notification_handler = xoops_getHandler('notification');
+        $notificationHandler = xoops_getHandler('notification');
 
         $mail_template_dir = $this->getMailTemplateDir($mydirname, $mytrustdirname);
 
@@ -145,11 +142,11 @@ class D3NotificationHandler
 
         $criteria = new CriteriaCompo();
 
-        $criteria->add(new Criteria('not_modid', (int)$mid));
+        $criteria->add(new Criteria('not_modid', (int) $mid));
 
         $criteria->add(new Criteria('not_category', $category));
 
-        $criteria->add(new Criteria('not_itemid', (int)$item_id));
+        $criteria->add(new Criteria('not_itemid', (int) $item_id));
 
         $criteria->add(new Criteria('not_event', $event));
 
@@ -163,7 +160,7 @@ class D3NotificationHandler
 
         $criteria->add($mode_criteria);
 
-        $notifications = &$notification_handler->getObjects($criteria);
+        $notifications = &$notificationHandler->getObjects($criteria);
 
         if (empty($notifications)) {
             return;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * @param $langfile_unique_path
@@ -114,7 +114,7 @@ function altsys_mylangadmin_get_constants_by_pcre($langfile_path)
  * @param $target_mname
  * @param $message4disp
  */
-function altsys_mylangadmin_errordie($target_mname, $message4disp)
+function altsys_mylangadmin_errordie($target_mname, $message4disp): void
 {
     xoops_cp_header();
 

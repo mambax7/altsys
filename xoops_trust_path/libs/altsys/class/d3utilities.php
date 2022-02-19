@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class d3utilities
@@ -28,7 +28,6 @@ class d3utilities
      * @param $page_name
      * @param $action_base_hiddens
      */
-
     public function __construct($mydirname, $table_body, $primary_key, $cols, $page_name, $action_base_hiddens)
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -43,12 +42,12 @@ class d3utilities
 
         $this->cols = $cols;
 
-        $module_handler = xoops_getHandler('module');
+        $moduleHandler = xoops_getHandler('module');
 
-        $module = $module_handler->getByDirname($this->mydirname);
+        $module = $moduleHandler->getByDirname($this->mydirname);
 
         if (!empty($module)) {
-            $this->mid = (int)$module->getVar('mid');
+            $this->mid = (int) $module->getVar('mid');
         }
 
         $this->page_name = $page_name;
@@ -60,7 +59,6 @@ class d3utilities
      * @param $name
      * @return mixed
      */
-
     public function get_language_constant($name)
     {
         return constant(mb_strtoupper('_MD_A_' . $this->dirname . '_' . $this->page_name . '_' . $name));
@@ -71,29 +69,28 @@ class d3utilities
      * @param $col
      * @return string
      */
-
     public function get_set4sql($value, $col)
     {
         switch ($col['type']) {
             case 'text':
             case 'blob':
-                $length = empty($col['length']) ? 65535 : (int)$col['length'];
+                $length = empty($col['length']) ? 65535 : (int) $col['length'];
 
                 return "`{$col['name']}`='" . addslashes(xoops_substr($value, 0, $length)) . "'";
             case 'char':
             case 'varchar':
             case 'string':
-                $length = empty($col['length']) ? 255 : (int)$col['length'];
+                $length = empty($col['length']) ? 255 : (int) $col['length'];
 
                 return "`{$col['name']}`='" . addslashes(xoops_substr($value, 0, $length)) . "'";
             case 'int':
             case 'integer':
-                $value = (int)$value;
+                $value = (int) $value;
                 if (!empty($col['max'])) {
-                    $value = min($value, (int)$col['max']);
+                    $value = min($value, (int) $col['max']);
                 }
                 if (!empty($col['min'])) {
-                    $value = max($value, (int)$col['min']);
+                    $value = max($value, (int) $col['min']);
                 }
 
                 return "`{$col['name']}`=$value";
@@ -105,7 +102,6 @@ class d3utilities
     /**
      * @return array
      */
-
     public function insert()
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -148,7 +144,6 @@ class d3utilities
     /**
      * @return array
      */
-
     public function update()
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -170,7 +165,7 @@ class d3utilities
         $ret = [];
 
         foreach (array_keys($_POST[$column4key]) as $id) {
-            $id = (int)$id;    // primary_key should be 'integer'
+            $id = (int) $id;    // primary_key should be 'integer'
 
             $set4sql = '';
 
@@ -207,7 +202,6 @@ class d3utilities
      * @param bool $delete_notifications
      * @return array
      */
-
     public function delete($delete_comments = false, $delete_notifications = false)
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -215,7 +209,7 @@ class d3utilities
         $ret = [];
 
         foreach (array_keys($_POST['admin_main_checkboxes']) as $id) {
-            $id = (int)$id;    // primary_key should be 'integer'
+            $id = (int) $id;    // primary_key should be 'integer'
 
             $result = $db->query("SELECT * FROM $this->table WHERE $this->primary_key=$id");
 
@@ -244,7 +238,6 @@ class d3utilities
     /**
      * @return int
      */
-
     public function init_default_values()
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -279,7 +272,6 @@ class d3utilities
     /**
      * @return array
      */
-
     public function get_view_edit()
     {
         $id = $this->init_default_values();
@@ -305,16 +297,16 @@ class d3utilities
 
             switch ($col['edit_edit']) {
                 case 'checkbox':
-                    $checked = empty($col['default_value']) ? '' : "checked='checked'";
+                    $checked = empty($col['default_value']) ? '' : 'checked';
                     $value = empty($col['checkbox_value']) ? 1 : htmlspecialchars($col['checkbox_value'], ENT_QUOTES);
 
-                    $lines[$col['name']] = "<input type='checkbox' name='{$col['name']}' value='$value' $checked />";
+                    $lines[$col['name']] = "<input type='checkbox' name='{$col['name']}' value='$value' $checked>";
                     break;
                 case 'text':
                 default:
-                    $size = empty($col['edit_size']) ? 32 : (int)$col['edit_size'];
-                    $length = empty($col['length']) ? 255 : (int)$col['length'];
-                    $lines[$col['name']] = "<input type='text' name='{$col['name']}' size='$size' maxlength='$length' value='" . htmlspecialchars($col['default_value'], ENT_QUOTES) . "' />";
+                    $size = empty($col['edit_size']) ? 32 : (int) $col['edit_size'];
+                    $length = empty($col['length']) ? 255 : (int) $col['length'];
+                    $lines[$col['name']] = "<input type='text' name='{$col['name']}' size='$size' maxlength='$length' value='" . htmlspecialchars($col['default_value'], ENT_QUOTES) . "'>";
                     break;
                 case false:
                     $lines[$col['name']] = htmlspecialchars($col['default_value'], ENT_QUOTES);
@@ -329,7 +321,6 @@ class d3utilities
      * @param $controllers
      * @return string
      */
-
     public function get_control_form($controllers)
     {
         $hiddens = '';
@@ -339,7 +330,7 @@ class d3utilities
 
             $val4disp = htmlspecialchars($val, ENT_QUOTES);
 
-            $hiddens .= "<input type='hidden' name='$key4disp' value='$val4disp' />\n";
+            $hiddens .= "<input type='hidden' name='$key4disp' value='$val4disp'>\n";
         }
 
         $controllers_html = '';
@@ -354,7 +345,7 @@ class d3utilities
             <form action='' method='get' name='admin_control' id='admin_control'>
                 $hiddens
                 $controllers_html
-                <input type='submit' value='" . _SUBMIT . "' />
+                <input type='submit' value='" . _SUBMIT . "'>
             </form>\n";
     }
 
@@ -364,7 +355,6 @@ class d3utilities
      * @param $current_value
      * @return string
      */
-
     public function get_select($name, $options, $current_value)
     {
         $ret = "<select name='" . htmlspecialchars($name, ENT_QUOTES) . "'>\n";

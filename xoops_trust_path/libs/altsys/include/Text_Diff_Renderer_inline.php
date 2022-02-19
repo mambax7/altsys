@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * "Inline" diff renderer.
@@ -8,57 +8,48 @@
  * $Horde: framework/Text_Diff/Diff/Renderer/inline.php,v 1.14 2005/07/22 19:45:15 chuck Exp $
  *
  * @author  Ciprian Popovici
- * @package Text_Diff
  */
 class Text_Diff_Renderer_inline extends Text_Diff_Renderer
 {
     /**
      * Number of leading context "lines" to preserve.
      */
-
     public $_leading_context_lines = 10000;
 
     /**
      * Number of trailing context "lines" to preserve.
      */
-
     public $_trailing_context_lines = 10000;
 
     /**
      * Prefix for inserted text.
      */
-
     public $_ins_prefix = '<ins>';
 
     /**
      * Suffix for inserted text.
      */
-
     public $_ins_suffix = '</ins>';
 
     /**
      * Prefix for deleted text.
      */
-
     public $_del_prefix = '<del>';
 
     /**
      * Suffix for deleted text.
      */
-
     public $_del_suffix = '</del>';
 
     /**
      * Header for each change block.
      */
-
     public $_block_header = '';
 
     /**
      * What are we currently splitting on? Used to recurse to show word-level
      * changes.
      */
-
     public $_split_level = 'lines';
 
     /**
@@ -68,7 +59,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param $ylen
      * @return string
      */
-
     public function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
     {
         return $this->_block_header;
@@ -78,7 +68,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param $header
      * @return mixed
      */
-
     public function _startBlock($header)
     {
         return $header;
@@ -90,7 +79,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param bool   $encode
      * @return string
      */
-
     public function _lines($lines, $prefix = ' ', $encode = true)
     {
         if ($encode) {
@@ -108,7 +96,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param $lines
      * @return string
      */
-
     public function _added($lines)
     {
         array_walk($lines, [&$this, '_encode']);
@@ -125,7 +112,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param bool $words
      * @return string
      */
-
     public function _deleted($lines, $words = false)
     {
         array_walk($lines, [&$this, '_encode']);
@@ -142,7 +128,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param $final
      * @return string
      */
-
     public function _changed($orig, $final)
     {
         /* If we've already split on words, don't try to do so again - just
@@ -192,7 +177,6 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
      * @param string $newlineEscape
      * @return array
      */
-
     public function _splitOnWords($string, $newlineEscape = "\n")
     {
         $words = [];
@@ -219,7 +203,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer
     /**
      * @param $string
      */
-    public function _encode(&$string)
+    public function _encode(&$string): void
     {
         $string = htmlspecialchars($string, ENT_QUOTES | ENT_HTML5);
     }

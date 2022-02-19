@@ -1,13 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                       compilehookadmin.php (altsys)                       //
 //                    - XOOPS templates admin module -                       //
-//                       GIJOE <http://www.peak.ne.jp/>                      //
+//                       GIJOE <https://www.peak.ne.jp>                      //
 // ------------------------------------------------------------------------- //
 
 require_once __DIR__ . '/class/AltsysBreadcrumbs.class.php';
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
 
 // this page can be called only from altsys
 // if( $xoopsModule->getVar('dirname') != 'altsys' ) die( 'this page can be called only from altsys' ) ;
@@ -32,7 +32,7 @@ $compile_hooks = [
 
     'enclosebybordereddiv' => [
         'pre' => '<div class="altsys_tplsadmin_frame" style="border:1px solid black;word-wrap:break-word;">',
-        'post' => '<br /><a href="' . XOOPS_URL . '/modules/altsys/admin/index.php?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file=%1$s" style="color:red;">Edit:<br />%1$s</a></div>',
+        'post' => '<br><a href="' . XOOPS_URL . '/modules/altsys/admin/index.php?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file=%1$s" style="color:red;">Edit:<br>%1$s</a></div>',
         'success_msg' => _TPLSADMIN_FMT_MSG_ENCLOSEBYBORDEREDDIV,
         'dt' => _TPLSADMIN_DT_ENCLOSEBYBORDEREDDIV,
         'dd' => _TPLSADMIN_DD_ENCLOSEBYBORDEREDDIV,
@@ -41,7 +41,7 @@ $compile_hooks = [
     ],
 
     'hooksavevars' => [
-        'pre' => '<?php include_once \'' . XOOPS_TRUST_PATH . ',$this) ; ?>',
+        'pre' => '<?php require_once \'' . XOOPS_TRUST_PATH . ',$this) ; ?>',
         'post' => '',
         'success_msg' => _TPLSADMIN_FMT_MSG_HOOKSAVEVARS,
         'dt' => _TPLSADMIN_DT_HOOKSAVEVARS,
@@ -75,7 +75,7 @@ if (!empty($_POST['clearcache']) || !empty($_POST['cleartplsvars'])) {
 
     if ($handler = opendir(XOOPS_COMPILE_PATH . '/')) {
         while (false !== ($file = readdir($handler))) {
-            if (! empty($_POST['clearcache'])) {
+            if (!empty($_POST['clearcache'])) {
                 // judging template cache '*.php'
 
                 if ('.php' !== mb_substr($file, -4)) {
@@ -83,7 +83,7 @@ if (!empty($_POST['clearcache']) || !empty($_POST['cleartplsvars'])) {
                 }
                 // judging tplsvars cache 'tplsvars_*'
             } elseif ('tplsvars_' !== mb_substr($file, 0, 9)) {
-                    continue;
+                continue;
             }
 
             $file_path = XOOPS_COMPILE_PATH . '/' . $file;
@@ -214,10 +214,10 @@ if ($handler = opendir(XOOPS_COMPILE_PATH . '/')) {
 }
 
 // get tplsets
-$sql = 'SELECT tplset_name,COUNT(DISTINCT tpl_file) FROM ' . $xoopsDB->prefix('tplset') . ' LEFT JOIN ' . $xoopsDB->prefix('tplfile') . " ON tplset_name=tpl_tplset GROUP BY tpl_tplset ORDER BY tpl_tplset='default' DESC,tpl_tplset";
+$sql = 'SELECT tplset_name,COUNT(DISTINCT tpl_file) FROM ' . $xoopsDB->prefix('tplset') . ' LEFT JOIN ' . $xoopsDB->prefix('tplfile') . " ON tplset_name=tpl_tplset GROUP BY tpl_tplset, tplset_name, tpl_file ORDER BY tpl_tplset='default' DESC,tpl_tplset";
 $srs = $xoopsDB->query($sql);
 $tplset_options = "<option value=''>----</option>\n";
-while (list($tplset, $tpl_count) = $xoopsDB->fetchRow($srs)) {
+while ([$tplset, $tpl_count] = $xoopsDB->fetchRow($srs)) {
     $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES);
 
     $tplset_options .= "<option value='$tplset4disp'>$tplset4disp ($tpl_count)</option>\n";
@@ -252,7 +252,7 @@ foreach ($compile_hooks as $command => $compile_hook) {
             <dl>
                 <dt>
                     {$compile_hook['dt']}
-                    <input type='submit' name='$command' id='$command' value='" . _GO . "' onclick='return confirm(\"{$compile_hook['conf_msg']}\");' />
+                    <input type='submit' name='$command' id='$command' value='" . _GO . "' onclick='return confirm(\"{$compile_hook['conf_msg']}\");'>
                 </dt>
                 <dd>
                     {$compile_hook['dd']}
@@ -265,12 +265,12 @@ foreach ($compile_hooks as $command => $compile_hook) {
 echo "
         <p style='margin:10px;'>
             " . _TPLSADMIN_NUMCAP_COMPILEDCACHES . ": <strong>$compiledcache_num</strong>
-            <input type='submit' name='clearcache' value='" . _DELETE . "' onclick='return confirm(\"" . _TPLSADMIN_CNF_DELETEOK . "\");' />
+            <input type='submit' name='clearcache' value='" . _DELETE . "' onclick='return confirm(\"" . _TPLSADMIN_CNF_DELETEOK . "\");'>
 
         </p>
         <p style='margin:10px;'>
             " . _TPLSADMIN_NUMCAP_TPLSVARS . ": <strong>$tplsvars_num</strong>
-            <input type='submit' name='cleartplsvars' value='" . _DELETE . "' onclick='return confirm(\"" . _TPLSADMIN_CNF_DELETEOK . "\");' />
+            <input type='submit' name='cleartplsvars' value='" . _DELETE . "' onclick='return confirm(\"" . _TPLSADMIN_CNF_DELETEOK . "\");'>
 
         </p>
         " . $xoopsGTicket->getTicketHtml(__LINE__) . "
@@ -284,9 +284,9 @@ echo "
                 </dt>
                 <dd>
                     ' . _TPLSADMIN_DD_GETTPLSVARSINFO_DW . "
-                    <br />
-                    <input type='submit' name='as_dw_extension_zip' value='zip' />
-                    <input type='submit' name='as_dw_extension_tgz' value='tar.gz' />
+                    <br>
+                    <input type='submit' name='as_dw_extension_zip' value='zip'>
+                    <input type='submit' name='as_dw_extension_tgz' value='tar.gz'>
                 </dd>
             </dl>
         </p>
@@ -300,10 +300,10 @@ echo "
                 </dt>
                 <dd>
                     ' . _TPLSADMIN_DD_GETTEMPLATES . "
-                    <br />
+                    <br>
                     <select name='tplset'>$tplset_options</select>
-                    <input type='submit' name='download_zip' value='zip' />
-                    <input type='submit' name='download_tgz' value='tar.gz' />
+                    <input type='submit' name='download_zip' value='zip'>
+                    <input type='submit' name='download_tgz' value='tar.gz'>
                 </dd>
             </dl>
         </p>
@@ -317,10 +317,10 @@ echo "
                 </dt>
                 <dd>
                     ' . _TPLSADMIN_DD_PUTTEMPLATES . "
-                    <br />
+                    <br>
                     <select name='tplset'>$tplset_options</select>
-                    <input type='file' name='tplset_archive' size='60' />
-                    <input type='submit' value='" . _SUBMIT . "' />
+                    <input type='file' name='tplset_archive' size='60'>
+                    <input type='submit' value='" . _SUBMIT . "'>
                 </dd>
             </dl>
         </p>

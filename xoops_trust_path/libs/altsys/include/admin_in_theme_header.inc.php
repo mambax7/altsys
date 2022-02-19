@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,14 +11,14 @@
 
 /**
  * @copyright    XOOPS Project (https://xoops.org)
- * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      XOOPS Development Team
  */
 
 // This is a mimic file from header.php of 2.0.16-JP
 
 require_once dirname(__DIR__) . '/class/AltsysBreadcrumbs.class.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
 $xoopsOption['theme_use_smarty'] = 1;
 // include Smarty template engine and initialize it
@@ -67,9 +67,9 @@ if (is_object($xoopsUser)) {
 
     if (is_object(@$xoopsModule)) {
         if (1 == $xoopsModule->getVar('mid') && 'preferences' == @$_GET['fct'] && 'showmod' == @$_GET['op'] && !empty($_GET['mod'])) {
-            $module_handler = xoops_getHandler('module');
+            $moduleHandler = xoops_getHandler('module');
 
-            $target_module = $module_handler->get(\Xmf\Request::getInt('mod', 0, 'GET'));
+            $target_module = $moduleHandler->get(\Xmf\Request::getInt('mod', 0, 'GET'));
         } else {
             $target_module = $xoopsModule;
         }
@@ -145,14 +145,14 @@ $sql = 'SELECT DISTINCT gperm_itemid FROM ' . $db->prefix('group_permission') . 
 $result = $db->query($sql);
 
 $blockids = [];
-while (list($blockid) = $db->fetchRow($result)) {
-    $blockids[] = (int)$blockid;
+while ([$blockid] = $db->fetchRow($result)) {
+    $blockids[] = (int) $blockid;
 }
 
 global $block_arr, $i; // for piCal :-)
 $block_arr = [];
 if (!empty($blockids)) {
-    $sql = 'SELECT b.* FROM ' . $db->prefix('newblocks') . ' b, ' . $db->prefix('block_module_link') . ' m WHERE m.block_id=b.bid AND b.isactive=1 AND b.visible=1 AND m.module_id=' . (int)$altsysModuleId . ' AND b.bid IN (' . implode(',', $blockids) . ') ORDER BY b.weight,b.bid';
+    $sql = 'SELECT b.* FROM ' . $db->prefix('newblocks') . ' b, ' . $db->prefix('block_module_link') . ' m WHERE m.block_id=b.bid AND b.isactive=1 AND b.visible=1 AND m.module_id=' . (int) $altsysModuleId . ' AND b.bid IN (' . implode(',', $blockids) . ') ORDER BY b.weight,b.bid';
 
     $result = $db->query($sql);
 

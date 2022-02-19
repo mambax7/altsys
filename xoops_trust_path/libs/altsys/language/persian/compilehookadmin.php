@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Translation of altsys for Persian users
  *
  * @copyright          https://www.impresscms.ir/ The Persian ImpressCMS Project
  * @copyright          https://www.irxoops.org/ The Persian XOOPS support site
  * @license            https://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
- * @package            Translations
  * @since              0.70
  * @author             stranger <pesian_stranger@users.sourceforge.net>
  * @author             voltan   <djvoltan@gmail.com>
@@ -18,12 +17,12 @@ define('_TPLSADMIN_CNF_ENCLOSEBYCOMMENT', 'Compiled template caches will be encl
 
 define('_TPLSADMIN_FMT_MSG_ENCLOSEBYBORDEREDDIV', '%d ذخیره‌سازِ الگو با تگ‌های "div" بسته شدند');
 define('_TPLSADMIN_DT_ENCLOSEBYBORDEREDDIV', 'القا کردن تگ‌های "div"');
-define('_TPLSADMIN_DD_ENCLOSEBYBORDEREDDIV', 'Each templates will be enclosed by black-bordered div tags. A link for editing controller of tplsadmin will be implanted into each templates. Though this often cause destructions in designing, you can edit each templates the most instictively and easily.') ;
+define('_TPLSADMIN_DD_ENCLOSEBYBORDEREDDIV', 'Each templates will be enclosed by black-bordered div tags. A link for editing controller of tplsadmin will be implanted into each templates. Though this often cause destructions in designing, you can edit each templates the most instictively and easily.');
 define('_TPLSADMIN_CNF_ENCLOSEBYBORDEREDDIV', 'Compiled template caches will be enclosed by div tags. Are you OK?');
 
 define('_TPLSADMIN_FMT_MSG_HOOKSAVEVARS', '%d template caches have been implanted hooking logics to collect template varibles');
 define('_TPLSADMIN_DT_HOOKSAVEVARS', 'Implant logics to collect template variables');
-define('_TPLSADMIN_DD_HOOKSAVEVARS', 'The first step of getting the informations of template variables in your site. The template vars infos will be collected when public sides of your site is displayed. If all templates you want to edit are displayed, get template vars info by underlying buttons.') ;
+define('_TPLSADMIN_DD_HOOKSAVEVARS', 'The first step of getting the informations of template variables in your site. The template vars infos will be collected when public sides of your site is displayed. If all templates you want to edit are displayed, get template vars info by underlying buttons.');
 define('_TPLSADMIN_CNF_HOOKSAVEVARS', 'Compiled template caches will be implanted the logics to collect template variables. Are you OK?');
 
 define('_TPLSADMIN_FMT_MSG_REMOVEHOOKS', '%d template caches have been normalized');
@@ -37,7 +36,7 @@ define('_TPLSADMIN_MSG_CREATECOMPILECACHEFIRST', 'There are no compiled template
 define('_TPLSADMIN_CNF_DELETEOK', 'آیا حذف شود؟');
 
 define('_TPLSADMIN_DT_GETTPLSVARSINFO_DW', 'Get info of template variables as DreamWeaver Extensions');
-define('_TPLSADMIN_DD_GETTPLSVARSINFO_DW', 'Open Macromedia Extension Manager, first.<br />Extract the download archive.<br />Execute the files which extensions are .mxi and you will meet installing dialogs.<br />The snippets for template variables of your site will be usable after restarting Dream Weaver.') ;
+define('_TPLSADMIN_DD_GETTPLSVARSINFO_DW', 'Open Macromedia Extension Manager, first.<br>Extract the download archive.<br>Execute the files which extensions are .mxi and you will meet installing dialogs.<br>The snippets for template variables of your site will be usable after restarting Dream Weaver.');
 
 define('_TPLSADMIN_DT_GETTEMPLATES', 'دریافت الگو');
 define('_TPLSADMIN_DD_GETTEMPLATES', 'پیش از کلیک بروی هرگونه دکمه، یک دسته را انتخاب کنید');

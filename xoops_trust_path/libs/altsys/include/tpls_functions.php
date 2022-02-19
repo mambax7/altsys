@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once XOOPS_ROOT_PATH . '/class/template.php';
-include_once __DIR__ . '/altsys_functions.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once __DIR__ . '/altsys_functions.php';
 
 /**
  * @param     $tplset
@@ -60,7 +60,7 @@ function tplsadmin_import_data($tplset, $tpl_file, $tpl_source, $lastmodified = 
 
     $drs = $db->query('SELECT tpl_id FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='" . addslashes($tplset) . "' AND tpl_file='" . addslashes($tpl_file) . "'");
 
-    while (list($tpl_id) = $db->fetchRow($drs)) {
+    while ([$tpl_id] = $db->fetchRow($drs)) {
         $db->queryF('UPDATE ' . $db->prefix('tplfile') . " SET tpl_lastmodified='" . addslashes($lastmodified) . "',tpl_lastimported=UNIX_TIMESTAMP() WHERE tpl_id='$tpl_id'");
 
         $db->queryF('UPDATE ' . $db->prefix('tplsource') . " SET tpl_source='" . addslashes($tpl_source) . "' WHERE tpl_id='$tpl_id'");
@@ -93,7 +93,7 @@ function tplsadmin_get_fingerprint($lines)
  * @param        $tplset_to
  * @param string $whr_append
  */
-function tplsadmin_copy_templates_db2db($tplset_from, $tplset_to, $whr_append = '1')
+function tplsadmin_copy_templates_db2db($tplset_from, $tplset_to, $whr_append = '1'): void
 {
     global $db;
 
@@ -131,7 +131,7 @@ function tplsadmin_copy_templates_db2db($tplset_from, $tplset_to, $whr_append = 
 
             altsys_template_touch($tpl_id);
         } else {
-            while (list($tpl_id) = $db->fetchRow($drs)) {
+            while ([$tpl_id] = $db->fetchRow($drs)) {
                 // UPDATE mode
 
                 $db->query('UPDATE '
@@ -160,7 +160,7 @@ function tplsadmin_copy_templates_db2db($tplset_from, $tplset_to, $whr_append = 
  * @param        $tplset_to
  * @param string $whr_append
  */
-function tplsadmin_copy_templates_f2db($tplset_to, $whr_append = '1')
+function tplsadmin_copy_templates_f2db($tplset_to, $whr_append = '1'): void
 {
     global $db;
 
@@ -206,7 +206,7 @@ function tplsadmin_copy_templates_f2db($tplset_to, $whr_append = '1')
 
             altsys_template_touch($tpl_id);
         } else {
-            while (list($tpl_id) = $db->fetchRow($drs)) {
+            while ([$tpl_id] = $db->fetchRow($drs)) {
                 // UPDATE mode
 
                 $db->query('UPDATE ' . $db->prefix('tplfile') . " SET tpl_lastmodified='" . addslashes($lastmodified) . "' WHERE tpl_id='$tpl_id'");
@@ -241,7 +241,7 @@ function tplsadmin_get_basefilepath($dirname, $type, $tpl_file)
         // Special hook
 
         $path = ALTSYS_TPLSADMIN_BASEPATH . '/' . mb_substr($tpl_file, mb_strlen($dirname) + 1);
-    } elseif ($mytrustdirname || @include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/mytrustdirname.php') {
+    } elseif ($mytrustdirname || @require XOOPS_ROOT_PATH . '/modules/' . $dirname . '/mytrustdirname.php') {
         // D3 module base
 
         if (!empty($mytrustdirname)) {
@@ -269,7 +269,7 @@ function tplsadmin_get_basefilepath($dirname, $type, $tpl_file)
  * @param string $target_dirname
  * @param int    $wait
  */
-function tplsadmin_die($msg, $target_dirname = '', $wait = 2)
+function tplsadmin_die($msg, $target_dirname = '', $wait = 2): void
 {
     if ('post' === mb_strtolower($_SERVER['REQUEST_METHOD'])) {
         redirect_header('?mode=admin&lib=altsys&page=mytplsadmin&dirname=' . $target_dirname, $wait, $msg);

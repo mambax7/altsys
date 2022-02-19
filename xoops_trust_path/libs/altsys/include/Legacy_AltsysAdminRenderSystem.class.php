@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once XOOPS_ROOT_PATH . '/modules/legacyRender/kernel/Legacy_AdminRenderSystem.class.php';
 require_once XOOPS_TRUST_PATH . '/libs/altsys/include/altsys_functions.php';
@@ -12,7 +12,7 @@ class Legacy_AltsysAdminRenderSystem extends Legacy_AdminRenderSystem
     /**
      * @param $target
      */
-    public function renderTheme(&$target)
+    public function renderTheme(&$target): void
     {
         global $altsysModuleConfig;
 

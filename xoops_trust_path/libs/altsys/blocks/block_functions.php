@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/include/altsys_functions.php';
 
@@ -44,19 +44,19 @@ function b_altsys_admin_menu_show($options)
 
     (method_exists('MyTextSanitizer', 'sGetInstance') and $myts = MyTextSanitizer::sGetInstance()) || $myts = MyTextSanitizer::getInstance();
 
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
-    $current_module = $module_handler->getByDirname($mydirname);
+    $current_module = $moduleHandler->getByDirname($mydirname);
 
     $configHandler = xoops_getHandler('config');
 
     $current_configs = $configHandler->getConfigList($current_module->mid());
 
-    $moduleperm_handler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
 
-    $admin_mids = $moduleperm_handler->getItemIds('module_admin', $xoopsUser->getGroups());
+    $admin_mids = $grouppermHandler->getItemIds('module_admin', $xoopsUser->getGroups());
 
-    $modules = $module_handler->getObjects(new Criteria('mid', '(' . implode(',', $admin_mids) . ')', 'IN'), true);
+    $modules = $moduleHandler->getObjects(new Criteria('mid', '(' . implode(',', $admin_mids) . ')', 'IN'), true);
 
     $block = [
         'mydirname' => $mydirname,
@@ -66,7 +66,7 @@ function b_altsys_admin_menu_show($options)
     ];
 
     foreach ($modules as $mod) {
-        $mid = (int)$mod->getVar('mid');
+        $mid = (int) $mod->getVar('mid');
 
         $dirname = $mod->getVar('dirname');
 
@@ -80,7 +80,7 @@ function b_altsys_admin_menu_show($options)
 
         unset($adminmenu_use_altsys);
 
-        @include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/' . @$modinfo['adminmenu'];
+        @require XOOPS_ROOT_PATH . '/modules/' . $dirname . '/' . @$modinfo['adminmenu'];
 
         // from admin_menu.php etc.
 
@@ -102,9 +102,9 @@ function b_altsys_admin_menu_show($options)
         // for modules overriding Module.class.php (eg. Analyzer for XC)
 
         if (empty($submenus4assign) && defined('XOOPS_CUBE_LEGACY') && !empty($modinfo['cube_style'])) {
-            $module_handler = xoops_getHandler('module');
+            $moduleHandler = xoops_getHandler('module');
 
-            $module = $module_handler->get($mid);
+            $module = $moduleHandler->get($mid);
 
             $moduleObj = Legacy_Utils::createModule($module);
 
@@ -125,7 +125,7 @@ function b_altsys_admin_menu_show($options)
         } elseif (empty($adminmenu4altsys)) {
             // add preferences
 
-            if ($mod->getVar('hasconfig') && !in_array($mod->getVar('dirname'), ['system', 'legacy'])) {
+            if ($mod->getVar('hasconfig') && !in_array($mod->getVar('dirname'), ['system', 'legacy'], true)) {
                 $submenus4assign[] = [
                     'title' => _PREFERENCES,
                     'url' => htmlspecialchars(altsys_get_link2modpreferences($mid, $coretype), ENT_QUOTES),
@@ -191,10 +191,10 @@ function b_altsys_admin_menu_edit($options)
     }
 
     $form = "
-        <input type='hidden' name='options[0]' value='$mydirname' />
+        <input type='hidden' name='options[0]' value='$mydirname'>
         <label for='this_template'>" . _MB_ALTSYS_THISTEMPLATE . "</label>&nbsp;:
-        <input type='text' size='60' name='options[1]' id='this_template' value='" . htmlspecialchars($this_template, ENT_QUOTES) . "' />
-        <br />
+        <input type='text' size='60' name='options[1]' id='this_template' value='" . htmlspecialchars($this_template, ENT_QUOTES) . "'>
+        <br>
     \n";
 
     return $form;

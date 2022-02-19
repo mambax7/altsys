@@ -42,7 +42,7 @@ if (!class_exists('XoopsGTicket')) {
                     'err_nopair' => 'No valid ticket-stub pair found',
                     'err_timeout' => 'Time out',
                     'err_areaorref' => 'Invalid area or referer',
-                    'fmt_prompt4repost' => 'error(s) found:<br /><span style="background-color:red;font-weight:bold;color:white;">%s</span><br />Confirm it.<br />And do you want to post again?',
+                    'fmt_prompt4repost' => 'error(s) found:<br><span style="background-color:red;font-weight:bold;color:white;">%s</span><br>Confirm it.<br>And do you want to post again?',
                     'btn_repost' => 'repost',
                 ];
             }
@@ -59,7 +59,7 @@ if (!class_exists('XoopsGTicket')) {
 
         public function getTicketHtml($salt = '', $timeout = 1800, $area = '')
         {
-            return '<input type="hidden" name="XOOPS_G_TICKET" value="' . $this->issue($salt, $timeout, $area) . '" />';
+            return '<input type="hidden" name="XOOPS_G_TICKET" value="' . $this->issue($salt, $timeout, $area) . '">';
         }
 
         // returns an object of XoopsFormHidden including theh ticket
@@ -162,7 +162,7 @@ if (!class_exists('XoopsGTicket')) {
 
             // record referer if browser send it
 
-            $referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['REQUEST_URI'];
+            $referer = empty(\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')) ? '' : $_SERVER['REQUEST_URI'];
 
             // area as module's dirname
 
@@ -264,7 +264,7 @@ if (!class_exists('XoopsGTicket')) {
                     $area_check = true;
                 }
 
-                if (!empty($found_stub['referer']) && mb_strstr(@$_SERVER['HTTP_REFERER'], $found_stub['referer'])) {
+                if (!empty($found_stub['referer']) && mb_strstr(@\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'), $found_stub['referer'])) {
                     $referer_check = true;
                 }
 
@@ -342,13 +342,13 @@ if (!class_exists('XoopsGTicket')) {
 
                     $table .= '<tr><th>' . htmlspecialchars($key, ENT_QUOTES) . '</th><td>' . htmlspecialchars($val, ENT_QUOTES) . '</td></tr>' . "\n";
 
-                    $form .= '<input type="hidden" name="' . htmlspecialchars($key, ENT_QUOTES) . '" value="' . htmlspecialchars($val, ENT_QUOTES) . '" />' . "\n";
+                    $form .= '<input type="hidden" name="' . htmlspecialchars($key, ENT_QUOTES) . '" value="' . htmlspecialchars($val, ENT_QUOTES) . '">' . "\n";
                 }
             }
 
             $table .= '</table>';
 
-            $form .= $this->getTicketHtml(__LINE__, 300, $area) . '<input type="submit" value="' . $this->messages['btn_repost'] . '" /></form>';
+            $form .= $this->getTicketHtml(__LINE__, 300, $area) . '<input type="submit" value="' . $this->messages['btn_repost'] . '"></form>';
 
             error_reporting(0);
 
@@ -388,7 +388,7 @@ if (!class_exists('XoopsGTicket')) {
 
                     $table .= '<tr><th>' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']</th><td>' . htmlspecialchars($val, ENT_QUOTES) . '</td></tr>' . "\n";
 
-                    $form .= '<input type="hidden" name="' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']" value="' . htmlspecialchars($val, ENT_QUOTES) . '" />' . "\n";
+                    $form .= '<input type="hidden" name="' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']" value="' . htmlspecialchars($val, ENT_QUOTES) . '">' . "\n";
                 }
             }
 
@@ -430,7 +430,7 @@ if (!class_exists('XoopsGTicket')) {
                 $ret = '';
 
                 foreach ($this->_errors as $msg) {
-                    $ret .= "$msg<br />\n";
+                    $ret .= "$msg<br>\n";
                 }
             } else {
                 $ret = $this->_errors;
@@ -473,11 +473,11 @@ if (!function_exists('admin_refcheck')) {
 
     function admin_refcheck($chkref = '')
     {
-        if (empty($_SERVER['HTTP_REFERER'])) {
+        if (empty(\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'))) {
             return true;
         }
 
-        $ref = $_SERVER['HTTP_REFERER'];
+        $ref = \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER');
 
         $cr = XOOPS_URL;
 

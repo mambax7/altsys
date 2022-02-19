@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 if (!defined('XOOPS_ROOT_PATH')) {
     exit();
 }
@@ -6,7 +6,7 @@ $root = XCube_Root::getSingleton();
 //admin page
 if ($root->mController->_mStrategy) {
     if (mb_strtolower(get_class($root->mController->_mStrategy)) == mb_strtolower('Legacy_AdminControllerStrategy')) {
-        include_once __DIR__ . '/include/altsys_functions.php';
+        require_once __DIR__ . '/include/altsys_functions.php';
 
         // language file (modinfo.php)
 

@@ -1,23 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                         mytplsadmin.php (altsys)                          //
 //               - XOOPS templates admin for each modules -                  //
-//                      GIJOE <http://www.peak.ne.jp/>                       //
+//                      GIJOE <https://www.peak.ne.jp>                       //
 // ------------------------------------------------------------------------- //
 
 require_once __DIR__ . '/class/AltsysBreadcrumbs.class.php';
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
-include_once __DIR__ . '/include/tpls_functions.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/tpls_functions.php';
 
 // only groups have 'module_admin' of 'altsys' can do that.
-$module_handler = xoops_getHandler('module');
-$module = $module_handler->getByDirname('altsys');
+$moduleHandler = xoops_getHandler('module');
+$module = $moduleHandler->getByDirname('altsys');
 if (!is_object($module)) {
     die('install altsys');
 }
-$moduleperm_handler = xoops_getHandler('groupperm');
-if (!is_object(@$xoopsUser) || !$moduleperm_handler->checkRight('module_admin', $module->getVar('mid'), $xoopsUser->getGroups())) {
+$grouppermHandler = xoops_getHandler('groupperm');
+if (!is_object(@$xoopsUser) || !$grouppermHandler->checkRight('module_admin', $module->getVar('mid'), $xoopsUser->getGroups())) {
     die('only admin of altsys can access this area');
 }
 
@@ -34,11 +34,11 @@ if (!is_object($xoopsModule)) {
 }
 
 // set target_module if specified by $_GET['dirname']
-$module_handler = xoops_getHandler('module');
+$moduleHandler = xoops_getHandler('module');
 if (!empty($_GET['dirname'])) {
     $dirname = preg_replace('/[^0-9a-zA-Z_-]/', '', $_GET['dirname']);
 
-    $target_module = $module_handler->getByDirname($dirname);
+    $target_module = $moduleHandler->getByDirname($dirname);
 }
 
 if (!empty($target_module) && is_object($target_module)) {
@@ -235,8 +235,8 @@ if (is_array(@$_POST['del_do'])) {
 
                 $result = $db->query('SELECT tpl_id FROM ' . $db->prefix('tplfile') . " WHERE tpl_tplset='" . addslashes($tplset_from) . "' AND tpl_file='" . addslashes($tplfile) . "'");
 
-                while (list($tpl_id) = $db->fetchRow($result)) {
-                    $tpl_id = (int)$tpl_id;
+                while ([$tpl_id] = $db->fetchRow($result)) {
+                    $tpl_id = (int) $tpl_id;
 
                     $db->query('DELETE FROM ' . $db->prefix('tplfile') . " WHERE tpl_id=$tpl_id");
 
@@ -265,37 +265,37 @@ if (is_array(@$_POST['del_do'])) {
 $_MYTPLSADMIN_ERR_INVALIDTPLSET = htmlspecialchars(_MYTPLSADMIN_ERR_INVALIDTPLSET, ENT_QUOTES | ENT_HTML5);
 $_MYTPLSADMIN_ERR_NOTPLFILE = htmlspecialchars(_MYTPLSADMIN_ERR_NOTPLFILE, ENT_QUOTES | ENT_HTML5);
 $javascript = <<<EOD
-<script type="text/javascript">
-    function altsys_mytpladmin_check_copy_submit(msg, id, selcheck) {
-        if (typeof jQuery !== 'undefined') {
-            var checked = jQuery('form[name="MainForm"] input[name^="'+id+'check"]:checked').val();
-            if (typeof checked === 'undefined') {
-                alert("$_MYTPLSADMIN_ERR_NOTPLFILE");
-                return false;
-            }
-            if (selcheck) {
-                if (id === 'base') {
-                    var select = 'copyf2db_to';
-                } else {
-                    var select = 'copy_to['+id.substr(0,id.length-1)+']'
-                }
-                if (jQuery('form[name="MainForm"] select[name="'+select+'"]').val() == '') {
-                    alert("$_MYTPLSADMIN_ERR_INVALIDTPLSET");
+    <script type="text/javascript">
+        function altsys_mytpladmin_check_copy_submit(msg, id, selcheck) {
+            if (typeof jQuery !== 'undefined') {
+                var checked = jQuery('form[name="MainForm"] input[name^="'+id+'check"]:checked').val();
+                if (typeof checked === 'undefined') {
+                    alert("$_MYTPLSADMIN_ERR_NOTPLFILE");
                     return false;
                 }
+                if (selcheck) {
+                    if (id === 'base') {
+                        var select = 'copyf2db_to';
+                    } else {
+                        var select = 'copy_to['+id.substr(0,id.length-1)+']'
+                    }
+                    if (jQuery('form[name="MainForm"] select[name="'+select+'"]').val() == '') {
+                        alert("$_MYTPLSADMIN_ERR_INVALIDTPLSET");
+                        return false;
+                    }
+                }
             }
+            return confirm(msg);
         }
-        return confirm(msg);
-    }
-</script>
-EOD;
+    </script>
+    EOD;
 
 // get tplsets
-$tplset_handler = xoops_getHandler('tplset');
-$tplsets = array_keys($tplset_handler->getList());
+$tplsetHandler = xoops_getHandler('tplset');
+$tplsets = array_keys($tplsetHandler->getList());
 $sql = 'SELECT DISTINCT tpl_tplset FROM ' . $db->prefix('tplfile') . " ORDER BY tpl_tplset='default' DESC,tpl_tplset";
 $srs = $db->query($sql);
-while (list($tplset) = $db->fetchRow($srs)) {
+while ([$tplset] = $db->fetchRow($srs)) {
     if (!in_array($tplset, $tplsets, true)) {
         $tplsets[] = $tplset;
     }
@@ -316,14 +316,19 @@ foreach ($tplsets as $tplset) {
 
     $tplsets_th4disp .= "<th $th_attr><input type='checkbox' title='"
                         . _MYTPLSADMIN_TITLE_CHECKALL
-                        . "' onclick=\"with(document.MainForm){for(i=0;i<length;i++){if(elements[i].type==='checkbox'&&elements[i].name.indexOf('{$tplset4disp}_check')>=0){elements[i].checked=this.checked;}}}\" />{$active}DB-{$tplset4disp}</th>";
+                        . "' onclick=\"with(document.MainForm){for(i=0;i<length;i++){if(elements[i].type==='checkbox'&&elements[i].name.indexOf('{$tplset4disp}_check')>=0){elements[i].checked=this.checked;}}}\">{$active}DB-{$tplset4disp}</th>";
 
     $tplset_options .= "<option value='$tplset4disp'>$tplset4disp</option>\n";
 }
 
 // get tpl_file owned by the module
-$sql = 'SELECT tpl_file,tpl_desc,tpl_type,COUNT(tpl_id) FROM ' . $db->prefix('tplfile') . " WHERE tpl_module='$target_dirname4sql' GROUP BY tpl_file ORDER BY tpl_type, tpl_file";
+$sql = 'SELECT tpl_file,tpl_desc,tpl_type,COUNT(tpl_id) FROM ' . $db->prefix('tplfile') . " WHERE tpl_module='$target_dirname4sql' GROUP BY tpl_file, tpl_desc,tpl_type,tpl_id ORDER BY tpl_file ";
 $frs = $db->query($sql);
+
+if (!$frs instanceof \mysqli_result) {
+    \trigger_error($db->errno() . ' ' . $db->error(), \E_USER_ERROR);
+}
+
 
 xoops_cp_header();
 
@@ -363,15 +368,19 @@ echo "
         <tr>
             <th>" . _MYTPLSADMIN_TH_NAME . '</th>
             <th>' . _MYTPLSADMIN_TH_TYPE . "</th>
-            <th><input type='checkbox' title=" . _MYTPLSADMIN_TITLE_CHECKALL . " onclick=\"with(document.MainForm){for(i=0;i<length;i++){if(elements[i].type==='checkbox'&&elements[i].name.indexOf('basecheck')>=0){elements[i].checked=this.checked;}}}\" />" . _MYTPLSADMIN_TH_FILE . "</th>
+            <th><input type='checkbox' title=" . _MYTPLSADMIN_TITLE_CHECKALL . " onclick=\"with(document.MainForm){for(i=0;i<length;i++){if(elements[i].type==='checkbox'&&elements[i].name.indexOf('basecheck')>=0){elements[i].checked=this.checked;}}}\">" . _MYTPLSADMIN_TH_FILE . "</th>
             $tplsets_th4disp
         </tr>\n";
 
 // STYLE for distinguishing fingerprints
 $fingerprint_classes = ['', ' fingerprint1', ' fingerprint2', ' fingerprint3', ' fingerprint4', ' fingerprint5', ' fingerprint6', ' fingerprint7'];
 
+
+if (!$frs instanceof \mysqli_result) {
+    \trigger_error($db->errno() . ' ' . $db->error(), \E_USER_ERROR);
+}
 // template ROWS
-while (list($tpl_file, $tpl_desc, $type, $count) = $db->fetchRow($frs)) {
+while (false !== ([$tpl_file, $tpl_desc, $type, $count] = $db->fetchRow($frs))) {
     $evenodd = 'even' == @$evenodd ? 'odd' : 'even';
 
     $fingerprints = [];
@@ -386,7 +395,7 @@ while (list($tpl_file, $tpl_desc, $type, $count) = $db->fetchRow($frs)) {
                     <dd>' . htmlspecialchars($tpl_desc, ENT_QUOTES) . "</dd>
                 </dl>
             </td>
-            <td class='$evenodd'>" . $type . '<br />(' . $count . ")</td>\n";
+            <td class='$evenodd'>" . $type . '<br>(' . $count . ")</td>\n";
 
     // the base file template column
 
@@ -397,11 +406,11 @@ while (list($tpl_file, $tpl_desc, $type, $count) = $db->fetchRow($frs)) {
 
         $fingerprints[$fingerprint] = '';
 
-        echo "<td class='$evenodd'>" . formatTimestamp(filemtime($basefilepath), 'm') . '<br />' . mb_substr($fingerprint, 0, 16) . "<br /><input type='checkbox' name='basecheck[$tpl_file]' value='1' /></td>\n";
+        echo "<td class='$evenodd'>" . formatTimestamp(filemtime($basefilepath), 'm') . '<br>' . mb_substr($fingerprint, 0, 16) . "<br><input type='checkbox' name='basecheck[$tpl_file]' value='1'></td>\n";
 
         $fingerprint_class_count = 0;
     } else {
-        echo "<td class='$evenodd'><br /></td>";
+        echo "<td class='$evenodd'><br></td>";
 
         $fingerprint_class_count = -1;
     }
@@ -436,9 +445,9 @@ while (list($tpl_file, $tpl_desc, $type, $count) = $db->fetchRow($frs)) {
 
             echo "<td class='{$evenodd}{$class}'>"
                  . formatTimestamp($tpl['tpl_lastmodified'], 'm')
-                 . '<br />'
+                 . '<br>'
                  . mb_substr($fingerprint, 0, 16)
-                 . "<br /><input type='checkbox' name='{$tplset4disp}_check[{$tpl_file}]' value='1' /> &nbsp; <a href='?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file="
+                 . "<br><input type='checkbox' name='{$tplset4disp}_check[{$tpl_file}]' value='1'> &nbsp; <a href='?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file="
                  . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES)
                  . '&amp;tpl_tplset='
                  . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES)
@@ -457,14 +466,14 @@ while (list($tpl_file, $tpl_desc, $type, $count) = $db->fetchRow($frs)) {
 echo "
     <tr>
         <td class='head'>
-            " . _MYTPLSADMIN_CREATE_NEW_TPLSET . ': <br />
+            " . _MYTPLSADMIN_CREATE_NEW_TPLSET . ': <br>
             ' . _MYTPLSADMIN_CAPTION_BASE . ":
             <select name='clone_tplset_from'>
                 $tplset_options
                 <option value='_blank_'>" . _MYTPLSADMIN_OPT_BLANKSET . '</option>
             </select>
-            <br />
-            ' . _MYTPLSADMIN_CAPTION_SETNAME . ": <input type='text' name='clone_tplset_to' size='8' maxlength='16' /> <input type='submit' name='clone_tplset_do' value='" . _MYTPLSADMIN_BTN_NEWTPLSET . "' />
+            <br>
+            ' . _MYTPLSADMIN_CAPTION_SETNAME . ": <input type='text' name='clone_tplset_to' size='8' maxlength='16'> <input type='submit' name='clone_tplset_do' value='" . _MYTPLSADMIN_BTN_NEWTPLSET . "'>
         </td>
         <td class='head'></td>
         <td class='head'>
@@ -472,8 +481,8 @@ echo "
             <select name='copyf2db_to'>
                 $tplset_options
             </select>
-            <br />
-            <input name='copyf2db_do' type='submit' value='" . _MYTPLSADMIN_BTN_COPY . "' onclick='return altsys_mytpladmin_check_copy_submit(\"" . _MYTPLSADMIN_CNF_COPY_SELECTED_TEMPLATES . "\", \"base\", true);' />
+            <br>
+            <input name='copyf2db_do' type='submit' value='" . _MYTPLSADMIN_BTN_COPY . "' onclick='return altsys_mytpladmin_check_copy_submit(\"" . _MYTPLSADMIN_CNF_COPY_SELECTED_TEMPLATES . "\", \"base\", true);'>
         </td>\n";
 
 foreach ($tplsets as $tplset) {
@@ -484,12 +493,12 @@ foreach ($tplsets as $tplset) {
                                                                              . _DELETE
                                                                              . "' onclick='return altsys_mytpladmin_check_copy_submit(\""
                                                                              . _MYTPLSADMIN_CNF_DELETE_SELECTED_TEMPLATES
-                                                                             . "\", \"{$tplset4disp}_\", false);' /><br /><br />") . '
+                                                                             . "\", \"{$tplset4disp}_\", false);'><br><br>") . '
             ' . _MYTPLSADMIN_CAPTION_COPYTO . ":
             <select name='copy_to[{$tplset4disp}]'>
                 " . str_replace('<option value=\'' . $tplset4disp . '\'>' . $tplset4disp . '</option>', '', $tplset_options) . "
             </select>
-            <input name='copy_do[{$tplset4disp}]' type='submit' value='" . _MYTPLSADMIN_BTN_COPY . "' onclick='return altsys_mytpladmin_check_copy_submit(\"" . _MYTPLSADMIN_CNF_COPY_SELECTED_TEMPLATES . "\", \"{$tplset4disp}_\", true);' />
+            <input name='copy_do[{$tplset4disp}]' type='submit' value='" . _MYTPLSADMIN_BTN_COPY . "' onclick='return altsys_mytpladmin_check_copy_submit(\"" . _MYTPLSADMIN_CNF_COPY_SELECTED_TEMPLATES . "\", \"{$tplset4disp}_\", true);'>
         </td>\n";
 }
 

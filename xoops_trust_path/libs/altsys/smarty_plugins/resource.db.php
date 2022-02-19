@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Smarty plugin
  * -------------------------------------------------------------
@@ -70,7 +70,7 @@ function smarty_resource_db_secure($tpl_name, &$smarty)
  * @param $tpl_name
  * @param mixed $smarty
  */
-function smarty_resource_db_trusted($tpl_name, &$smarty)
+function smarty_resource_db_trusted($tpl_name, &$smarty): void
 {
     // not used for templates
 }
@@ -93,12 +93,12 @@ function smarty_resource_db_tplinfo($tpl_name)
 
     $theme = $xoopsConfig['theme_set'] ?? 'default';
 
-    $tplfile_handler = xoops_getHandler('tplfile');
+    $tplfileHandler = xoops_getHandler('tplfile');
 
     // If we're not using the "default" template set, then get the templates from the DB
 
     if ('default' != $tplset) {
-        $tplobj = $tplfile_handler->find($tplset, null, null, null, $tpl_name, true);
+        $tplobj = $tplfileHandler->find($tplset, null, null, null, $tpl_name, true);
 
         if (count($tplobj)) {
             return $cache[$tpl_name] = $tplobj[0];
@@ -107,7 +107,7 @@ function smarty_resource_db_tplinfo($tpl_name)
 
     // If we'using the default tplset, get the template from the filesystem
 
-    $tplobj = $tplfile_handler->find('default', null, null, null, $tpl_name, true);
+    $tplobj = $tplfileHandler->find('default', null, null, null, $tpl_name, true);
 
     if (!count($tplobj)) {
         return $cache[$tpl_name] = false;

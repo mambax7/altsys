@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 if (!defined('XOOPS_MODULE_PATH')) {
     define('XOOPS_MODULE_PATH', XOOPS_ROOT_PATH . '/modules');
@@ -11,9 +11,9 @@ require_once __DIR__ . '/class/AltsysBreadcrumbs.class.php';
 require_once __DIR__ . '/include/altsys_functions.php';
 
 if (empty($xoopsModule)) {
-    $moduleperm_handler = xoops_getHandler('module');
+    $grouppermHandler = xoops_getHandler('module');
 
-    $xoopsModule = $moduleperm_handler->getByDirname('altsys');
+    $xoopsModule = $grouppermHandler->getByDirname('altsys');
 }
 
 require XOOPS_ROOT_PATH . '/include/cp_functions.php';
@@ -23,7 +23,7 @@ $breadcrumbsObj = AltsysBreadcrumbs::getInstance();
 $breadcrumbsObj->appendPath(XOOPS_URL . '/modules/altsys/admin/index.php', $GLOBALS['xoopsModule']->getVar('name'));
 
 // get page
-$page = preg_replace('/[^a-zA-Z0-9_-]/', '', @$_GET['page']);
+$page = preg_replace('/[^a-zA-Z0-9_-]/', '', @$_GET['page']??'');
 require __DIR__ . '/controllers.php';
 if (!in_array($page, $controllers, true)) {
     $_GET['page'] = $page = 'myblocksadmin';
@@ -33,15 +33,16 @@ if (!in_array($page, $controllers, true)) {
 
 // half measure ... (TODO)
 if (empty($_GET['dirname'])) {
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
-    [$top_module] = $module_handler->getObjects(new Criteria('isactive', 1));
+    [$top_module] = $moduleHandler->getObjects(new Criteria('isactive', 1));
 
     $_GET['dirname'] = $top_module->getVar('dirname');
 }
 
 // language file
 altsys_include_language_file($page);
+xoops_loadLanguage('admin', 'system');
 
 // branch to each pages
 $mytrustdirpath = __DIR__;

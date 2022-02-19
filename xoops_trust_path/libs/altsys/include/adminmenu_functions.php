@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 require_once dirname(__DIR__) . '/class/altsysUtils.class.php';
 
 define('ALTSYS_ADMINMENU_FILE', XOOPS_CACHE_PATH . '/adminmenu.php');
@@ -13,7 +13,7 @@ define('ALTSYS_ADMINMENU_HACK_XCSTY', 3);
 /**
  * @param $module
  */
-function altsys_adminmenu_insert_mymenu($module)
+function altsys_adminmenu_insert_mymenu($module): void
 {
     global $altsysModuleConfig;
 
@@ -29,7 +29,7 @@ function altsys_adminmenu_insert_mymenu($module)
 /**
  * @param $module
  */
-function altsys_adminmenu_insert_mymenu_x20($module)
+function altsys_adminmenu_insert_mymenu_x20($module): void
 {
     // read
 
@@ -59,13 +59,13 @@ function altsys_adminmenu_insert_mymenu_x20($module)
         return;
     }
 
-    $popup_no = (int)$regs[1];
+    $popup_no = (int) $regs[1];
 
     // replace
 
-    $search = '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\' />&nbsp;<a href=\'' . XOOPS_URL . '/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $mid . '\'';
+    $search = '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\'>&nbsp;<a href=\'' . XOOPS_URL . '/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $mid . '\'';
 
-    $replace = $anchor . '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\' />&nbsp;<a href=\'' . XOOPS_URL . '/modules/' . $dirname . '/admin/index.php?mode=admin&amp;lib=altsys&amp;page=mypreferences\'';
+    $replace = $anchor . '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\'>&nbsp;<a href=\'' . XOOPS_URL . '/modules/' . $dirname . '/admin/index.php?mode=admin&amp;lib=altsys&amp;page=mypreferences\'';
 
     // do replacement
 
@@ -84,7 +84,7 @@ function altsys_adminmenu_insert_mymenu_x20($module)
     if ('altsys' != $dirname) {
         $blocksadmin_title = defined('_MD_A_MYMENU_MYBLOCKSADMIN') ? _MD_A_MYMENU_MYBLOCKSADMIN : 'blocksadmin';
 
-        $insert .= '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\' />&nbsp;<a href=\'' . XOOPS_URL . '/modules/' . $dirname . '/admin/index.php?mode=admin&amp;lib=altsys&amp;page=myblocksadmin\'>' . $blocksadmin_title . '</a><br />' . "\n";
+        $insert .= '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\'>&nbsp;<a href=\'' . XOOPS_URL . '/modules/' . $dirname . '/admin/index.php?mode=admin&amp;lib=altsys&amp;page=myblocksadmin\'>' . $blocksadmin_title . '</a><br>' . "\n";
     }
 
     // insert tplsadmin
@@ -96,7 +96,7 @@ function altsys_adminmenu_insert_mymenu_x20($module)
     if ($count > 0) {
         $tplsadmin_title = defined('_MD_A_MYMENU_MYTPLSADMIN') ? _MD_A_MYMENU_MYTPLSADMIN : 'tplsadmin';
 
-        $insert = '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\' />&nbsp;<a href=\'' . XOOPS_URL . '/modules/' . $dirname . '/admin/index.php?mode=admin&amp;lib=altsys&amp;page=mytplsadmin\'>' . $tplsadmin_title . '</a><br />' . "\n" . $insert;
+        $insert = '<img src=\'' . XOOPS_URL . '/images/pointer.gif\' width=\'8\' height=\'8\' alt=\'\'>&nbsp;<a href=\'' . XOOPS_URL . '/modules/' . $dirname . '/admin/index.php?mode=admin&amp;lib=altsys&amp;page=mytplsadmin\'>' . $tplsadmin_title . '</a><br>' . "\n" . $insert;
     }
 
     // do insertion
@@ -111,7 +111,7 @@ function altsys_adminmenu_insert_mymenu_x20($module)
                                   'xoops_admin_menu_sd' => $xoops_admin_menu_sd,
                                   'xoops_admin_menu_ft' => $xoops_admin_menu_ft,
                                   'xoops_admin_menu_dv' => $xoops_admin_menu_dv,
-                                  'altsys_adminmenu_ft_hacked' => (int)(@$altsys_adminmenu_ft_hacked),
+                                  'altsys_adminmenu_ft_hacked' => (int) (@$altsys_adminmenu_ft_hacked),
                                   'altsys_adminmenu_dv_updated' => true,
                               ]);
 }
@@ -119,7 +119,7 @@ function altsys_adminmenu_insert_mymenu_x20($module)
 //
 // modify the first layer of adminmenu (just for X20)
 //
-function altsys_adminmenu_hack_ft()
+function altsys_adminmenu_hack_ft(): void
 {
     global $altsysModuleConfig;
 
@@ -140,7 +140,7 @@ function altsys_adminmenu_hack_ft()
     }
 }
 
-function altsys_adminmenu_hack_ft_2col_x20()
+function altsys_adminmenu_hack_ft_2col_x20(): void
 {
     // read
 
@@ -182,20 +182,20 @@ function altsys_adminmenu_hack_ft_2col_x20()
         $xoops_admin_menu_dv = $backup_admin_menu_dv;
     }
 
-    $search = ' alt=\'\' /></a><br />';
+    $search = ' alt=\'\'></a><br>';
 
-    $replace_fmt = ' alt="%s" /></a>';
+    $replace_fmt = ' alt="%s"></a>';
 
     $is_left = true;
 
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
     $mids = array_keys($xoops_admin_menu_ft);
 
     $last_mid = $mids[count($mids) - 1];
 
     foreach ($mids as $mid) {
-        $module = $module_handler->get($mid);
+        $module = $moduleHandler->get($mid);
 
         $new_menu_ft = preg_replace('#' . preg_quote($search) . '#', sprintf($replace_fmt, $module->getVar('name')), $xoops_admin_menu_ft[$mid]);
 
@@ -232,7 +232,7 @@ function altsys_adminmenu_hack_ft_2col_x20()
                               ]);
 }
 
-function altsys_adminmenu_hack_ft_noimg_x20()
+function altsys_adminmenu_hack_ft_noimg_x20(): void
 {
     // read
 
@@ -274,12 +274,12 @@ function altsys_adminmenu_hack_ft_noimg_x20()
         $xoops_admin_menu_dv = $backup_admin_menu_dv;
     }
 
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
     $mids = array_keys($xoops_admin_menu_ft);
 
     foreach ($mids as $mid) {
-        $module = $module_handler->get($mid);
+        $module = $moduleHandler->get($mid);
 
         $xoops_admin_menu_ft[$mid] = preg_replace('/\<img src\=.*$/', $module->getVar('name') . '</a>', $xoops_admin_menu_ft[$mid]);
 
@@ -300,7 +300,7 @@ function altsys_adminmenu_hack_ft_noimg_x20()
                               ]);
 }
 
-function altsys_adminmenu_hack_ft_xcsty_x20()
+function altsys_adminmenu_hack_ft_xcsty_x20(): void
 {
     // read
 
@@ -346,12 +346,12 @@ function altsys_adminmenu_hack_ft_xcsty_x20()
         $xoops_admin_menu_dv = $backup_admin_menu_dv;
     }
 
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
     $mids = array_keys($xoops_admin_menu_ft);
 
     foreach ($mids as $mid) {
-        $module = $module_handler->get($mid);
+        $module = $moduleHandler->get($mid);
 
         $submenuitems = [];
 
@@ -442,7 +442,7 @@ function altsys_adminmenu_hack_ft_xcsty_x20()
 /**
  * @param $xoops_admin_vars
  */
-function altsys_adminmenu_save_x20($xoops_admin_vars)
+function altsys_adminmenu_save_x20($xoops_admin_vars): void
 {
     // variable definitions
 

@@ -1,24 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                         mylangadmin.php (altsys)                          //
 //                    - XOOPS language constants admin -                     //
-//                       GIJOE <http://www.peak.ne.jp/>                      //
+//                       GIJOE <https://www.peak.ne.jp>                      //
 // ------------------------------------------------------------------------- //
 
 require_once __DIR__ . '/class/AltsysBreadcrumbs.class.php';
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
-include_once __DIR__ . '/include/lang_functions.php';
-include_once __DIR__ . '/class/D3LanguageManager.class.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/lang_functions.php';
+require_once __DIR__ . '/class/D3LanguageManager.class.php';
 
 // only groups have 'module_admin' of 'altsys' can do that.
-$module_handler = xoops_getHandler('module');
-$module = $module_handler->getByDirname('altsys');
+$moduleHandler = xoops_getHandler('module');
+$module = $moduleHandler->getByDirname('altsys');
 if (!is_object($module)) {
     die('install altsys');
 }
-$moduleperm_handler = xoops_getHandler('groupperm');
-if (!is_object(@$xoopsUser) || !$moduleperm_handler->checkRight('module_admin', $module->getVar('mid'), $xoopsUser->getGroups())) {
+$grouppermHandler = xoops_getHandler('groupperm');
+if (!is_object(@$xoopsUser) || !$grouppermHandler->checkRight('module_admin', $module->getVar('mid'), $xoopsUser->getGroups())) {
     die('only admin of altsys can access this area');
 }
 
@@ -36,11 +36,11 @@ if (!is_object($xoopsModule)) {
 }
 
 // set target_module if specified by $_GET['dirname']
-$module_handler = xoops_getHandler('module');
+$moduleHandler = xoops_getHandler('module');
 if (!empty($_GET['dirname'])) {
-    $dirname = preg_replace('/[^0-9a-zA-Z_-]/', '', $_GET['dirname']);
+    $dirname = preg_replace('/[^0-9a-zA-Z_-]/', '', $_GET['dirname']??'');
 
-    $target_module = $module_handler->getByDirname($dirname);
+    $target_module = $moduleHandler->getByDirname($dirname);
 }
 
 if (!empty($target_module) && is_object($target_module)) {
@@ -70,12 +70,12 @@ if (!empty($target_module) && is_object($target_module)) {
 }
 
 // basic GET variables
-$target_lang = preg_replace('/[^0-9a-zA-Z_-]/', '', @$_GET['target_lang']);
+$target_lang = preg_replace('/[^0-9a-zA-Z_-]/', '', @$_GET['target_lang']??'');
 if (empty($target_lang)) {
     $target_lang = $GLOBALS['xoopsConfig']['language'];
 }
 $target_lang4sql = addslashes($target_lang);
-$target_file = preg_replace('/[^0-9a-zA-Z_.-]/', '', @$_GET['target_file']);
+$target_file = preg_replace('/[^0-9a-zA-Z_.-]/', '', @$_GET['target_file']??'');
 if (empty($target_file)) {
     $target_file = 'main.php';
 }
@@ -244,7 +244,7 @@ if (!empty($_POST['do_update'])) {
 
             $to = '//$0' . "\ndefine('" . addslashes($name) . "','" . addslashes($user_value) . "');";
 
-            $file_contents = preg_replace($from, $to, $file_contents);
+            $file_contents = preg_replace($from, $to, $file_contents??'');
         }
     }
 
@@ -297,16 +297,16 @@ if (ALTSYS_CORE_TYPE_XCL21 == altsys_get_core_type()) {
 } else {
     // X2 core etc.
 
-    $notice4disp = _MYLANGADMIN_MSG_HOWTOENABLED3LANGMAN4X2 . '<br />';
+    $notice4disp = _MYLANGADMIN_MSG_HOWTOENABLED3LANGMAN4X2 . '<br>';
 
     $notice4disp .= '
         <h4>include/common.php</h4>
         <pre>
         <strike>if ( file_exists(XOOPS_ROOT_PATH."/modules/"...."/main.php") ) {
-            include_once XOOPS_ROOT_PATH."/modules/"...."/main.php";
+            require_once XOOPS_ROOT_PATH."/modules/"...."/main.php";
         } else {
             if ( file_exists(XOOPS_ROOT_PATH..../english/main.php") ) {
-                include_once XOOPS_ROOT_PATH..../english/main.php";
+                require_once XOOPS_ROOT_PATH..../english/main.php";
             }
         }</strike>
         require_once XOOPS_TRUST_PATH."/libs/altsys/class/D3LanguageManager.class.php" ;
@@ -348,7 +348,7 @@ $tpl->assign([
                  'use_my_language' => mb_strlen($langman->my_language) > 0,
                  'mylang_file_name' => htmlspecialchars($mylang_unique_path, ENT_QUOTES),
                  'cache_file_name' => htmlspecialchars($cache_file_name, ENT_QUOTES),
-                 'cache_file_mtime' => (int)$cache_file_mtime,
+                 'cache_file_mtime' => (int) $cache_file_mtime,
                  'timezone_offset' => xoops_getUserTimestamp(0),
                  'notice' => $notice4disp,
                  'already_read' => $already_read,

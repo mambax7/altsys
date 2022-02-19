@@ -1,4 +1,4 @@
-<a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>"><{$smarty.const._MD_A_MYBLOCKSADMIN_BLOCKADMIN}></a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;<{$form_title}><br /><br />
+<a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>"><{$smarty.const._MD_A_MYBLOCKSADMIN_BLOCKADMIN}></a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;<{$form_title}><br><br>
 
 <h3 style='text-align:<{$smarty.const._GLOBAL_LEFT}>;'><{$target_mname}></h3>
 
@@ -39,7 +39,7 @@
     <tr>
         <td class="head"><{$smarty.const._MD_A_MYBLOCKSADMIN_TITLE}></td>
         <td class="even">
-            <input type="text" name="titles[<{$block.bid}>]" value="<{$block.title_raw|escape}>" size="40" />
+            <input type="text" name="titles[<{$block.bid}>]" value="<{$block.title_raw|escape}>" size="40">
         </td>
     </tr>
     <tr>
@@ -51,7 +51,7 @@
     <tr>
         <td class="head"><{$smarty.const._MD_A_MYBLOCKSADMIN_WEIGHT}></td>
         <td class="even">
-            <input type="text" name="weights[<{$block.bid}>]" value="<{$block.weight}>" size="3" maxlength="5" style="text-align:<{$smarty.const._GLOBAL_RIGHT}>;" />
+            <input type="text" name="weights[<{$block.bid}>]" value="<{$block.weight}>" size="3" maxlength="5" style="text-align:<{$smarty.const._GLOBAL_RIGHT}>;">
         </td>
     </tr>
     <tr>
@@ -71,7 +71,7 @@
                 <{if $xoops_cube_legacy}>
                     <{if $block.ctype == 'P'}>
                         <textarea name="contents[<{$block.bid}>]" id="textarea_content" class="none" cols="80" rows="20"><{$block.content_raw|escape}></textarea>
-                        <{if ! $common_fck_installed}><br /><{$smarty.const._MD_A_MYBLOCKSADMIN_NOTICE4COMMONFCK}><{/if}>
+                        <{if ! $common_fck_installed}><br><{$smarty.const._MD_A_MYBLOCKSADMIN_NOTICE4COMMONFCK}><{/if}>
                     <{elseif  $block.ctype == 'H' && $common_fck_installed}>
                         <textarea name="contents[<{$block.bid}>]" id="textarea_content" class="html"><{$block.content_raw|escape}></textarea>
                         <script>fckeditor_exec();</script>
@@ -83,7 +83,7 @@
                 <{else}>
                     <{if $block.ctype == 'P' || ! $common_fck_installed}>
                         <textarea name="contents[<{$block.bid}>]" id="textarea_content" cols="80" rows="20"><{$block.content_raw|escape}></textarea>
-                        <{if ! $common_fck_installed}><br /><{$smarty.const._MD_A_MYBLOCKSADMIN_NOTICE4COMMONFCK}><{/if}>
+                        <{if ! $common_fck_installed}><br><{$smarty.const._MD_A_MYBLOCKSADMIN_NOTICE4COMMONFCK}><{/if}>
                     <{else}>
                         <textarea name="contents[<{$block.bid}>]" id="textarea_content"><{$block.content_raw|escape}></textarea>
                         <script>fckeditor_exec();</script>
@@ -132,14 +132,14 @@
         <td class="head"></td>
         <td class="even">
             <{if $block.is_custom}>
-                <input type="submit" class="formButton" name="preview"  id="preview" value="<{$smarty.const._PREVIEW}>" />
+                <input type="submit" class="formButton" name="preview"  id="preview" value="<{$smarty.const._PREVIEW}>">
             <{/if}>
-            <input type="submit" class="formButton" name="submitblock"  id="submitblock" value="<{$submit_button}>" />
+            <input type="submit" class="formButton" name="submitblock"  id="submitblock" value="<{$submit_button}>">
         </td>
     </tr>
 </table>
 <{$gticket_hidden}>
-<input type="hidden" name="op" value="<{$op}>" />
+<input type="hidden" name="op" value="<{$op}>">
 </form>
 
 <{if $block.content_preview}>

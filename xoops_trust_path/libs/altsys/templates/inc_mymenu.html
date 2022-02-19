@@ -6,4 +6,4 @@
         </div>
     <{/foreach}>
 </div>
-<hr class="altsys_mymenu_separator" />
+<hr class="altsys_mymenu_separator">

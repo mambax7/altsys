@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 // $Id: modinfo.php 1040 2011-11-06 05:24:00Z mikhail $
 // License https://creativecommons.org/licenses/by/2.5/br/
 define('_MI_ALTSYS_ADMIN_IN_THEME', 'Tema configurado para administrador');
-define('_MI_ALTSYS_ADMIN_IN_THEMEDSC', "Configure o nome do tema mostrado na área administrativa. Insira uma linha apenas depois da inclusão do common.php no mainfile.php<br />include XOOPS_TRUST_PATH.\"/libs/altsys/include/admin_in_theme.inc.php\";<br /> para habilitar isso. Esta característica trabalha somente com XOOPS 2.0.x");
+define('_MI_ALTSYS_ADMIN_IN_THEMEDSC', 'Configure o nome do tema mostrado na área administrativa. Insira uma linha apenas depois da inclusão do common.php no mainfile.php<br>include XOOPS_TRUST_PATH."/libs/altsys/include/admin_in_theme.inc.php";<br> para habilitar isso. Esta característica trabalha somente com XOOPS 2.0.x');
 define('_MI_ALTSYS_ADMINMENU_HFT', 'Reescrever o menu administrativo?');
 define('_MI_ALTSYS_ADMINMENU_HFTDSC', 'Se seu menu administrativo estiver quebrado, remova o arquivo cache/adminmenu.php. Este macete só funciona com o XOOPS 2.0.x');
 define('_MI_ALTSYS_ADMINMENU_IM', 'Importa os endereços do módulo <q>mymenu</q> para o <q>menu administrativo</q>');

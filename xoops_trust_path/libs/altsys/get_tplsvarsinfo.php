@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                        get_tplsvarsinfo.php  (altsys)                     //
 //                      - XOOPS templates admin module -                     //
-//                        GIJOE <http://www.peak.ne.jp/>                     //
+//                        GIJOE <https://www.peak.ne.jp>                     //
 // ------------------------------------------------------------------------- //
 
 error_reporting(0);
 
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
 
 // this page can be called only from altsys
 if ('altsys' != $xoopsModule->getVar('dirname')) {
@@ -33,7 +33,7 @@ if (!preg_match('/^[0-9A-Za-z._-]+$/', $site_name)) {
  * @param $var_value
  * @param $sum_array_name
  */
-function convert_array2info_recursive($var_name, $var_value, $sum_array_name)
+function convert_array2info_recursive($var_name, $var_value, $sum_array_name): void
 {
     switch (gettype($var_value)) {
         case 'array':
@@ -56,7 +56,7 @@ function convert_array2info_recursive($var_name, $var_value, $sum_array_name)
         case 'integer':
         case 'float':
         case 'double':
-            $GLOBALS[$sum_array_name][$var_name] = (string)$var_value;
+            $GLOBALS[$sum_array_name][$var_name] = (string) $var_value;
 
             return;
         case 'null':
@@ -83,15 +83,15 @@ function get_mxi_body($mxi_name, $file_entries)
 
     return '<macromedia-extension name="XOOPS-' . $site_name . ' ' . $mxi_name . '" version="1.0" type="Suite" requires-restart="true">
     <products>
-        <product name="Dreamweaver" version="6" primary="true" />
+        <product name="Dreamweaver" version="6" primary="true">
     </products>
-    <author name="GIJOE"/>
+    <author name="GIJOE">
     <license-agreement><![CDATA[
 
 XoopsDWSnipettets is published under the CC-GNU LGPL
 https://creativecommons.org/licenses/LGPL/2.1/
 
-(C) 2006 GIJOE http://www.peak.ne.jp/xoops/
+(C) 2006 GIJOE https://www.peak.ne.jp/xoops/
 
     ]]></license-agreement>
     <description><![CDATA[
@@ -103,7 +103,7 @@ Usable template variables in ' . $mxi_name . '
 
 Available template-variables.
 For more information:
-http://www.peak.ne.jp/xoops/
+https://www.peak.ne.jp/xoops/
 
     ]]></ui-access>
     <files>
@@ -238,7 +238,7 @@ if (!empty($do_download)) {
 
                 $file_name = strtr($key, '.', '_') . '.csn';
 
-                $file_entries .= "\t\t" . '<file name="' . $dw_snippets_dirname . '/' . $file_name . '" destination="$Dreamweaver/Configuration/Snippets/XOOPS-' . $site_name . '/' . $tpl_name . '" />' . "\n";
+                $file_entries .= "\t\t" . '<file name="' . $dw_snippets_dirname . '/' . $file_name . '" destination="$Dreamweaver/Configuration/Snippets/XOOPS-' . $site_name . '/' . $tpl_name . '">' . "\n";
             }
         }
 

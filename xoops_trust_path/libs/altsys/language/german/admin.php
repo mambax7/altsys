@@ -1,3 +1,3 @@
-<?php
+<?php declare(strict_types=1);
 
-define('_MD_A_DBUPDATED', 'Datenbank erfolgreich aktualisiert') ;
+define('_MD_A_DBUPDATED', 'Datenbank erfolgreich aktualisiert');

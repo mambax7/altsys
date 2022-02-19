@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
@@ -13,13 +13,13 @@ if (!defined('XOOPS_ROOT_PATH')) {
  */
 function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
-    $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
+    $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int) $gperm_modid));
 
     if (isset($gperm_name)) {
         $criteria->add(new Criteria('gperm_name', $gperm_name));
 
         if (isset($gperm_itemid)) {
-            $criteria->add(new Criteria('gperm_itemid', (int)$gperm_itemid));
+            $criteria->add(new Criteria('gperm_itemid', (int) $gperm_itemid));
         }
     }
 
@@ -32,27 +32,27 @@ function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid =
     return true;
 }
 
-// include '../../../include/cp_header.php'; GIJ
+// require dirname(__DIR__, 3) . '/include/cp_header.php'; GIJ
 $modid = \Xmf\Request::getInt('modid', 1, 'POST');
 
 if (1 == $modid) {
     // check by the permission of eather 'altsys' or 'system'
 
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
-    $module = $module_handler->getByDirname('altsys');
+    $module = $moduleHandler->getByDirname('altsys');
 
     if (!is_object($module)) {
-        $module = $module_handler->getByDirname('system');
+        $module = $moduleHandler->getByDirname('system');
 
         if (!is_object($module)) {
             die('there is no altsys nor system.');
         }
     }
 
-    $moduleperm_handler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
 
-    if (!is_object(@$GLOBALS['xoopsUser']) || !$moduleperm_handler->checkRight('module_admin', $module->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
+    if (!is_object(@$GLOBALS['xoopsUser']) || !$grouppermHandler->checkRight('module_admin', $module->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
         die('only admin of altsys can access this area');
     }
 } else {
@@ -62,20 +62,20 @@ if (1 == $modid) {
         die(_NOPERM);
     }
 
-    $module_handler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
 
-    $module = $module_handler->get($modid);
+    $module = $moduleHandler->get($modid);
 
     if (!is_object($module) || !$module->getVar('isactive')) {
         die(_MODULENOEXIST);
     }
 }
 
-$member_handler = xoops_getHandler('member');
-$group_list = $member_handler->getGroupList();
+$memberHandler = xoops_getHandler('member');
+$group_list = $memberHandler->getGroupList();
 if (!empty($_POST['perms']) && is_array($_POST['perms'])) {
     if (!isset($msg) || !is_array($msg)) {
-        $msg = isset($msg)? [$msg] : [];
+        $msg = isset($msg) ? [$msg] : [];
     }
     $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -89,7 +89,7 @@ if (!empty($_POST['perms']) && is_array($_POST['perms'])) {
 
             // exit ;
 
-            if (false != myDeleteByModule($grouppermHandler->db, $modid, $perm_name, $item_id)) {
+            if (false !== myDeleteByModule($grouppermHandler->db, $modid, $perm_name, $item_id)) {
                 if (empty($perm_data['groups'])) {
                     continue;
                 }
@@ -150,7 +150,7 @@ if ($module->getVar('hasadmin')) {
     }
 }
 
-$msg[] = '<br /><br /><a href="'.$backlink.'">'._BACK.'</a>';
+$msg[] = '<br><br><a href="'.$backlink.'">'._BACK.'</a>';
 xoops_cp_header();
 xoops_result($msg);
 xoops_cp_footer();  GIJ */

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 // $Id: mytplsadmin.php 1040 2011-11-06 05:24:00Z mikhail $
 // License https://creativecommons.org/licenses/by/2.5/br/
 define('_MYTPLSADMIN_BTN_COPY', 'Copiar');

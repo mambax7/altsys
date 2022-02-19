@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 eval(' function xoops_module_install_' . $mydirname . '( $module ) { return altsys_oninstall_base( $module , \'' . $mydirname . '\' ) ; } ');
 
@@ -8,7 +8,6 @@ if (!function_exists('altsys_oninstall_base')) {
      * @param $mydirname
      * @return bool
      */
-
     function altsys_oninstall_base($module, $mydirname)
     {
         // transations on module install
@@ -24,7 +23,7 @@ if (!function_exists('altsys_oninstall_base')) {
 
             $ret = [];
         } elseif (!is_array($ret)) {
-                $ret = [];
+            $ret = [];
         }
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -46,14 +45,14 @@ if (!function_exists('altsys_oninstall_base')) {
         $prefix_mod = $db->prefix() . '_' . $mydirname;
 
         if (file_exists($sql_file_path)) {
-            $ret[] = 'SQL file found at <b>' . htmlspecialchars($sql_file_path, ENT_QUOTES | ENT_HTML5) . '</b>.<br /> Creating tables...';
+            $ret[] = 'SQL file found at <b>' . htmlspecialchars($sql_file_path, ENT_QUOTES | ENT_HTML5) . '</b>.<br> Creating tables...';
 
             if (is_file(XOOPS_ROOT_PATH . '/class/database/oldsqlutility.php')) {
-                include_once XOOPS_ROOT_PATH . '/class/database/oldsqlutility.php';
+                require_once XOOPS_ROOT_PATH . '/class/database/oldsqlutility.php';
 
                 $sqlutil = new OldSqlUtility();
             } else {
-                include_once XOOPS_ROOT_PATH . '/class/database/sqlutility.php';
+                require_once XOOPS_ROOT_PATH . '/class/database/sqlutility.php';
 
                 $sqlutil = new SqlUtility();
             }
@@ -68,13 +67,13 @@ if (!function_exists('altsys_oninstall_base')) {
                 $prefixed_query = $sqlutil::prefixQuery($piece, $prefix_mod);
 
                 if (!$prefixed_query) {
-                    $ret[] = 'Invalid SQL <b>' . htmlspecialchars($piece, ENT_QUOTES | ENT_HTML5) . '</b><br />';
+                    $ret[] = 'Invalid SQL <b>' . htmlspecialchars($piece, ENT_QUOTES | ENT_HTML5) . '</b><br>';
 
                     return false;
                 }
 
                 if (!$db->query($prefixed_query[0])) {
-                    $ret[] = '<b>' . htmlspecialchars($db->error(), ENT_QUOTES | ENT_HTML5) . '</b><br />';
+                    $ret[] = '<b>' . htmlspecialchars($db->error(), ENT_QUOTES | ENT_HTML5) . '</b><br>';
 
                     //var_dump( $db->error() ) ;
 
@@ -82,18 +81,18 @@ if (!function_exists('altsys_oninstall_base')) {
                 }
 
                 if (!in_array($prefixed_query[4], $created_tables, true)) {
-                    $ret[] = 'Table <b>' . htmlspecialchars($prefix_mod . '_' . $prefixed_query[4], ENT_QUOTES | ENT_HTML5) . '</b> created.<br />';
+                    $ret[] = 'Table <b>' . htmlspecialchars($prefix_mod . '_' . $prefixed_query[4], ENT_QUOTES | ENT_HTML5) . '</b> created.<br>';
 
                     $created_tables[] = $prefixed_query[4];
                 } else {
-                    $ret[] = 'Data inserted to table <b>' . htmlspecialchars($prefix_mod . '_' . $prefixed_query[4], ENT_QUOTES | ENT_HTML5) . '</b>.</br />';
+                    $ret[] = 'Data inserted to table <b>' . htmlspecialchars($prefix_mod . '_' . $prefixed_query[4], ENT_QUOTES | ENT_HTML5) . '</b>.</br>';
                 }
             }
         }
 
         // TEMPLATES
 
-        $tplfile_handler = xoops_getHandler('tplfile');
+        $tplfileHandler = xoops_getHandler('tplfile');
 
         $tpl_path = __DIR__ . '/templates';
 
@@ -106,9 +105,9 @@ if (!function_exists('altsys_oninstall_base')) {
                 $file_path = $tpl_path . '/' . $file;
 
                 if (is_file($file_path)) {
-                    $mtime = (int)(@filemtime($file_path));
+                    $mtime = (int) (@filemtime($file_path));
 
-                    $tplfile = $tplfile_handler->create();
+                    $tplfile = $tplfileHandler->create();
 
                     $tplfile->setVar('tpl_source', file_get_contents($file_path), true);
 
@@ -128,24 +127,24 @@ if (!function_exists('altsys_oninstall_base')) {
 
                     $tplfile->setVar('tpl_type', 'module');
 
-                    if (!$tplfile_handler->insert($tplfile)) {
-                        $ret[] = '<span style="color:#ff0000;">ERROR: Could not insert template <b>' . htmlspecialchars($mydirname . '_' . $file, ENT_QUOTES | ENT_HTML5) . '</b> to the database.</span><br />';
+                    if (!$tplfileHandler->insert($tplfile)) {
+                        $ret[] = '<span style="color:#ff0000;">ERROR: Could not insert template <b>' . htmlspecialchars($mydirname . '_' . $file, ENT_QUOTES | ENT_HTML5) . '</b> to the database.</span><br>';
                     } else {
                         $tplid = $tplfile->getVar('tpl_id');
 
-                        $ret[] = 'Template <b>' . htmlspecialchars($mydirname . '_' . $file, ENT_QUOTES | ENT_HTML5) . '</b> added to the database. (ID: <b>' . $tplid . '</b>)<br />';
+                        $ret[] = 'Template <b>' . htmlspecialchars($mydirname . '_' . $file, ENT_QUOTES | ENT_HTML5) . '</b> added to the database. (ID: <b>' . $tplid . '</b>)<br>';
 
                         require_once XOOPS_TRUST_PATH . '/libs/altsys/include/altsys_functions.php';
 
                         altsys_clear_templates_c();
 
                         // generate compiled file
-                        /*include_once XOOPS_ROOT_PATH.'/class/xoopsblock.php' ;
-                        include_once XOOPS_ROOT_PATH.'/class/template.php' ;
+                        /*require_once XOOPS_ROOT_PATH.'/class/xoopsblock.php' ;
+                        require_once XOOPS_ROOT_PATH.'/class/template.php' ;
                         if( ! xoops_template_touch( $tplid ) ) {
-                            $ret[] = '<span style="color:#ff0000;">ERROR: Failed compiling template <b>'.htmlspecialchars($mydirname.'_'.$file).'</b>.</span><br />';
+                            $ret[] = '<span style="color:#ff0000;">ERROR: Failed compiling template <b>'.htmlspecialchars($mydirname.'_'.$file).'</b>.</span><br>';
                         } else {
-                            $ret[] = 'Template <b>'.htmlspecialchars($mydirname.'_'.$file).'</b> compiled.</span><br />';
+                            $ret[] = 'Template <b>'.htmlspecialchars($mydirname.'_'.$file).'</b> compiled.</span><br>';
                         }*/
                     }
                 }
@@ -154,9 +153,9 @@ if (!function_exists('altsys_oninstall_base')) {
             closedir($handler);
         }
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
-        include_once XOOPS_ROOT_PATH . '/class/template.php';
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
 
         xoops_template_clear_module_cache($mid);
 
@@ -167,8 +166,7 @@ if (!function_exists('altsys_oninstall_base')) {
      * @param $log
      * @param mixed $module_obj
      */
-
-    function altsys_message_append_oninstall(&$module_obj, $log)
+    function altsys_message_append_oninstall(&$module_obj, $log): void
     {
         if (is_array(@$GLOBALS['ret'])) {
             foreach ($GLOBALS['ret'] as $message) {

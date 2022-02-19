@@ -1,4 +1,4 @@
-<a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>"><{$smarty.const._MD_A_MYBLOCKSADMIN_BLOCKADMIN}></a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;<{$form_title}><br /><br />
+<a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>"><{$smarty.const._MD_A_MYBLOCKSADMIN_BLOCKADMIN}></a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;<{$form_title}><br><br>
 
 <h3 style='text-align:<{$smarty.const._GLOBAL_LEFT}>;'><{$target_mname}></h3>
 
@@ -60,7 +60,7 @@
     <tr>
         <td class="head"><{$smarty.const._MD_A_MYBLOCKSADMIN_TITLE}></td>
         <td class="even">
-            <input type="text" name="titles[<{$block.bid}>]" value="<{$block.title_raw|escape}>" size="40" />
+            <input type="text" name="titles[<{$block.bid}>]" value="<{$block.title_raw|escape}>" size="40">
         </td>
     </tr>
     <tr>
@@ -72,7 +72,7 @@
     <tr>
         <td class="head"><{$smarty.const._MD_A_MYBLOCKSADMIN_WEIGHT}></td>
         <td class="even">
-            <input type="text" name="weights[<{$block.bid}>]" value="<{$block.weight}>" size="3" maxlength="5" style="text-align:<{$smarty.const._GLOBAL_RIGHT}>;" />
+            <input type="text" name="weights[<{$block.bid}>]" value="<{$block.weight}>" size="3" maxlength="5" style="text-align:<{$smarty.const._GLOBAL_RIGHT}>;">
         </td>
     </tr>
     <tr>
@@ -90,18 +90,18 @@
             <td class="head"><{$smarty.const._MD_A_MYBLOCKSADMIN_CONTENT}>
             <{if $common_myck_installed }>
                 <{if $block.ctype == 'H' || empty($block.ctype) }>
-                <br />
-                <input type="button" class="formButton" value="CKEeditorON" name="myckeditorOn" id="myckeditorOn" onclick="if(this.value=='CKEeditorON'){this.value='CKEeditorOFF';textarea_content_myckeditor_exec();}else{this.value='CKEeditorON';textarea_content_myckeditor_remove();}"/>
+                <br>
+                <input type="button" class="formButton" value="CKEeditorON" name="myckeditorOn" id="myckeditorOn" onclick="if(this.value=='CKEeditorON'){this.value='CKEeditorOFF';textarea_content_myckeditor_exec();}else{this.value='CKEeditorON';textarea_content_myckeditor_remove();}">
                 <{else}>
-                <br />
-                <input type="button" class="formButton" value="CKEeditorON" name="myckeditorOn" id="myckeditorOn" onclick="if(this.value=='CKEeditorON'){this.value='CKEeditorOFF';textarea_content_myckeditor_exec();document.getElementById('switch_bbcode').checked=false;document.getElementById('textarea_content_bbcode_buttons_pre').style.display='none';document.getElementById('textarea_content_bbcode_buttons_post').style.display='none';}else{this.value='CKEeditorON';textarea_content_myckeditor_remove();}"/>
+                <br>
+                <input type="button" class="formButton" value="CKEeditorON" name="myckeditorOn" id="myckeditorOn" onclick="if(this.value=='CKEeditorON'){this.value='CKEeditorOFF';textarea_content_myckeditor_exec();document.getElementById('switch_bbcode').checked=false;document.getElementById('textarea_content_bbcode_buttons_pre').style.display='none';document.getElementById('textarea_content_bbcode_buttons_post').style.display='none';}else{this.value='CKEeditorON';textarea_content_myckeditor_remove();}">
                 <{/if}>
             <{/if}>
             </td>
             <td class="even">
                 <{if $block.ctype == 'P'}>
                     <textarea name="textarea_content" id="textarea_content" cols="80" rows="20"><{$block.content_raw|escape}></textarea>
-                    <{if ! $common_fck_installed}><br /><{$smarty.const._MD_A_MYBLOCKSADMIN_NOTICE4COMMONFCK}><{/if}>
+                    <{if ! $common_fck_installed}><br><{$smarty.const._MD_A_MYBLOCKSADMIN_NOTICE4COMMONFCK}><{/if}>
                 <{elseif  $block.ctype == 'H' && $common_fck_installed}>
                     <textarea name="textarea_content" id="textarea_content" cols="80" rows="20"><{$block.content}></textarea>
                     <script>fckeditor_exec();</script>
@@ -112,7 +112,7 @@
                     <{$altsys_x25_dhtmltextarea}>
                     <{/if}>
                 <{else}>
-                    <div><input type="checkbox" id="switch_bbcode" checked=true onclick="if(this.checked){document.getElementById('textarea_content_bbcode_buttons_pre').style.display='block';document.getElementById('textarea_content_bbcode_buttons_post').style.display='block';document.getElementById('myckeditorOn').value='CKEeditorON';textarea_content_myckeditor_remove();}else{document.getElementById('textarea_content_bbcode_buttons_pre').style.display='none';document.getElementById('textarea_content_bbcode_buttons_post').style.display='none';}" />
+                    <div><input type="checkbox" id="switch_bbcode" checked=true onclick="if(this.checked){document.getElementById('textarea_content_bbcode_buttons_pre').style.display='block';document.getElementById('textarea_content_bbcode_buttons_post').style.display='block';document.getElementById('myckeditorOn').value='CKEeditorON';textarea_content_myckeditor_remove();}else{document.getElementById('textarea_content_bbcode_buttons_pre').style.display='none';document.getElementById('textarea_content_bbcode_buttons_post').style.display='none';}">
                     <label for="switch_bbcode">BBCode</label></div>
                     <{$altsys_x25_dhtmltextarea}>
                 <{/if}>
@@ -159,14 +159,14 @@
         <td class="head"></td>
         <td class="even">
             <{if $block.is_custom}>
-                <input type="submit" class="formButton" name="preview"  id="preview" value="<{$smarty.const._PREVIEW}>" />
+                <input type="submit" class="formButton" name="preview"  id="preview" value="<{$smarty.const._PREVIEW}>">
             <{/if}>
-            <input type="submit" class="formButton" name="submitblock"  id="submitblock" value="<{$submit_button}>" />
+            <input type="submit" class="formButton" name="submitblock"  id="submitblock" value="<{$submit_button}>">
         </td>
     </tr>
 </table>
 <{$gticket_hidden}>
-<input type="hidden" name="op" value="<{$op}>" />
+<input type="hidden" name="op" value="<{$op}>">
 </form>
 
 <{if $block.content_preview}>

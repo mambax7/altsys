@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once __DIR__ . '/MyBlocksAdmin.class.php';
 
@@ -7,15 +7,15 @@ require_once __DIR__ . '/MyBlocksAdmin.class.php';
  */
 class MyBlocksAdminForX25 extends MyBlocksAdmin
 {
-    public function MyBlocksAadminForX25()
+    public function MyBlocksAadminForX25(): void
     {
     }
 
-    public function construct()
+    public function construct(): void
     {
         parent::construct();
 
-        @include_once XOOPS_ROOT_PATH . '/modules/system/language/' . $this->lang . '/admin/blocksadmin.php';
+        @require_once XOOPS_ROOT_PATH . '/modules/system/language/' . $this->lang . '/admin/blocksadmin.php';
     }
 
     //HACK by domifara for php5.3+
@@ -25,7 +25,6 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
     /**
      * @return \MyBlocksAdminForX25
      */
-
     public static function getInstance()
     {
         static $instance;
@@ -47,14 +46,13 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
      * @param $block_data
      * @return string
      */
-
     public function renderCell4BlockPosition($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
-        $side = (int)$block_data['side'];
+        $side = (int) $block_data['side'];
 
-        $visible = (int)$block_data['visible'];
+        $visible = (int) $block_data['visible'];
 
         $sseln = $ssel0 = $ssel1 = $ssel3 = $ssel4 = $ssel5 = $ssel7 = $ssel8 = $ssel9 = '';
 
@@ -65,41 +63,41 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
         $value4extra_side = '';
 
         if (1 != $visible) {
-            $sseln = " checked='checked'";
+            $sseln = ' checked';
 
             $scoln = 'disabled';
         } else {
             switch ($side) {
                 case XOOPS_SIDEBLOCK_LEFT:
-                    $ssel0 = " checked='checked'";
+                    $ssel0 = ' checked';
                     $scol0 = 'selected';
                     break;
                 case XOOPS_SIDEBLOCK_RIGHT:
-                    $ssel1 = " checked='checked'";
+                    $ssel1 = ' checked';
                     $scol1 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_LEFT:
-                    $ssel3 = " checked='checked'";
+                    $ssel3 = ' checked';
                     $scol3 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_RIGHT:
-                    $ssel4 = " checked='checked'";
+                    $ssel4 = ' checked';
                     $scol4 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_CENTER:
-                    $ssel5 = " checked='checked'";
+                    $ssel5 = ' checked';
                     $scol5 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_BOTTOMLEFT:
-                    $ssel7 = " checked='checked'";
+                    $ssel7 = ' checked';
                     $scol7 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_BOTTOMRIGHT:
-                    $ssel8 = " checked='checked'";
+                    $ssel8 = ' checked';
                     $scol8 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_BOTTOM:
-                    $ssel9 = " checked='checked'";
+                    $ssel9 = ' checked';
                     $scol9 = 'selected';
                     break;
                 default:
@@ -114,46 +112,46 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
         <tr>
             <td rowspan='2'>
                 <div class='blockposition $scol0'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_LEFT . "' class='blockposition' $ssel0 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_LEFT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_LEFT . "' class='blockposition' $ssel0 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_LEFT . ";'>
                 </div>
                 <div style='float:" . _GLOBAL_LEFT . ";'>-</div>
             </td>
             <td>
                 <div class='blockposition $scol3'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_LEFT . "' class='blockposition' $ssel3 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_LEFT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_LEFT . "' class='blockposition' $ssel3 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_LEFT . ";'>
                 </div>
             </td>
             <td>
                 <div class='blockposition $scol5'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_CENTER . "' class='blockposition' $ssel5 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_CENTER . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_CENTER . "' class='blockposition' $ssel5 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_CENTER . ";'>
                 </div>
             </td>
             <td>
                 <div class='blockposition $scol4'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_RIGHT . "' class='blockposition' $ssel4 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_RIGHT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_RIGHT . "' class='blockposition' $ssel4 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_RIGHT . ";'>
                 </div>
             </td>
             <td rowspan='2'>
                 <div style='float:" . _GLOBAL_LEFT . ";'>-</div>
                 <div class='blockposition $scol1'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_RIGHT . "' class='blockposition' $ssel1 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_RIGHT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_RIGHT . "' class='blockposition' $ssel1 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_RIGHT . ";'>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class='blockposition $scol7'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMLEFT . "' class='blockposition' $ssel7 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_BOTTOMLEFT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMLEFT . "' class='blockposition' $ssel7 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_BOTTOMLEFT . ";'>
                 </div>
             </td>
             <td>
                 <div class='blockposition $scol9'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOM . "' class='blockposition' $ssel9 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_BOTTOM . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOM . "' class='blockposition' $ssel9 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_BOTTOM . ";'>
                 </div>
             </td>
             <td>
                 <div class='blockposition $scol8'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMRIGHT . "' class='blockposition' $ssel8 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_BOTTOMRIGHT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMRIGHT . "' class='blockposition' $ssel8 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_BOTTOMRIGHT . ";'>
                 </div>
 
             </td>
@@ -161,10 +159,10 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
         <tr>
             <td colspan='5'>
                 <div style='float:" . _GLOBAL_LEFT . ";width:50px;' class='$stextbox'>
-                    <input type='text' name='extra_sides[$bid]' value='" . $value4extra_side . "' style='width:20px;' id='extra_side_$bid' />
+                    <input type='text' name='extra_sides[$bid]' value='" . $value4extra_side . "' style='width:20px;' id='extra_side_$bid'>
                 </div>
                 <div class='blockposition $scoln'>
-                    <input type='radio' name='sides[$bid]' value='-1' class='blockposition' $sseln onclick='document.getElementById(\"extra_side_$bid\").value=-1;' />
+                    <input type='radio' name='sides[$bid]' value='-1' class='blockposition' $sseln onclick='document.getElementById(\"extra_side_$bid\").value=-1;'>
                 </div>
                 <div style='float:" . _GLOBAL_LEFT . ";'>" . _NONE . '</div>
             </td>
@@ -177,10 +175,9 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
      * @param        $bid
      * @param string $mode
      */
-
-    public function form_edit($bid, $mode = 'edit')
+    public function form_edit($bid, $mode = 'edit'): void
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         //HACK by domifara
 
@@ -235,9 +232,9 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
         if (!$is_custom && $block_template) {
             // find template of the block
 
-            $tplfile_handler = xoops_getHandler('tplfile');
+            $tplfileHandler = xoops_getHandler('tplfile');
 
-            $found_templates = $tplfile_handler->find($GLOBALS['xoopsConfig']['template_set'], 'block', null, null, $block_template);
+            $found_templates = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', null, null, $block_template);
 
             $block_template_tplset = count($found_templates) > 0 ? $GLOBALS['xoopsConfig']['template_set'] : 'default';
         }
@@ -254,10 +251,10 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
                 'bid' => $bid,
                 'name' => $block->getVar('name', 'n'),
                 'title' => $block->getVar('title', 'n'),
-                'weight' => (int)$block->getVar('weight'),
-                'bcachetime' => (int)$block->getVar('bcachetime'),
-                'side' => (int)$block->getVar('side'),
-                'visible' => (int)$block->getVar('visible'),
+                'weight' => (int) $block->getVar('weight'),
+                'bcachetime' => (int) $block->getVar('bcachetime'),
+                'side' => (int) $block->getVar('side'),
+                'visible' => (int) $block->getVar('visible'),
                 'template' => $block_template,
                 'template_tplset' => $block_template_tplset,
                 'options' => $block->getVar('options'),
@@ -286,7 +283,7 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
 
         //dhtml
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         if ('H' == $block_data['ctype'] || empty($block_data['ctype'])) {
             $editor_configs = [];
@@ -315,7 +312,7 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
 
             $rendered = $form->render();
 
-            $rendered = '<div id="textarea_content_bbcode_buttons_pre" style="display:block;">' . str_replace(['<textarea', '</textarea><br />'], ['</div><textarea', '</textarea><div id="textarea_content_bbcode_buttons_post" style="display:block;">'], $rendered) . '</div>';
+            $rendered = '<div id="textarea_content_bbcode_buttons_pre" style="display:block;">' . str_replace(['<textarea', '</textarea><br>'], ['</div><textarea', '</textarea><div id="textarea_content_bbcode_buttons_post" style="display:block;">'], $rendered) . '</div>';
 
             $tpl->assign('altsys_x25_dhtmltextarea', $rendered);
         }
@@ -343,10 +340,9 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
      * @param int               $bid
      * @return array
      */
-
     public function fetchRequest4Block($bid)
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         (method_exists('MyTextSanitizer', 'sGetInstance') and $myts = MyTextSanitizer::sGetInstance()) || $myts = MyTextSanitizer::getInstance();
 
@@ -364,13 +360,13 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
 
         return [
             'bid' => $bid,
-            'side' => (int)(@$_POST['sides'][$bid]),
-            'weight' => (int)(@$_POST['weights'][$bid]),
+            'side' => (int) (@$_POST['sides'][$bid]),
+            'weight' => (int) (@$_POST['weights'][$bid]),
             'visible' => $visible,
             'title' => (@$_POST['titles'][$bid]),
             'content' => (@$_POST['textarea_content']),
             'ctype' => preg_replace('/[^A-Z]/', '', @$_POST['ctypes'][$bid]),
-            'bcachetime' => (int)(@$_POST['bcachetimes'][$bid]),
+            'bcachetime' => (int) (@$_POST['bcachetimes'][$bid]),
             'bmodule' => is_array(@$_POST['bmodules'][$bid]) ? $_POST['bmodules'][$bid] : [0],
             'bgroup' => is_array(@$_POST['bgroups'][$bid]) ? $_POST['bgroups'][$bid] : [],
             'options' => is_array(@$_POST['options'][$bid]) ? $_POST['options'][$bid] : [],
@@ -381,10 +377,9 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
      * @param $block_data
      * @return mixed|string
      */
-
     public function previewContent($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
         if (!$block_data['is_custom']) {
             return '';

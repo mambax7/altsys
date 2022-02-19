@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
@@ -30,7 +30,7 @@ $adminmenu = [
 $mrs = $db->query('SELECT m.name,m.dirname,COUNT(t.tpl_module) AS tpl_count FROM ' . $db->prefix('modules') . ' m LEFT JOIN ' . $db->prefix('tplfile') . ' t ON m.dirname=t.tpl_module WHERE m.isactive GROUP BY m.mid HAVING tpl_count>0 ORDER BY m.weight,m.mid');
 
 // module loop
-while (list($name, $dirname, $count) = $db->fetchRow($mrs)) {
+while ([$name, $dirname, $count] = $db->fetchRow($mrs)) {
     if ($dirname == $current_dirname) {
         $adminmenu[] = [
             'selected' => true,

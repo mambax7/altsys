@@ -19,11 +19,32 @@ Legacyで選択言語以外のadmin.phpでNoticeが大量に出る
 
 gzip圧縮転送と管理画面テーマとのバッティングを調べる
 
+-- Translation --------
 
+x myblocksadmin All the processing
+x xoops 2.2 support
+x Permission check (especially around get_ put_ compile hook)
+x Custom block menu
+x implementation of autoupdate_from_module.inc.php
+x Checking language constants
+Bring the string for the x system module
+x options processing check
+Ask x argon to make a proper icon :-)
+x admin screen menu hook
 
+importing avaman
+Module access rights for modules that do not have hasMain
+Display side after 2.0.14 (Do you really do it?)
 
+Language constant override system for altsys itself
+Edit global.php other than the selected language in Legacy
+A lot of Notices appear in admin.php other than the selected language in Legacy
 
-= Premissions =
+Examine the batting between gzip compression forwarding and management screen themes
+
+================================================================================
+
+= Permissions =
 mypreferences -> module_admin of the module
 myblocksadmin -> module_admin of altsys  (old XOOPS_SYSTEM_BLOCK)
 mytplsadmin,mytplsform -> module_admin of altsys  (old XOOPS_SYSTEM_TPLSET)

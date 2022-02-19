@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_TRUST_PATH . '/libs/altsys/include/altsys_functions.php';
@@ -15,7 +15,6 @@ class D3Tpl extends XoopsTpl
     /**
      * D3Tpl constructor.
      */
-
     public function __construct()
     {
         parent::__construct();

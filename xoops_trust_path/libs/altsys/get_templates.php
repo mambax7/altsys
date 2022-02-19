@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                        get_templates.php  (altsys)                        //
 //                    - XOOPS templates admin module -                       //
-//                       GIJOE <http://www.peak.ne.jp/>                      //
+//                       GIJOE <https://www.peak.ne.jp>                      //
 // ------------------------------------------------------------------------- //
 
 error_reporting(0);
 
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
 
 // this page can be called only from altsys
 if ('altsys' != $xoopsModule->getVar('dirname')) {
@@ -56,7 +56,7 @@ if ($xoopsDB->getRowsNum($trs) <= 0) {
     die(_TPLSADMIN_ERR_INVALIDTPLSET);
 }
 
-while (list($tpl_file, $tpl_source, $tpl_lastmodified) = $xoopsDB->fetchRow($trs)) {
+while ([$tpl_file, $tpl_source, $tpl_lastmodified] = $xoopsDB->fetchRow($trs)) {
     $downloader->addFileData($tpl_source, $tplset . '/' . $tpl_file, $tpl_lastmodified);
 }
 //bugfix by nao-pon ,echo is not necessary for downloader

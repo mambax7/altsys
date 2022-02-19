@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 // $Id: MyBlocksAdmin.class.php ,ver 0.0.7.1 2011/02/15 02:55:00 domifara Exp $
 
 /**
@@ -26,11 +26,11 @@ class MyBlocksAdmin
 
     public $preview_request = [];
 
-    public function MyBlocksAadmin()
+    public function MyBlocksAadmin(): void
     {
     }
 
-    public function construct()
+    public function construct(): void
     {
         $this->db = XoopsDatabaseFactory::getDatabaseConnection();
 
@@ -73,7 +73,6 @@ class MyBlocksAdmin
     /**
      * @return \MyBlocksAdmin
      */
-
     public static function getInstance()
     {
         static $instance;
@@ -89,7 +88,7 @@ class MyBlocksAdmin
 
     // virtual
 
-    public function checkPermission()
+    public function checkPermission(): void
     {
         // only groups have 'module_admin' of 'altsys' can do that.
 
@@ -97,9 +96,9 @@ class MyBlocksAdmin
 
         $module = $moduleHandler->getByDirname('altsys');
 
-        $moduleperm_handler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
-        if (!is_object(@$GLOBALS['xoopsUser']) || !$moduleperm_handler->checkRight('module_admin', $module->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
+        if (!is_object(@$GLOBALS['xoopsUser']) || !$grouppermHandler->checkRight('module_admin', $module->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
             die('only admin of altsys can access this area');
         }
     }
@@ -107,8 +106,7 @@ class MyBlocksAdmin
     /**
      * @param $xoopsModule
      */
-
-    public function init($xoopsModule)
+    public function init($xoopsModule): void
     {
         // altsys "module" MODE
 
@@ -117,7 +115,7 @@ class MyBlocksAdmin
 
             $moduleHandler = xoops_getHandler('module');
 
-         if (! empty($_GET['dirname'])) {
+            if (!empty($_GET['dirname'])) {
                 $dirname = preg_replace('/[^0-9a-zA-Z_-]/', '', \Xmf\Request::getString('dirname', '', 'GET'));
 
                 $target_module = $moduleHandler->getByDirname($dirname);
@@ -189,7 +187,6 @@ class MyBlocksAdmin
      * @param $block
      * @return bool
      */
-
     public function canEdit($block)
     {
         return true;
@@ -201,7 +198,6 @@ class MyBlocksAdmin
      * @param $block
      * @return bool
      */
-
     public function canDelete($block)
     {
         // can delete if it is a cloned block
@@ -225,7 +221,6 @@ class MyBlocksAdmin
      * @param $block
      * @return int
      */
-
     public function canClone($block)
     {
         // can clone link if it is marked as cloneable block
@@ -259,10 +254,9 @@ class MyBlocksAdmin
      * @param $block_data
      * @return bool|string
      */
-
     public function renderCell4BlockOptions($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
         //HACK by domifara
 
@@ -287,10 +281,9 @@ class MyBlocksAdmin
      * @param $block_data
      * @return string
      */
-
     public function renderCell4BlockModuleLink($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
         // get selected targets
 
@@ -305,8 +298,8 @@ class MyBlocksAdmin
 
             $selected_mids = [];
 
-            while (list($selected_mid) = $this->db->fetchRow($result)) {
-                $selected_mids[] = (int)$selected_mid;
+            while ([$selected_mid] = $this->db->fetchRow($result)) {
+                $selected_mids[] = (int) $selected_mid;
             }
 
             if (empty($selected_mids)) {
@@ -356,10 +349,9 @@ class MyBlocksAdmin
      * @param $block_data
      * @return string
      */
-
     public function renderCell4BlockReadGroupPerm($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
         // get selected targets
 
@@ -374,8 +366,8 @@ class MyBlocksAdmin
 
             $selected_gids = [];
 
-            while (list($selected_gid) = $this->db->fetchRow($result)) {
-                $selected_gids[] = (int)$selected_gid;
+            while ([$selected_gid] = $this->db->fetchRow($result)) {
+                $selected_gids[] = (int) $selected_gid;
             }
 
             if (0 == $bid && empty($selected_gids)) {
@@ -385,9 +377,9 @@ class MyBlocksAdmin
 
         // get all targets
 
-        $group_handler = xoops_getHandler('group');
+        $groupHandler = xoops_getHandler('group');
 
-        $groups = $group_handler->getObjects();
+        $groups = $groupHandler->getObjects();
 
         // build options
 
@@ -421,14 +413,13 @@ class MyBlocksAdmin
      * @param $block_data
      * @return string
      */
-
     public function renderCell4BlockPosition($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
-        $side = (int)$block_data['side'];
+        $side = (int) $block_data['side'];
 
-        $visible = (int)$block_data['visible'];
+        $visible = (int) $block_data['visible'];
 
         $sseln = $ssel0 = $ssel1 = $ssel2 = $ssel3 = $ssel4 = '';
 
@@ -439,29 +430,29 @@ class MyBlocksAdmin
         $value4extra_side = '';
 
         if (1 != $visible) {
-            $sseln = " checked='checked'";
+            $sseln = ' checked';
 
             $scoln = 'disabled';
         } else {
             switch ($side) {
                 case XOOPS_SIDEBLOCK_LEFT:
-                    $ssel0 = " checked='checked'";
+                    $ssel0 = ' checked';
                     $scol0 = 'selected';
                     break;
                 case XOOPS_SIDEBLOCK_RIGHT:
-                    $ssel1 = " checked='checked'";
+                    $ssel1 = ' checked';
                     $scol1 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_LEFT:
-                    $ssel2 = " checked='checked'";
+                    $ssel2 = ' checked';
                     $scol2 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_RIGHT:
-                    $ssel4 = " checked='checked'";
+                    $ssel4 = ' checked';
                     $scol4 = 'selected';
                     break;
                 case XOOPS_CENTERBLOCK_CENTER:
-                    $ssel3 = " checked='checked'";
+                    $ssel3 = ' checked';
                     $scol3 = 'selected';
                     break;
                 default:
@@ -473,29 +464,29 @@ class MyBlocksAdmin
 
         return "
                 <div class='blockposition $scol0'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_LEFT . "' class='blockposition' $ssel0 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_LEFT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_LEFT . "' class='blockposition' $ssel0 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_LEFT . ";'>
                 </div>
                 <div style='float:" . _GLOBAL_LEFT . ";'>-</div>
                 <div class='blockposition $scol2'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_LEFT . "' class='blockposition' $ssel2 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_LEFT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_LEFT . "' class='blockposition' $ssel2 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_LEFT . ";'>
                 </div>
                 <div class='blockposition $scol3'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_CENTER . "' class='blockposition' $ssel3 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_CENTER . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_CENTER . "' class='blockposition' $ssel3 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_CENTER . ";'>
                 </div>
                 <div class='blockposition $scol4'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_RIGHT . "' class='blockposition' $ssel4 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_RIGHT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_CENTERBLOCK_RIGHT . "' class='blockposition' $ssel4 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_CENTERBLOCK_RIGHT . ";'>
                 </div>
                 <div style='float:" . _GLOBAL_LEFT . ";'>-</div>
                 <div class='blockposition $scol1'>
-                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_RIGHT . "' class='blockposition' $ssel1 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_RIGHT . ";' />
+                    <input type='radio' name='sides[$bid]' value='" . XOOPS_SIDEBLOCK_RIGHT . "' class='blockposition' $ssel1 onclick='document.getElementById(\"extra_side_$bid\").value=" . XOOPS_SIDEBLOCK_RIGHT . ";'>
                 </div>
-                <br />
-                <br />
+                <br>
+                <br>
                 <div style='float:" . _GLOBAL_LEFT . ";width:50px;' class='$stextbox'>
-                    <input type='text' name='extra_sides[$bid]' value='" . $value4extra_side . "' style='width:20px;' id='extra_side_$bid' />
+                    <input type='text' name='extra_sides[$bid]' value='" . $value4extra_side . "' style='width:20px;' id='extra_side_$bid'>
                 </div>
                 <div class='blockposition $scoln'>
-                    <input type='radio' name='sides[$bid]' value='-1' class='blockposition' $sseln onclick='document.getElementById(\"extra_side_$bid\").value=-1;' />
+                    <input type='radio' name='sides[$bid]' value='-1' class='blockposition' $sseln onclick='document.getElementById(\"extra_side_$bid\").value=-1;'>
                 </div>
                 <div style='float:" . _GLOBAL_LEFT . ";'>" . _NONE . '</div>
     ';
@@ -503,7 +494,7 @@ class MyBlocksAdmin
 
     // public
 
-    public function list_blocks()
+    public function list_blocks(): void
     {
         global $xoopsGTicket;
 
@@ -545,13 +536,13 @@ class MyBlocksAdmin
 
         foreach ($block_arr as $i => $block) {
             $block_data = [
-                'bid' => (int)$block->getVar('bid'),
+                'bid' => (int) $block->getVar('bid'),
                 'name' => $block->getVar('name', 'n'),
                 'title' => $block->getVar('title', 'n'),
-                'weight' => (int)$block->getVar('weight'),
-                'bcachetime' => (int)$block->getVar('bcachetime'),
-                'side' => (int)$block->getVar('side'),
-                'visible' => (int)$block->getVar('visible'),
+                'weight' => (int) $block->getVar('weight'),
+                'bcachetime' => (int) $block->getVar('bcachetime'),
+                'side' => (int) $block->getVar('side'),
+                'visible' => (int) $block->getVar('visible'),
                 'can_edit' => $this->canEdit($block),
                 'can_delete' => $this->canDelete($block),
                 'can_clone' => $this->canClone($block),
@@ -588,14 +579,13 @@ class MyBlocksAdmin
     /**
      * @return array
      */
-
     public function get_block_configs()
     {
         if ($this->target_mid <= 0) {
             return [];
         }
 
-        include XOOPS_ROOT_PATH . '/modules/' . $this->target_dirname . '/xoops_version.php';
+        require XOOPS_ROOT_PATH . '/modules/' . $this->target_dirname . '/xoops_version.php';
 
         if (empty($modversion['blocks'])) {
             return [];
@@ -604,7 +594,7 @@ class MyBlocksAdmin
         return $modversion['blocks'];
     }
 
-    public function list_groups()
+    public function list_groups(): void
     {
         // query for getting blocks
 
@@ -669,7 +659,6 @@ class MyBlocksAdmin
      * @param array $options
      * @return string
      */
-
     public function update_block($bid, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $options = [])
     {
         global $xoopsConfig;
@@ -718,8 +707,8 @@ class MyBlocksAdmin
 
         $msg = _MD_A_MYBLOCKSADMIN_DBUPDATED;
 
-        if (false != $block->store()) {
-            include_once XOOPS_ROOT_PATH . '/class/template.php';
+        if (false !== $block->store()) {
+            require_once XOOPS_ROOT_PATH . '/class/template.php';
 
             $xoopsTpl = new XoopsTpl();
 
@@ -732,9 +721,9 @@ class MyBlocksAdmin
                     }
                 }
             } elseif ($xoopsTpl->is_cached('db:system_dummy.tpl', 'blk_' . $bid)) {
-                    if (!$xoopsTpl->clear_cache('db:system_dummy.tpl', 'blk_' . $bid)) {
-                        $msg = 'Unable to clear cache for block ID' . $bid;
-                    }
+                if (!$xoopsTpl->clear_cache('db:system_dummy.tpl', 'blk_' . $bid)) {
+                    $msg = 'Unable to clear cache for block ID' . $bid;
+                }
             }
         } else {
             $msg = 'Failed update of block. ID:' . $bid;
@@ -749,10 +738,9 @@ class MyBlocksAdmin
      * @param int               $bid
      * @param $bmodules
      */
-
-    public function updateBlockModuleLink($bid, $bmodules)
+    public function updateBlockModuleLink($bid, $bmodules): void
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         $table = $this->db->prefix('block_module_link');
 
@@ -761,7 +749,7 @@ class MyBlocksAdmin
         $this->db->query($sql);
 
         foreach ($bmodules as $mid) {
-            $mid = (int)$mid;
+            $mid = (int) $mid;
 
             $sql = "INSERT INTO `$table` (`block_id`,`module_id`) VALUES ($bid,$mid)";
 
@@ -775,10 +763,9 @@ class MyBlocksAdmin
      * @param int               $bid
      * @param $req_gids
      */
-
-    public function updateBlockReadGroupPerm($bid, $req_gids)
+    public function updateBlockReadGroupPerm($bid, $req_gids): void
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         $table = $this->db->prefix('group_permission');
 
@@ -794,7 +781,7 @@ class MyBlocksAdmin
 
         $db_gids = [];
 
-        while (list($gid) = $this->db->fetchRow($result)) {
+        while ([$gid] = $this->db->fetchRow($result)) {
             $db_gids[] = $gid;
         }
 
@@ -813,7 +800,7 @@ class MyBlocksAdmin
         $this->db->query($sql);
 
         foreach ($req_gids as $gid) {
-            $gid = (int)$gid;
+            $gid = (int) $gid;
 
             $sql = "INSERT INTO `$table` (`gperm_groupid`,`gperm_itemid`,`gperm_modid`,`gperm_name`) VALUES ($gid,$bid,1,'block_read')";
 
@@ -824,7 +811,6 @@ class MyBlocksAdmin
     /**
      * @return string
      */
-
     public function do_order()
     {
         $sides = is_array(@$_POST['sides']) ? $_POST['sides'] : [];
@@ -852,10 +838,9 @@ class MyBlocksAdmin
      * @param int               $bid
      * @return array
      */
-
     public function fetchRequest4Block($bid)
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         (method_exists('MyTextSanitizer', 'sGetInstance') and $myts = MyTextSanitizer::sGetInstance()) || $myts = MyTextSanitizer::getInstance();
 
@@ -873,13 +858,13 @@ class MyBlocksAdmin
 
         return [
             'bid' => $bid,
-            'side' => (int)(@$_POST['sides'][$bid]),
-            'weight' => (int)(@$_POST['weights'][$bid]),
+            'side' => (int) (@$_POST['sides'][$bid]),
+            'weight' => (int) (@$_POST['weights'][$bid]),
             'visible' => $visible,
             'title' => (@$_POST['titles'][$bid]),
             'content' => (@$_POST['contents'][$bid]),
             'ctype' => preg_replace('/[^A-Z]/', '', @$_POST['ctypes'][$bid]),
-            'bcachetime' => (int)(@$_POST['bcachetimes'][$bid]),
+            'bcachetime' => (int) (@$_POST['bcachetimes'][$bid]),
             'bmodule' => is_array(@$_POST['bmodules'][$bid]) ? $_POST['bmodules'][$bid] : [0],
             'bgroup' => is_array(@$_POST['bgroups'][$bid]) ? $_POST['bgroups'][$bid] : [],
             'options' => is_array(@$_POST['options'][$bid]) ? $_POST['options'][$bid] : [],
@@ -890,10 +875,9 @@ class MyBlocksAdmin
      * @param int               $bid
      * @return string
      */
-
     public function do_delete($bid)
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         //HACK by domifara
 
@@ -927,10 +911,9 @@ class MyBlocksAdmin
     /**
      * @param int               $bid
      */
-
-    public function do_deleteBlockReadGroupPerm($bid)
+    public function do_deleteBlockReadGroupPerm($bid): void
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         $table = $this->db->prefix('group_permission');
 
@@ -942,10 +925,9 @@ class MyBlocksAdmin
     /**
      * @param int               $bid
      */
-
-    public function form_delete($bid)
+    public function form_delete($bid): void
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         //HACK by domifara
 
@@ -982,10 +964,9 @@ class MyBlocksAdmin
      * @param int               $bid
      * @return string
      */
-
     public function do_clone($bid)
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         $request = $this->fetchRequest4Block($bid);
 
@@ -1068,7 +1049,6 @@ class MyBlocksAdmin
      * @param $mid
      * @return int
      */
-
     public function find_func_num_vacancy($mid)
     {
         $func_num = 256;
@@ -1076,7 +1056,7 @@ class MyBlocksAdmin
         do {
             $func_num--;
 
-            [$count] = $this->db->fetchRow($this->db->query('SELECT COUNT(*) FROM ' . $this->db->prefix('newblocks') . ' WHERE mid=' . (int)$mid . ' AND func_num=' . $func_num));
+            [$count] = $this->db->fetchRow($this->db->query('SELECT COUNT(*) FROM ' . $this->db->prefix('newblocks') . ' WHERE mid=' . (int) $mid . ' AND func_num=' . $func_num));
         } while ($count > 0);
 
         return $func_num > 128 ? $func_num : 255;
@@ -1086,10 +1066,9 @@ class MyBlocksAdmin
      * @param int               $bid
      * @return string
      */
-
     public function do_edit($bid)
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         if ($bid <= 0) {
             // new custom block
@@ -1146,10 +1125,9 @@ class MyBlocksAdmin
      * @param        $bid
      * @param string $mode
      */
-
-    public function form_edit($bid, $mode = 'edit')
+    public function form_edit($bid, $mode = 'edit'): void
     {
-        $bid = (int)$bid;
+        $bid = (int) $bid;
 
         //HACK by domifara
 
@@ -1212,9 +1190,9 @@ class MyBlocksAdmin
         if (!$is_custom && $block_template) {
             // find template of the block
 
-            $tplfile_handler = xoops_getHandler('tplfile');
+            $tplfileHandler = xoops_getHandler('tplfile');
 
-            $found_templates = $tplfile_handler->find($GLOBALS['xoopsConfig']['template_set'], 'block', null, null, $block_template);
+            $found_templates = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', null, null, $block_template);
 
             $block_template_tplset = count($found_templates) > 0 ? $GLOBALS['xoopsConfig']['template_set'] : 'default';
         }
@@ -1231,10 +1209,10 @@ class MyBlocksAdmin
                 'bid' => $bid,
                 'name' => $block->getVar('name', 'n'),
                 'title' => $block->getVar('title', 'n'),
-                'weight' => (int)$block->getVar('weight'),
-                'bcachetime' => (int)$block->getVar('bcachetime'),
-                'side' => (int)$block->getVar('side'),
-                'visible' => (int)$block->getVar('visible'),
+                'weight' => (int) $block->getVar('weight'),
+                'bcachetime' => (int) $block->getVar('bcachetime'),
+                'side' => (int) $block->getVar('side'),
+                'visible' => (int) $block->getVar('visible'),
                 'template' => $block_template,
                 'template_tplset' => $block_template_tplset,
                 'options' => $block->getVar('options'),
@@ -1266,7 +1244,7 @@ class MyBlocksAdmin
         if (defined('XOOPS_CUBE_LEGACY')) {
             $tpl->assign('xoops_cube_legacy', true);
 
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         } else {
             $tpl->assign('xoops_cube_legacy', false);
         }
@@ -1295,7 +1273,6 @@ class MyBlocksAdmin
     /**
      * @return bool
      */
-
     public function checkFck()
     {
         return file_exists(XOOPS_ROOT_PATH . '/common/fckeditor/fckeditor.js');
@@ -1305,10 +1282,9 @@ class MyBlocksAdmin
      * @param $block_data
      * @return string
      */
-
     public function previewContent($block_data)
     {
-        $bid = (int)$block_data['bid'];
+        $bid = (int) $block_data['bid'];
 
         if (!$block_data['is_custom']) {
             return '';
@@ -1325,8 +1301,8 @@ class MyBlocksAdmin
         $block = new XoopsBlock($bid);
 
         /*
-            $handler = xoops_getHandler('block');
-            $block =& $handler->create(false) ;
+            $blockHandler = xoops_getHandler('block');
+            $block =  $blockHandler->create(false) ;
             $block->load($bid) ;
         */
 
@@ -1353,7 +1329,6 @@ class MyBlocksAdmin
      * @param $bctype
      * @return mixed|string
      */
-
     public function get_blockname_from_ctype($bctype)
     {
         $ctypes = [
@@ -1366,7 +1341,7 @@ class MyBlocksAdmin
         return $ctypes[$bctype] ?? _MD_A_MYBLOCKSADMIN_CTYPE_SMILE;
     }
 
-    public function processPost()
+    public function processPost(): void
     {
         // Ticket Check
 
@@ -1376,9 +1351,9 @@ class MyBlocksAdmin
 
         $msg = '';
 
-        $bid = (int)(@$_GET['bid']);
+        $bid = (int) (@$_GET['bid']);
 
-        if (! empty($_POST['preview'])) {
+        if (!empty($_POST['preview'])) {
             // preview
 
             $this->preview_request = $this->fetchRequest4Block($bid);
@@ -1415,9 +1390,9 @@ class MyBlocksAdmin
         exit;
     }
 
-    public function processGet()
+    public function processGet(): void
     {
-        $bid = (int)(@$_GET['bid']);
+        $bid = (int) (@$_GET['bid']);
 
         switch (@$_GET['op']) {
             case 'clone':

@@ -1,13 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 // ------------------------------------------------------------------------- //
 //                        put_tplsvarsinfo.php (altsys)                      //
 //                      - XOOPS templates admin module -                     //
-//                        GIJOE <http://www.peak.ne.jp/>                     //
+//                        GIJOE <https://www.peak.ne.jp>                     //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/include/gtickets.php';
-include_once __DIR__ . '/include/altsys_functions.php';
-include_once __DIR__ . '/include/tpls_functions.php';
+require_once __DIR__ . '/include/gtickets.php';
+require_once __DIR__ . '/include/altsys_functions.php';
+require_once __DIR__ . '/include/tpls_functions.php';
 
 // this page can be called only from altsys
 if ('altsys' != $xoopsModule->getVar('dirname')) {
@@ -19,7 +19,7 @@ altsys_include_language_file('compilehookadmin');
 
 $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-if (empty($_FILES['tplset_archive']['tmp_name']) || !is_uploaded_file($_FILES['tplset_archive']['tmp_name'])) {
+if (empty($_FILES['tplset_archive']['tmp_name']) || !is_uploaded_file(($_FILES['tplset_archive']['tmp_name'])??'')) {
     die(_TPLSADMIN_ERR_NOTUPLOADED);
 }
 //fix for mb_http_output setting and for add any browsers

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 // $Id$
 
 // Keep Block option values when update (by nobunobu) for XOOPS 2.0.x

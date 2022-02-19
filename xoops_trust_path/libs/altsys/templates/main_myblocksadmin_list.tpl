@@ -27,14 +27,14 @@
         <tr valign="middle" class="<{cycle values="even,odd"}>">
             <td>
                 <{$block.name_raw|escape}>
-                <br />
-                <input type="text" name="titles[<{$block.bid}>]" value="<{$block.title_raw|escape}>" size="20" />
+                <br>
+                <input type="text" name="titles[<{$block.bid}>]" value="<{$block.title_raw|escape}>" size="20">
             </td>
             <td class="blockposition" align="center">
                 <{$block.cell_position}>
             </td>
             <td align="center">
-                <input type="text" name="weights[<{$block.bid}>]" value="<{$block.weight}>" size="3" maxlength="5" style="text-align:<{$smarty.const._GLOBAL_RIGHT}>;" />
+                <input type="text" name="weights[<{$block.bid}>]" value="<{$block.weight}>" size="3" maxlength="5" style="text-align:<{$smarty.const._GLOBAL_RIGHT}>;">
             </td>
             <td align="center">
                 <{$block.cell_module_link}>
@@ -49,11 +49,11 @@
                 <{if $block.can_edit}>
                     <a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>&amp;op=edit&amp;bid=<{$block.bid}>"><{$smarty.const._EDIT}></a>
                 <{/if}>
-                <br />
+                <br>
                 <{if $block.can_delete}>
                     <a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>&amp;op=delete&amp;bid=<{$block.bid}>"><{$smarty.const._DELETE}></a>
                 <{/if}>
-                <br />
+                <br>
                 <{if $block.can_clone}>
                     <a href="?mode=admin&amp;lib=altsys&amp;page=myblocksadmin&amp;dirname=<{$target_dirname}>&amp;op=clone&amp;bid=<{$block.bid}>"><{if $block.can_clone == 2}><{$smarty.const._CLONE}><{else}><{$smarty.const._MD_A_MYBLOCKSADMIN_LINK_FORCECLONE}><{/if}></a>
                 <{/if}>
@@ -63,10 +63,10 @@
 
     <tr>
         <td class="foot" align="center" colspan="6">
-            <input type="hidden" name="fct" value="blocksadmin" />
-            <input type="hidden" name="op" value="order" />
+            <input type="hidden" name="fct" value="blocksadmin">
+            <input type="hidden" name="op" value="order">
             <{$gticket_hidden}>
-            <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" />
+            <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>">
         </td>
     </tr>
     </table>
