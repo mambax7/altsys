@@ -37,7 +37,7 @@ foreach (array_keys($adminmenu) as $i) {
 
         $adminmenu_hilighted = true;
 
-    //      $GLOBALS['altsysXoopsBreadcrumbs'][] = array( 'url' => XOOPS_URL."/modules/altsys/".htmlspecialchars($adminmenu[$i]['link'],ENT_QUOTES) , 'name' => htmlspecialchars( $adminmenu[$i]['title'] , ENT_QUOTES ) ) ;
+    //      $GLOBALS['altsysXoopsBreadcrumbs'][] = array( 'url' => XOOPS_URL."/modules/altsys/".htmlspecialchars($adminmenu[$i]['link'],ENT_QUOTES | ENT_HTML5) , 'name' => htmlspecialchars( $adminmenu[$i]['title'] , ENT_QUOTES ) ) ;
     } else {
         $adminmenu[$i]['selected'] = false;
     }
@@ -47,7 +47,7 @@ if (empty($adminmenu_hilighted)) {
         if (mb_stristr($mymenu_uri, $adminmenu[$i]['link'])) {
             $adminmenu[$i]['selected'] = true;
 
-            //          $GLOBALS['altsysXoopsBreadcrumbs'][] = array( 'url' => XOOPS_URL."/modules/altsys/".htmlspecialchars($adminmenu[$i]['link'],ENT_QUOTES) , 'name' => htmlspecialchars( $adminmenu[$i]['title'] , ENT_QUOTES ) ) ;
+            //          $GLOBALS['altsysXoopsBreadcrumbs'][] = array( 'url' => XOOPS_URL."/modules/altsys/".htmlspecialchars($adminmenu[$i]['link'],ENT_QUOTES | ENT_HTML5) , 'name' => htmlspecialchars( $adminmenu[$i]['title'] , ENT_QUOTES ) ) ;
 
             break;
         }
@@ -68,6 +68,7 @@ $tpl->assign([
                  'adminmenu' => $adminmenu,
              ]);
 $tpl->display('db:altsys_inc_mymenu.tpl');
+//$tpl->display('db:inc_mymenu.tpl');
 
 // submenu
 $page = preg_replace('/[^0-9a-zA-Z_-]/', '', @$_GET['page']);

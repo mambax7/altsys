@@ -12,7 +12,7 @@ require_once __DIR__ . '/include/altsys_functions.php';
 
 // this page can be called only from altsys
 if ('altsys' != $xoopsModule->getVar('dirname')) {
-    die('this page can be called only from altsys');
+   exit('this page can be called only from altsys');
 }
 
 // language file
@@ -162,11 +162,11 @@ if ($handler = opendir(XOOPS_COMPILE_PATH . '/')) {
         $tplsvarsinfo_total = array_merge($tplsvarsinfo_total, $tplsvarsinfo);
     }
 } else {
-    die('XOOPS_COMPILE_PATH cannot be opened');
+   exit('XOOPS_COMPILE_PATH cannot be opened');
 }
 
 if (empty($tplsvarsinfo_total)) {
-    die(_TPLSADMIN_ERR_NOTPLSVARSINFO);
+   exit(_TPLSADMIN_ERR_NOTPLSVARSINFO);
 }
 
 //
@@ -185,13 +185,13 @@ $snippet_format = '<?xml version="1.0" encoding="utf-8"?>
 if (!empty($_POST['as_dw_extension_zip'])) {
     require_once XOOPS_ROOT_PATH . '/class/zipdownloader.php';
 
-    $downloader = new XoopsZipDownloader();
+    $downloader = new \XoopsZipDownloader();
 
     $do_download = true;
 } elseif (!empty($_POST['as_dw_extension_tgz'])) {
     require_once XOOPS_ROOT_PATH . '/class/tardownloader.php';
 
-    $downloader = new XoopsTarDownloader();
+    $downloader = new \XoopsTarDownloader();
 
     $do_download = true;
 }
@@ -218,7 +218,7 @@ if (!empty($do_download)) {
     foreach ($tplsvarsinfo_total as $key => $val) {
         $name = mb_substr($key, 1);
 
-        $description = htmlspecialchars(xoops_utf8_encode(xoops_substr($val, 0, 256)), ENT_QUOTES);
+        $description = htmlspecialchars(xoops_utf8_encode(xoops_substr($val, 0, 256)), ENT_QUOTES | ENT_HTML5);
 
         $snippet_body = sprintf($snippet_format, $name, $description);
 

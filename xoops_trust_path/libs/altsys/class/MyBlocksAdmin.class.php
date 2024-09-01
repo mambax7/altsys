@@ -126,7 +126,7 @@ class MyBlocksAdmin
 
                 $this->target_mid = $target_module->getVar('mid');
 
-                $this->target_mname = $target_module->getVar('name') . '&nbsp;' . sprintf('(%2.2f)', $target_module->getVar('version') / 100.0);
+                $this->target_mname = $target_module->getVar('name') . '&nbsp;' . sprintf('(%2.2f)', (int)$target_module->getVar('version') / 100.0);
 
                 $this->target_dirname = $target_module->getVar('dirname');
 
@@ -267,7 +267,7 @@ class MyBlocksAdmin
 
             $block->load($bid);
         } else {
-            $block = new XoopsBlock($bid);
+            $block = new \XoopsBlock($bid);
         }
 
         return $block->getOptions();
@@ -288,11 +288,11 @@ class MyBlocksAdmin
         // get selected targets
 
         if (is_array(@$block_data['bmodule'])) {
-            // bmodule origined from request (preview etc.)
+			// bmodule originated from request (preview etc.)
 
             $selected_mids = $block_data['bmodule'];
         } else {
-            // origined from the table of `block_module_link`
+			// originated from the table of `block_module_link`
 
             $result = $this->db->query('SELECT module_id FROM ' . $this->db->prefix('block_module_link') . " WHERE block_id='$bid'");
 
@@ -311,9 +311,9 @@ class MyBlocksAdmin
 
         $moduleHandler = xoops_getHandler('module');
 
-        $criteria = new CriteriaCompo(new Criteria('hasmain', 1));
+        $criteria = new \CriteriaCompo(new \Criteria('hasmain', 1));
 
-        $criteria->add(new Criteria('isactive', 1));
+        $criteria->add(new \Criteria('isactive', 1));
 
         $module_list = $moduleHandler->getList($criteria);
 
@@ -522,7 +522,7 @@ class MyBlocksAdmin
 
                 $block_arr[] = &$block_one;
             } else {
-                $block_arr[] = new XoopsBlock($myrow);
+                $block_arr[] = new \XoopsBlock($myrow);
             }
         }
 
@@ -620,7 +620,7 @@ class MyBlocksAdmin
 
                 $block_arr[] = &$block_one;
             } else {
-                $block_arr[] = new XoopsBlock($myrow);
+                $block_arr[] = new \XoopsBlock($myrow);
             }
         }
 
@@ -672,7 +672,7 @@ class MyBlocksAdmin
 
             $block->load($bid);
         } else {
-            $block = new XoopsBlock($bid);
+            $block = new \XoopsBlock($bid);
         }
 
         if ($bside >= 0) {
@@ -695,7 +695,7 @@ class MyBlocksAdmin
 
         $block->setVar('bcachetime', $bcachetime);
 
-        if ($options && is_array($options)) {
+        if ($options && \is_array($options)) {
             $block->setVar('options', implode('|', $options));
         }
 
@@ -710,18 +710,18 @@ class MyBlocksAdmin
         if (false !== $block->store()) {
             require_once XOOPS_ROOT_PATH . '/class/template.php';
 
-            $xoopsTpl = new XoopsTpl();
+            $xoopsTpl = new \XoopsTpl();
 
             $xoopsTpl->xoops_setCaching(2);
 
             if ('' != $block->getVar('template')) {
-                if ($xoopsTpl->is_cached('db:' . $block->getVar('template'))) {
-                    if (!$xoopsTpl->clear_cache('db:' . $block->getVar('template'))) {
+                if ($xoopsTpl->isCached('db:' . $block->getVar('template'))) {
+                    if (!$xoopsTpl->clearCache('db:' . $block->getVar('template'))) {
                         $msg = 'Unable to clear cache for block ID' . $bid;
                     }
                 }
-            } elseif ($xoopsTpl->is_cached('db:system_dummy.tpl', 'blk_' . $bid)) {
-                if (!$xoopsTpl->clear_cache('db:system_dummy.tpl', 'blk_' . $bid)) {
+            } elseif ($xoopsTpl->isCached('db:system_dummy.tpl', 'blk_' . $bid)) {
+                if (!$xoopsTpl->clearCache('db:system_dummy.tpl', 'blk_' . $bid)) {
                     $msg = 'Unable to clear cache for block ID' . $bid;
                 }
             }
@@ -813,7 +813,7 @@ class MyBlocksAdmin
      */
     public function do_order()
     {
-        $sides = is_array(@$_POST['sides']) ? $_POST['sides'] : [];
+        $sides = \is_array(@$_POST['sides']) ? $_POST['sides'] : [];
 
         foreach (array_keys($sides) as $bid) {
             $request = $this->fetchRequest4Block($bid);
@@ -865,9 +865,9 @@ class MyBlocksAdmin
             'content' => (@$_POST['contents'][$bid]),
             'ctype' => preg_replace('/[^A-Z]/', '', @$_POST['ctypes'][$bid]),
             'bcachetime' => (int) (@$_POST['bcachetimes'][$bid]),
-            'bmodule' => is_array(@$_POST['bmodules'][$bid]) ? $_POST['bmodules'][$bid] : [0],
-            'bgroup' => is_array(@$_POST['bgroups'][$bid]) ? $_POST['bgroups'][$bid] : [],
-            'options' => is_array(@$_POST['options'][$bid]) ? $_POST['options'][$bid] : [],
+            'bmodule' => \is_array(@$_POST['bmodules'][$bid]) ? $_POST['bmodules'][$bid] : [0],
+            'bgroup' => \is_array(@$_POST['bgroups'][$bid]) ? $_POST['bgroups'][$bid] : [],
+            'options' => \is_array(@$_POST['options'][$bid]) ? $_POST['options'][$bid] : [],
         ];
     }
 
@@ -888,7 +888,7 @@ class MyBlocksAdmin
 
             $block->load($bid);
         } else {
-            $block = new XoopsBlock($bid);
+            $block = new \XoopsBlock($bid);
         }
 
         if (!is_object($block)) {
@@ -940,7 +940,7 @@ class MyBlocksAdmin
 
             $block->load($bid);
         } else {
-            $block = new XoopsBlock($bid);
+            $block = new \XoopsBlock($bid);
         }
 
         if (!is_object($block)) {
@@ -979,7 +979,7 @@ class MyBlocksAdmin
 
             $block->load($bid);
         } else {
-            $block = new XoopsBlock($bid);
+            $block = new \XoopsBlock($bid);
         }
 
         if (!$block->getVar('bid')) {
@@ -1007,7 +1007,7 @@ class MyBlocksAdmin
         if (defined('XOOPS_CUBE_LEGACY')) {
             $cblock = $handler->create(false);
         } else {
-            $cblock = new XoopsBlock();
+            $cblock = new \XoopsBlock();
         }
 
         foreach ($block->vars as $k => $v) {
@@ -1032,7 +1032,7 @@ class MyBlocksAdmin
 
         // update the block by the request
 
-        $this->update_block($newbid, $request['side'], $request['weight'], $request['visible'], $request['title'], $request['content'], $request['ctype'], $request['bcachetime'], is_array(@$_POST['options']) ? $_POST['options'] : []);
+        $this->update_block($newbid, $request['side'], $request['weight'], $request['visible'], $request['title'], $request['content'], $request['ctype'], $request['bcachetime'], \is_array(@$_POST['options']) ? $_POST['options'] : []);
 
         // block_module_link update
 
@@ -1080,7 +1080,7 @@ class MyBlocksAdmin
 
                 $new_block = $handler->create(false);
             } else {
-                $new_block = new XoopsBlock();
+                $new_block = new \XoopsBlock();
             }
 
             $new_block->setNew();
@@ -1108,7 +1108,7 @@ class MyBlocksAdmin
 
         // update the block by the request
 
-        $msg = $this->update_block($bid, $request['side'], $request['weight'], $request['visible'], $request['title'], $request['content'], $request['ctype'], $request['bcachetime'], is_array(@$_POST['options']) ? $_POST['options'] : []);
+        $msg = $this->update_block($bid, $request['side'], $request['weight'], $request['visible'], $request['title'], $request['content'], $request['ctype'], $request['bcachetime'], \is_array(@$_POST['options']) ? $_POST['options'] : []);
 
         // block_module_link update
 
@@ -1138,7 +1138,7 @@ class MyBlocksAdmin
 
             $block->load($bid);
         } else {
-            $block = new XoopsBlock($bid);
+            $block = new \XoopsBlock($bid);
         }
 
         if (!$block->getVar('bid')) {
@@ -1298,7 +1298,7 @@ class MyBlocksAdmin
 
         //TODO : need no hook block at this
 
-        $block = new XoopsBlock($bid);
+        $block = new \XoopsBlock($bid);
 
         /*
             $blockHandler = xoops_getHandler('block');

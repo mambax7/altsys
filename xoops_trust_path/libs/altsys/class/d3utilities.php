@@ -298,7 +298,7 @@ class d3utilities
             switch ($col['edit_edit']) {
                 case 'checkbox':
                     $checked = empty($col['default_value']) ? '' : 'checked';
-                    $value = empty($col['checkbox_value']) ? 1 : htmlspecialchars($col['checkbox_value'], ENT_QUOTES);
+                    $value = empty($col['checkbox_value']) ? 1 : htmlspecialchars($col['checkbox_value'], ENT_QUOTES | ENT_HTML5);
 
                     $lines[$col['name']] = "<input type='checkbox' name='{$col['name']}' value='$value' $checked>";
                     break;
@@ -306,10 +306,10 @@ class d3utilities
                 default:
                     $size = empty($col['edit_size']) ? 32 : (int) $col['edit_size'];
                     $length = empty($col['length']) ? 255 : (int) $col['length'];
-                    $lines[$col['name']] = "<input type='text' name='{$col['name']}' size='$size' maxlength='$length' value='" . htmlspecialchars($col['default_value'], ENT_QUOTES) . "'>";
+                    $lines[$col['name']] = "<input type='text' name='{$col['name']}' size='$size' maxlength='$length' value='" . htmlspecialchars($col['default_value'], ENT_QUOTES | ENT_HTML5) . "'>";
                     break;
                 case false:
-                    $lines[$col['name']] = htmlspecialchars($col['default_value'], ENT_QUOTES);
+                    $lines[$col['name']] = htmlspecialchars($col['default_value'], ENT_QUOTES | ENT_HTML5);
                     break;
             }
         }
@@ -326,9 +326,9 @@ class d3utilities
         $hiddens = '';
 
         foreach ($this->action_base_hiddens as $key => $val) {
-            $key4disp = htmlspecialchars($key, ENT_QUOTES);
+            $key4disp = htmlspecialchars($key, ENT_QUOTES | ENT_HTML5);
 
-            $val4disp = htmlspecialchars($val, ENT_QUOTES);
+            $val4disp = htmlspecialchars($val, ENT_QUOTES | ENT_HTML5);
 
             $hiddens .= "<input type='hidden' name='$key4disp' value='$val4disp'>\n";
         }
@@ -357,12 +357,12 @@ class d3utilities
      */
     public function get_select($name, $options, $current_value)
     {
-        $ret = "<select name='" . htmlspecialchars($name, ENT_QUOTES) . "'>\n";
+        $ret = "<select name='" . htmlspecialchars($name, ENT_QUOTES | ENT_HTML5) . "'>\n";
 
         foreach ($options as $key => $val) {
             $selected = $val == $current_value ? "selected='selected'" : '';
 
-            $ret .= "<option value='" . htmlspecialchars($key, ENT_QUOTES) . "' $selected>" . htmlspecialchars($val, ENT_QUOTES) . "</option>\n";
+            $ret .= "<option value='" . htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) . "' $selected>" . htmlspecialchars($val, ENT_QUOTES | ENT_HTML5) . "</option>\n";
         }
 
         $ret .= "</select>\n";

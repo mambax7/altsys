@@ -181,7 +181,7 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
 
         //HACK by domifara
 
-        $block = new XoopsBlock($bid);
+        $block = new \XoopsBlock($bid);
 
         if (!$block->getVar('bid')) {
             // new defaults
@@ -302,13 +302,13 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
 
             $editor_configs['editor'] = xoops_getModuleOption('blocks_editor', 'system');
 
-            $form = new XoopsFormEditor('', 'textarea_content', $editor_configs);
+            $form = new \XoopsFormEditor('', 'textarea_content', $editor_configs);
 
             $rendered = $form->render();
 
             $tpl->assign('altsys_x25_dhtmltextarea', $rendered);
         } else {
-            $form = new XoopsFormDhtmlTextArea('', 'textarea_content', $block_data['content'], 80, 20);
+            $form = new \XoopsFormDhtmlTextArea('', 'textarea_content', $block_data['content'], 80, 20);
 
             $rendered = $form->render();
 
@@ -367,9 +367,9 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
             'content' => (@$_POST['textarea_content']),
             'ctype' => preg_replace('/[^A-Z]/', '', @$_POST['ctypes'][$bid]),
             'bcachetime' => (int) (@$_POST['bcachetimes'][$bid]),
-            'bmodule' => is_array(@$_POST['bmodules'][$bid]) ? $_POST['bmodules'][$bid] : [0],
-            'bgroup' => is_array(@$_POST['bgroups'][$bid]) ? $_POST['bgroups'][$bid] : [],
-            'options' => is_array(@$_POST['options'][$bid]) ? $_POST['options'][$bid] : [],
+            'bmodule' => \is_array(@$_POST['bmodules'][$bid]) ? $_POST['bmodules'][$bid] : [0],
+            'bgroup' => \is_array(@$_POST['bgroups'][$bid]) ? $_POST['bgroups'][$bid] : [],
+            'options' => \is_array(@$_POST['options'][$bid]) ? $_POST['options'][$bid] : [],
         ];
     }
 
@@ -393,7 +393,7 @@ class MyBlocksAdminForX25 extends MyBlocksAdmin
 
         //TODO : need no hook block at this
 
-        $block = new XoopsBlock($bid);
+        $block = new \XoopsBlock($bid);
 
         if ($block->getVar('mid')) {
             return '';

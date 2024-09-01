@@ -23,7 +23,7 @@
         <th align="<{$smarty.const._GLOBAL_RIGHT}>"><{$smarty.const._MD_A_MYBLOCKSADMIN_ACTION}></th>
     </tr>
 
-    <{foreach from=$blocks item="block"}>
+    <{foreach item="block" from=$blocks|default:null}>
         <tr valign="middle" class="<{cycle values="even,odd"}>">
             <td>
                 <{$block.name_raw|escape}>
@@ -59,7 +59,7 @@
                 <{/if}>
             </td>
         </tr>
-    <{/foreach from=$blocks item="block"}>
+    <{/foreach}>
 
     <tr>
         <td class="foot" align="center" colspan="6">

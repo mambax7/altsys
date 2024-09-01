@@ -1,5 +1,5 @@
 <div class="altsys_mymenu altsys_mymenusub altsys_mymenusub_<{$mypage}>">
-    <{foreach from=$adminmenu item="menuitem"}>
+    <{foreach  item="menuitem" from=$adminmenu|default:null}>
         <div>
             <nobr><a href="<{$menuitem.link|escape}>" class="<{if $menuitem.selected}>selected<{else}>unselected<{/if}>"><{$menuitem.title|escape}></a> | </nobr>
         </div>

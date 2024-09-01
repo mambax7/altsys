@@ -21,6 +21,7 @@ class AltsysBreadcrumbs
     //function getInstance()
 
     /**
+     * function getInstance()
      * @return \AltsysBreadcrumbs
      */
     public static function getInstance()
@@ -44,7 +45,7 @@ class AltsysBreadcrumbs
         foreach ($this->paths as $val) {
             // delayed language constant
 
-            if ('_' == mb_substr($val['name'], 0, 1) && defined($val['name'])) {
+            if ('_' == mb_substr((string)$val['name'], 0, 1) && defined($val['name'])) {
                 $ret[] = [
                     'url' => $val['url'],
                     'name' => constant($val['name']),

@@ -140,23 +140,23 @@ class D3NotificationHandler
             }
         }
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
 
-        $criteria->add(new Criteria('not_modid', (int) $mid));
+        $criteria->add(new \Criteria('not_modid', (int) $mid));
 
-        $criteria->add(new Criteria('not_category', $category));
+        $criteria->add(new \Criteria('not_category', $category));
 
-        $criteria->add(new Criteria('not_itemid', (int) $item_id));
+        $criteria->add(new \Criteria('not_itemid', (int) $item_id));
 
-        $criteria->add(new Criteria('not_event', $event));
+        $criteria->add(new \Criteria('not_event', $event));
 
-        $mode_criteria = new CriteriaCompo();
+        $mode_criteria = new \CriteriaCompo();
 
-        $mode_criteria->add(new Criteria('not_mode', XOOPS_NOTIFICATION_MODE_SENDALWAYS), 'OR');
+        $mode_criteria->add(new \Criteria('not_mode', XOOPS_NOTIFICATION_MODE_SENDALWAYS), 'OR');
 
-        $mode_criteria->add(new Criteria('not_mode', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE), 'OR');
+        $mode_criteria->add(new \Criteria('not_mode', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE), 'OR');
 
-        $mode_criteria->add(new Criteria('not_mode', XOOPS_NOTIFICATION_MODE_SENDONCETHENWAIT), 'OR');
+        $mode_criteria->add(new \Criteria('not_mode', XOOPS_NOTIFICATION_MODE_SENDONCETHENWAIT), 'OR');
 
         $criteria->add($mode_criteria);
 

@@ -13,9 +13,9 @@ if ('__CustomBlocks__' == $current_dirname) {
 }
 
 $moduleHandler4menu = xoops_getHandler('module');
-$criteria4menu = new CriteriaCompo(new Criteria('isactive', 1));
-//$criteria4menu->add(new Criteria('hasmain', 1));
-$criteria4menu->add(new Criteria('mid', '1', '>'));
+$criteria4menu = new \CriteriaCompo(new \Criteria('isactive', 1));
+//$criteria4menu->add(new \Criteria('hasmain', 1));
+$criteria4menu->add(new \Criteria('mid', '1', '>'));
 $modules4menu = $moduleHandler4menu->getObjects($criteria4menu, true);
 $system_module = $moduleHandler4menu->get(1);
 if (is_object($system_module)) {

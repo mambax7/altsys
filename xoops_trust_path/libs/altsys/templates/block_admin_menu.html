@@ -12,13 +12,13 @@
     }
 </script>
 <div class="adminmenu_block">
-    <{foreach from=$block.modules item="module"}>
+    <{foreach item="module" from=$block.modules|default:null}>
         <div id="adminmenu_block_main_<{$module.mid}>" class="adminmenu_block_main_<{$module.dirname}> adminmenu_block_main" title="<{$module.dirname}>">
             <a id="adminmenu_block_openclose_<{$module.mid}>" href="javascript:void(0);" onclick="submenuToggle(<{$module.mid}>);"><img id="adminmenu_block_dot_status_<{$module.mid}>" src="<{$block.mod_imageurl}>/adminmenu_<{$module.dot_suffix}>.gif" alt="<{$smarty.const._MB_ALTSYS_OPENCLOSE}>"></a> <a href="<{if $module.adminindex_absolute}><{$module.adminindex}><{else}><{$xoops_url}>/modules/<{$module.dirname}>/<{$module.adminindex}><{/if}>" class="adminmenu_block_main_module_name"><{$module.name}></a>
         </div>
         <div id="adminmenu_block_sub_<{$module.mid}>" class="adminmenu_block_sub_<{$module.dirname}> adminmenu_block_sub" style="<{if $module.selected}>display:block<{else}>display:none<{/if}>;">
             <ul>
-                <{foreach from=$module.submenu item="sub"}>
+                <{foreach item="sub" from=$module.submenu|default:null}>
                     <li>
                         <a href="<{$sub.url}>"><{$sub.title}></a>
                     </li>

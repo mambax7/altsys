@@ -10,19 +10,11 @@ if (!function_exists('altsys_oninstall_base')) {
      */
     function altsys_oninstall_base($module, $mydirname)
     {
-        // transations on module install
+        // translations on module install
 
         global $ret; // TODO :-D
 
-        // for Cube 2.1
-
-        if (defined('XOOPS_CUBE_LEGACY')) {
-            $root = XCube_Root::getSingleton();
-
-            $root->mDelegateManager->add('Legacy.Admin.Event.ModuleInstall.' . ucfirst($mydirname) . '.Success', 'altsys_message_append_oninstall');
-
-            $ret = [];
-        } elseif (!is_array($ret)) {
+        if (!is_array($ret)) {
             $ret = [];
         }
 
@@ -170,7 +162,7 @@ if (!function_exists('altsys_oninstall_base')) {
     {
         if (is_array(@$GLOBALS['ret'])) {
             foreach ($GLOBALS['ret'] as $message) {
-                $log->add(strip_tags($message));
+					$log->add( strip_tags( (string) $message ) );
             }
         }
 

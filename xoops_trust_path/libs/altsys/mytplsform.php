@@ -225,7 +225,7 @@ $mymenu_fake_uri = 'index.php?mode=admin&lib=altsys&page=mytplsadmin&dirname=' .
 // mymenu
 altsys_include_mymenu();
 
-echo "<h3 style='text-align:" . _GLOBAL_LEFT . ";'>" . _MD_A_MYTPLSFORM_EDIT . ' : ' . htmlspecialchars($tpl['tpl_type'], ENT_QUOTES) . ' : ' . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES) . ' (' . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES) . ")</h3>\n";
+echo "<h3 style='text-align:" . _GLOBAL_LEFT . ";'>" . _MD_A_MYTPLSFORM_EDIT . ' : ' . htmlspecialchars($tpl['tpl_type'], ENT_QUOTES | ENT_HTML5) . ' : ' . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES | ENT_HTML5) . ' (' . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES | ENT_HTML5) . ")</h3>\n";
 
 // diff from file to selected DB template
 $basefilepath = tplsadmin_get_basefilepath($tpl['tpl_module'], $tpl['tpl_type'], $tpl['tpl_file']);
@@ -239,7 +239,7 @@ if (file_exists($basefilepath)) {
 
     $renderer = new Text_Diff_Renderer_unified();
 
-    $diff_str = htmlspecialchars($renderer->render($diff), ENT_QUOTES);
+    $diff_str = htmlspecialchars($renderer->render($diff), ENT_QUOTES | ENT_HTML5);
 
     foreach (explode("\n", $diff_str) as $line) {
         if (0x2d == ord($line)) {
@@ -267,7 +267,7 @@ if ('default' != $tpl['tpl_tplset']) {
 
     $renderer = new Text_Diff_Renderer_unified();
 
-    $diff_str = htmlspecialchars($renderer->render($diff), ENT_QUOTES);
+    $diff_str = htmlspecialchars($renderer->render($diff), ENT_QUOTES | ENT_HTML5);
 
     foreach (explode("\n", $diff_str) as $line) {
         if (0x2d == ord($line)) {
@@ -297,9 +297,9 @@ echo "
 
 echo "
 <a name='altsys_tplsform_top' id='altsys_tplsform_top'></a>
-<form name='MainForm' id='altsys_tplsform' action='?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file=" . htmlspecialchars($tpl_file, ENT_QUOTES) . '&amp;tpl_tplset=' . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES) . '&amp;dirname=' . $target_mname . "' method='post'>
+<form name='MainForm' id='altsys_tplsform' action='?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file=" . htmlspecialchars($tpl_file, ENT_QUOTES | ENT_HTML5) . '&amp;tpl_tplset=' . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES | ENT_HTML5) . '&amp;dirname=' . $target_mname . "' method='post'>
     " . $xoopsGTicket->getTicketHtml(__LINE__, 1800, 'altsys_tplsform') . "
-    <textarea name='tpl_source' id='altsys_tpl_source' wrap='off' style='width:600px;height:400px;'>" . htmlspecialchars($tpl['tpl_source'], ENT_QUOTES) . '</textarea>
+    <textarea name='tpl_source' id='altsys_tpl_source' wrap='off' style='width:600px;height:400px;'>" . htmlspecialchars($tpl['tpl_source'], ENT_QUOTES | ENT_HTML5) . '</textarea>
     <br>
 ';
 if ('create' == $edit_mode) {
@@ -307,7 +307,7 @@ if ('create' == $edit_mode) {
 
     echo "
     <label for='tpl_file'>" . _MD_A_MYTPLSFORM_LABEL_TPLFILE . "</label>
-    <input type='text' name='tpl_file' id='tpl_file' value='" . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES) . "' size='64'><br>
+    <input type='text' name='tpl_file' id='tpl_file' value='" . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES | ENT_HTML5) . "' size='64'><br>
     <input type='submit' name='do_create' id='do_create' value='" . _MD_A_MYTPLSFORM_BTN_CREATE . "'>\n";
 } else {
     // modify form

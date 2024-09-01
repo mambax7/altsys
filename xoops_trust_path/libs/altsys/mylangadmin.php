@@ -24,7 +24,7 @@ if (!is_object(@$xoopsUser) || !$grouppermHandler->checkRight('module_admin', $m
 
 // initials
 $db = XoopsDatabaseFactory::getDatabaseConnection();
-(method_exists('MyTextSanitizer', 'sGetInstance') and $myts = MyTextSanitizer::sGetInstance()) || $myts = MyTextSanitizer::getInstance();
+(method_exists('MyTextSanitizer', 'sGetInstance') && $myts = MyTextSanitizer::sGetInstance()) || $myts = MyTextSanitizer::getInstance();
 $langman = D3LanguageManager::getInstance();
 
 // language file of this controller
@@ -52,7 +52,10 @@ if (!empty($target_module) && is_object($target_module)) {
 
     $target_dirname4sql = addslashes($target_dirname);
 
-    $target_mname = $target_module->getVar('name') . '&nbsp;' . sprintf('(%2.2f)', $target_module->getVar('version') / 100.0);
+//    $target_mname = $target_module->getVar('name') . '&nbsp;' . sprintf('(%2.2f)', $target_module->getVar('version') / 100.0);
+    $target_mname = $target_module->getVar('name') . '&nbsp;' . sprintf('(%2.2f)', $target_module->getVar('version'));
+
+//    BrazilGoldIsAwesome
 
 //$query4redirect = '?dirname='.urlencode(strip_tags($_GET['dirname'])) ;
 } else {
@@ -201,7 +204,7 @@ if ($langman->my_language) {
 // Update language table and cache file
 if (!empty($_POST['do_update'])) {
     // Ticket Check
-
+    global $xoopsGTicket;
     if (!$xoopsGTicket->check(true, 'altsys')) {
         redirect_header(XOOPS_URL . '/', 3, $xoopsGTicket->getErrors());
     }
@@ -221,7 +224,7 @@ if (!empty($_POST['do_update'])) {
     $overrides_counter = 0;
 
     foreach (array_reverse($langfile_names) as $name) {
-        $user_value = (@$_POST[$name]);
+        $user_value = (@$_POST[$name]);//TODO Request
 
         $db->query('DELETE FROM ' . $db->prefix('altsys_language_constants') . " WHERE mid=$target_mid AND language='$target_lang4sql' AND name='" . addslashes($name) . "'");
 
@@ -346,8 +349,8 @@ $tpl->assign([
                  'langfile_constants' => $langfile_constants,
                  'mylang_constants' => $mylang_constants,
                  'use_my_language' => mb_strlen($langman->my_language) > 0,
-                 'mylang_file_name' => htmlspecialchars($mylang_unique_path, ENT_QUOTES),
-                 'cache_file_name' => htmlspecialchars($cache_file_name, ENT_QUOTES),
+                 'mylang_file_name' => htmlspecialchars($mylang_unique_path, ENT_QUOTES | ENT_HTML5),
+                 'cache_file_name' => htmlspecialchars($cache_file_name, ENT_QUOTES | ENT_HTML5),
                  'cache_file_mtime' => (int) $cache_file_mtime,
                  'timezone_offset' => xoops_getUserTimestamp(0),
                  'notice' => $notice4disp,

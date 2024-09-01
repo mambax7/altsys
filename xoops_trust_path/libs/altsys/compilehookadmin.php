@@ -161,7 +161,7 @@ foreach ($compile_hooks as $command => $compile_hook) {
                 // insert "pre" command before the compiled cache
 
                 if ($compile_hook['pre'] && !$skip_mode) {
-                    fwrite($fw, sprintf($compile_hook['pre'], htmlspecialchars($tpl_name, ENT_QUOTES)) . "\r\n");
+                    fwrite($fw, sprintf($compile_hook['pre'], htmlspecialchars($tpl_name, ENT_QUOTES | ENT_HTML5)) . "\r\n");
                 }
 
                 // rest of template cache
@@ -173,7 +173,7 @@ foreach ($compile_hooks as $command => $compile_hook) {
                 // insert "post" command after the compiled cache
 
                 if ($compile_hook['post'] && !$skip_mode) {
-                    fwrite($fw, "\r\n" . sprintf($compile_hook['post'], htmlspecialchars($tpl_name, ENT_QUOTES)));
+                    fwrite($fw, "\r\n" . sprintf($compile_hook['post'], htmlspecialchars($tpl_name, ENT_QUOTES | ENT_HTML5)));
                 }
 
                 fclose($fw);
@@ -218,7 +218,7 @@ $sql = 'SELECT tplset_name,COUNT(DISTINCT tpl_file) FROM ' . $xoopsDB->prefix('t
 $srs = $xoopsDB->query($sql);
 $tplset_options = "<option value=''>----</option>\n";
 while ([$tplset, $tpl_count] = $xoopsDB->fetchRow($srs)) {
-    $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES);
+    $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES | ENT_HTML5);
 
     $tplset_options .= "<option value='$tplset4disp'>$tplset4disp ($tpl_count)</option>\n";
 }

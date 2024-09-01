@@ -36,7 +36,7 @@
             <th><{$smarty.const._MYLANGADMIN_TH_USERVALUE}></th>
         </tr>
 
-        <{foreach from=$langfile_constants key="langfile_name" item="langfile_uservalue"}>
+        <{foreach item="langfile_uservalue" from=$langfile_constants|default:null key="langfile_name" }>
         <tr class="<{cycle values="even,odd"}>" title="<{$langfile_name|escape}>">
             <td><label for="input_<{$langfile_name|escape}>"><{$langfile_name|truncate:30|escape}></label></td>
             <td>

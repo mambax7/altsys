@@ -34,14 +34,14 @@ while (ob_get_level() > 0) {
     }
 }
 
-//
-// EXTRACT STAGE
-//
 
-$orig_filename4check = mb_strtolower($_FILES['tplset_archive']['name']);
+// EXTRACT VIEW
+
+$orig_filename4check = mb_strtolower( (string) $_FILES['tplset_archive']['name'] );
 if ('.zip' == mb_strtolower(mb_substr($orig_filename4check, -4))) {
     // zip
 
+	// zip
     require_once __DIR__ . '/include/Archive_Zip.php';
 
     $reader = new Archive_Zip($_FILES['tplset_archive']['tmp_name']);
@@ -56,6 +56,7 @@ if ('.zip' == mb_strtolower(mb_substr($orig_filename4check, -4))) {
 } elseif ('.tgz' == mb_substr($orig_filename4check, -4) || '.tar.gz' == mb_substr($orig_filename4check, -7)) {
     // tar.gz
 
+	// tar.gz
     require_once XOOPS_ROOT_PATH . '/class/class.tar.php';
 
     $tar = new tar();
@@ -83,12 +84,11 @@ if (empty($do_upload)) {
     die(_TPLSADMIN_ERR_EXTENSION);
 }
 
-//
-// IMPORT STAGE
-//
+
+// IMPORT VIEW
 
 $tplset = @$_POST['tplset'];
-if (!preg_match('/^[0-9A-Za-z_-]{1,16}$/', $tplset)) {
+if ( ! preg_match( '/^[0-9A-Za-z_-]{1,16}$/', (string) $tplset ) ) {
     die(_TPLSADMIN_ERR_INVALIDTPLSET);
 }
 
@@ -98,11 +98,11 @@ foreach ($files as $file) {
         continue;
     }
 
-    $pos = mb_strrpos($file['filename'], '/');
+	$pos = mb_strrpos( (string) $file['filename'], '/' );
 
-    $tpl_file = false === $pos ? $file['filename'] : mb_substr($file['filename'], $pos + 1);
+	$tpl_file = false === $pos ? $file['filename'] : mb_substr( (string) $file['filename'], $pos + 1 );
 
-    if (tplsadmin_import_data($tplset, $tpl_file, rtrim($file['content']), $file['mtime'])) {
+	if ( tplsadmin_import_data( $tplset, $tpl_file, rtrim( (string) $file['content'] ), $file['mtime'] ) ) {
         $imported++;
     }
 }

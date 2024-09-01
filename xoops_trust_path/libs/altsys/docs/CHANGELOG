@@ -1,5 +1,11 @@
 [xlang:en]
 
+1.00 Beta 1 (2024-09-02)
+============================
+- cleanup (mamba)
+- Smarty 4 updates (mamba)
+
+
 0.84 Beta 1 (2021-03-10)
 ============================
 - PHP 8 cleanup (mamba)
@@ -59,7 +65,7 @@ v0.70 (2008-12-14) Note: update the module
 
 v0.61 (2008-09-05)
 - added D3NotificationHandler
-- fixed some modinfo.php loaded twice with langauge overridding 0.61a
+- fixed some modinfo.php loaded twice with language overridding 0.61a
 
 v0.60 (2008-08-07)
 - fixed warning by assert() in Text_Diff

@@ -121,7 +121,7 @@ function altsys_admin_in_theme_in_last($contents = null): void
         $grouppermHandler = xoops_getHandler('groupperm');
         $admin_mids = $grouppermHandler->getItemIds('module_admin', $xoopsUser->getGroups());
         $moduleHandler = xoops_getHandler('module');
-        $modules = $moduleHandler->getObjects(new Criteria('mid', "(".implode(',', $admin_mids).")", 'IN'), true);
+        $modules = $moduleHandler->getObjects(new \Criteria('mid', "(".implode(',', $admin_mids).")", 'IN'), true);
         $admin_mids = array_keys($modules);
 
         // menu items &= admin permissions
@@ -136,8 +136,8 @@ function altsys_admin_in_theme_in_last($contents = null): void
             'content' => $admin_menu_block_contents ,
             'weight' => 0 ,
         ) ) ;
-        $lblocks = $xoopsTpl->get_template_vars( 'xoops_lblocks' ) ;
-        if( ! is_array( $lblocks ) ) $lblocks = array() ;
+        $lblocks = $xoopsTpl->getTemplateVars( 'xoops_lblocks' ) ;
+        if( ! \is_array( $lblocks ) ) $lblocks = array() ;
         $xoopsTpl->assign( 'xoops_lblocks' , array_merge( $admin_menu_block , $lblocks ) ) ;
 
         // javascripts
@@ -165,14 +165,14 @@ function altsys_admin_in_theme_in_last($contents = null): void
                           'xoops_theme' => $xoopsConfig['theme_set'],
                           'xoops_imageurl' => XOOPS_THEME_URL . '/' . $xoopsConfig['theme_set'] . '/',
                           'xoops_themecss' => xoops_getcss($xoopsConfig['theme_set']),
-                          'xoops_requesturi' => htmlspecialchars($GLOBALS['xoopsRequestUri'], ENT_QUOTES),
-                          'xoops_sitename' => htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES),
+                          'xoops_requesturi' => htmlspecialchars($GLOBALS['xoopsRequestUri'], ENT_QUOTES | ENT_HTML5),
+                          'xoops_sitename' => htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES | ENT_HTML5),
                           'xoops_showlblock' => 1,
                           //        'xoops_js' => '//--></script><script type="text/javascript" src="'.XOOPS_URL.'/include/xoops.js"></script><script type="text/javascript" src="'.XOOPS_URL.'/include/layersmenu.js"></script><script type="text/javascript"><!--'."\n".$xoops_admin_menu_js ,
                           'xoops_js' => '//--></script><script type="text/javascript" src="' . XOOPS_URL . '/include/xoops.js"></script><script type="text/javascript"><!--' . "\n",
                           'xoops_runs_admin_side' => 1,
                           'xoops_breadcrumbs' => $xoops_breadcrumbs,
-                          'xoops_slogan' => htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES),
+                          'xoops_slogan' => htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES | ENT_HTML5),
                           'xoops_contents' => $xoops_admin_contents, //. '<div id="adminmenu_layers">' . $xoops_admin_menu_dv . '</div>' ,
                           'xoops_module_header' => $xoops_module_header,
                       ]);

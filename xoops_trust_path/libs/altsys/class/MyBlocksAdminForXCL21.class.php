@@ -52,7 +52,7 @@ class MyBlocksAdminForXCL21 extends MyBlocksAdmin
 
         //HACK by domifara
 
-        //  $block = new XoopsBlock( $bid ) ;
+        //  $block = new \XoopsBlock( $bid ) ;
 
         $handler = xoops_getHandler('block');
 

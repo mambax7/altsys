@@ -21,13 +21,13 @@ altsys_include_language_file('compilehookadmin');
 if (!empty($_POST['download_zip'])) {
     require_once XOOPS_ROOT_PATH . '/class/zipdownloader.php';
 
-    $downloader = new XoopsZipDownloader();
+    $downloader = new \XoopsZipDownloader();
 
     $do_download = true;
 } elseif (!empty($_POST['download_tgz'])) {
     require_once XOOPS_ROOT_PATH . '/class/tardownloader.php';
 
-    $downloader = new XoopsTarDownloader();
+    $downloader = new \XoopsTarDownloader();
 
     $do_download = true;
 }

@@ -15,7 +15,7 @@ function b_altsys_admin_menu_show($options)
     $this_template = empty($options[1]) ? 'db:' . $mydirname . '_block_admin_menu.tpl' : trim($options[1]);
 
     if (preg_match('/[^0-9a-zA-Z_-]/', $mydirname)) {
-        die('Invalid mydirname');
+       exit('Invalid mydirname');
     }
 
     if (!is_object(@$xoopsUser)) {
@@ -56,7 +56,7 @@ function b_altsys_admin_menu_show($options)
 
     $admin_mids = $grouppermHandler->getItemIds('module_admin', $xoopsUser->getGroups());
 
-    $modules = $moduleHandler->getObjects(new Criteria('mid', '(' . implode(',', $admin_mids) . ')', 'IN'), true);
+    $modules = $moduleHandler->getObjects(new \Criteria('mid', '(' . implode(',', $admin_mids) . ')', 'IN'), true);
 
     $block = [
         'mydirname' => $mydirname,
@@ -95,7 +95,7 @@ function b_altsys_admin_menu_show($options)
 
             $submenus4assign[] = [
                 'title' => htmlspecialchars($sub['title']),
-                'url' => XOOPS_URL . '/modules/' . $dirname . '/' . htmlspecialchars($link, ENT_QUOTES),
+                'url' => XOOPS_URL . '/modules/' . $dirname . '/' . htmlspecialchars($link, ENT_QUOTES | ENT_HTML5),
             ];
         }
 
@@ -119,7 +119,7 @@ function b_altsys_admin_menu_show($options)
 
                 $submenus4assign[] = [
                     'title' => htmlspecialchars($sub['title']),
-                    'url' => 0 === strncmp($sub['link'], 'http', 4) ? htmlspecialchars($sub['link'], ENT_QUOTES) : XOOPS_URL . '/modules/' . $dirname . '/' . htmlspecialchars($sub['link'], ENT_QUOTES),
+                    'url' => 0 === strncmp((string) $sub['link'], 'http', 4) ? htmlspecialchars((string) $sub['link'], ENT_QUOTES | ENT_HTML5) : XOOPS_URL . '/modules/' . $dirname . '/' . htmlspecialchars((string) $sub['link'], ENT_QUOTES | ENT_HTML5),
                 ];
             }
         } elseif (empty($adminmenu4altsys)) {
@@ -128,7 +128,7 @@ function b_altsys_admin_menu_show($options)
             if ($mod->getVar('hasconfig') && !in_array($mod->getVar('dirname'), ['system', 'legacy'], true)) {
                 $submenus4assign[] = [
                     'title' => _PREFERENCES,
-                    'url' => htmlspecialchars(altsys_get_link2modpreferences($mid, $coretype), ENT_QUOTES),
+                    'url' => htmlspecialchars(altsys_get_link2modpreferences($mid, $coretype), ENT_QUOTES | ENT_HTML5),
                 ];
             }
 
@@ -148,17 +148,17 @@ function b_altsys_admin_menu_show($options)
             'name' => $mod->getVar('name'),
             'version_in_db' => sprintf('%.2f', $mod->getVar('version') / 100.0),
             'version_in_file' => sprintf('%.2f', $modinfo['version']),
-            'description' => htmlspecialchars(@$modinfo['description'], ENT_QUOTES),
-            'image' => htmlspecialchars($modinfo['image'], ENT_QUOTES),
+            'description' => htmlspecialchars((string) @$modinfo['description'], ENT_QUOTES | ENT_HTML5),
+            'image' => htmlspecialchars((string) $modinfo['image'], ENT_QUOTES | ENT_HTML5),
             'isactive' => $mod->getVar('isactive'),
             'hasmain' => $mod->getVar('hasmain'),
             'hasadmin' => $mod->getVar('hasadmin'),
             'hasconfig' => $mod->getVar('hasconfig'),
             'weight' => $mod->getVar('weight'),
-            'adminindex' => htmlspecialchars(@$modinfo['adminindex'], ENT_QUOTES),
+            'adminindex' => htmlspecialchars((string) @$modinfo['adminindex'], ENT_QUOTES | ENT_HTML5),
             'adminindex_absolute' => @$modinfo['adminindex_absolute'],
             'submenu' => $submenus4assign,
-            'selected' => $mid == $mid_selected,
+            'selected' => $mid == $mid_selected ? true : false,
             'dot_suffix' => $mid == $mid_selected ? 'selected_opened' : 'closed',
         ];
 
@@ -184,16 +184,16 @@ function b_altsys_admin_menu_edit($options)
 {
     $mydirname = empty($options[0]) ? 'd3forum' : $options[0];
 
-    $this_template = empty($options[1]) ? 'db:' . $mydirname . '_block_admin_menu.tpl' : trim($options[1]);
+    $this_template = empty($options[1]) ? 'db:' . $mydirname . '_block_admin_menu.tpl' : trim((string) $options[1]);
 
-    if (preg_match('/[^0-9a-zA-Z_-]/', $mydirname)) {
-        die('Invalid mydirname');
+    if (preg_match('/[^0-9a-zA-Z_-]/', (string) $mydirname)) {
+       exit('Invalid mydirname');
     }
 
     $form = "
         <input type='hidden' name='options[0]' value='$mydirname'>
         <label for='this_template'>" . _MB_ALTSYS_THISTEMPLATE . "</label>&nbsp;:
-        <input type='text' size='60' name='options[1]' id='this_template' value='" . htmlspecialchars($this_template, ENT_QUOTES) . "'>
+        <input type='text' size='60' name='options[1]' id='this_template' value='" . htmlspecialchars($this_template, ENT_QUOTES | ENT_HTML5) . "'>
         <br>
     \n";
 

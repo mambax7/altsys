@@ -73,7 +73,7 @@ if (!class_exists('XoopsGTicket')) {
 
         public function getTicketXoopsForm($salt = '', $timeout = 1800, $area = '')
         {
-            return new XoopsFormHidden('XOOPS_G_TICKET', $this->issue($salt, $timeout, $area));
+            return new \XoopsFormHidden('XOOPS_G_TICKET', $this->issue($salt, $timeout, $area));
         }
 
         // add a ticket as Hidden Element into XoopsForm
@@ -87,7 +87,7 @@ if (!class_exists('XoopsGTicket')) {
 
         public function addTicketXoopsFormElement($form, $salt = '', $timeout = 1800, $area = '')
         {
-            $form->addElement(new XoopsFormHidden('XOOPS_G_TICKET', $this->issue($salt, $timeout, $area)));
+            $form->addElement(new \XoopsFormHidden('XOOPS_G_TICKET', $this->issue($salt, $timeout, $area)));
         }
 
         // returns an array for xoops_confirm() ;
@@ -318,7 +318,7 @@ if (!class_exists('XoopsGTicket')) {
 
             $table = '<table>';
 
-            $form = '<form action="?' . htmlspecialchars(@$_SERVER['QUERY_STRING'], ENT_QUOTES) . '" method="post" >';
+            $form = '<form action="?' . htmlspecialchars(@$_SERVER['QUERY_STRING'], ENT_QUOTES | ENT_HTML5) . '" method="post" >';
 
             foreach ($_POST as $key => $val) {
                 if ('XOOPS_G_TICKET' == $key) {
@@ -330,7 +330,7 @@ if (!class_exists('XoopsGTicket')) {
                 }
 
                 if (is_array($val)) {
-                    [$tmp_table, $tmp_form] = $this->extract_post_recursive(htmlspecialchars($key, ENT_QUOTES), $val);
+                    [$tmp_table, $tmp_form] = $this->extract_post_recursive(htmlspecialchars($key, ENT_QUOTES | ENT_HTML5), $val);
 
                     $table .= $tmp_table;
 
@@ -340,9 +340,9 @@ if (!class_exists('XoopsGTicket')) {
                         $val = stripslashes($val);
                     }
 
-                    $table .= '<tr><th>' . htmlspecialchars($key, ENT_QUOTES) . '</th><td>' . htmlspecialchars($val, ENT_QUOTES) . '</td></tr>' . "\n";
+                    $table .= '<tr><th>' . htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) . '</th><td>' . htmlspecialchars($val, ENT_QUOTES | ENT_HTML5) . '</td></tr>' . "\n";
 
-                    $form .= '<input type="hidden" name="' . htmlspecialchars($key, ENT_QUOTES) . '" value="' . htmlspecialchars($val, ENT_QUOTES) . '">' . "\n";
+                    $form .= '<input type="hidden" name="' . htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) . '" value="' . htmlspecialchars($val, ENT_QUOTES | ENT_HTML5) . '">' . "\n";
                 }
             }
 
@@ -376,7 +376,7 @@ if (!class_exists('XoopsGTicket')) {
                 }
 
                 if (is_array($val)) {
-                    [$tmp_table, $tmp_form] = $this->extract_post_recursive($key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']', $val);
+                    [$tmp_table, $tmp_form] = $this->extract_post_recursive($key_name . '[' . htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) . ']', $val);
 
                     $table .= $tmp_table;
 
@@ -386,9 +386,9 @@ if (!class_exists('XoopsGTicket')) {
                         $val = stripslashes($val);
                     }
 
-                    $table .= '<tr><th>' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']</th><td>' . htmlspecialchars($val, ENT_QUOTES) . '</td></tr>' . "\n";
+                    $table .= '<tr><th>' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) . ']</th><td>' . htmlspecialchars($val, ENT_QUOTES | ENT_HTML5) . '</td></tr>' . "\n";
 
-                    $form .= '<input type="hidden" name="' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']" value="' . htmlspecialchars($val, ENT_QUOTES) . '">' . "\n";
+                    $form .= '<input type="hidden" name="' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) . ']" value="' . htmlspecialchars($val, ENT_QUOTES | ENT_HTML5) . '">' . "\n";
                 }
             }
 
@@ -460,7 +460,7 @@ if (!class_exists('XoopsGTicket')) {
 
     // create a instance in global scope
 
-    $GLOBALS['xoopsGTicket'] = new XoopsGTicket();
+    $GLOBALS['xoopsGTicket'] = new \XoopsGTicket();
 }
 
 if (!function_exists('admin_refcheck')) {

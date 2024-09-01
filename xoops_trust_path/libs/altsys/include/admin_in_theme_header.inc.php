@@ -23,7 +23,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 $xoopsOption['theme_use_smarty'] = 1;
 // include Smarty template engine and initialize it
 require_once XOOPS_ROOT_PATH . '/class/template.php';
-$xoopsTpl = new XoopsTpl();
+$xoopsTpl = new \XoopsTpl();
 $xoopsTpl->xoops_setCaching(2);
 if (3 == $xoopsConfig['debug_mode']) {
     $xoopsTpl->xoops_setDebugging(true);
@@ -32,14 +32,14 @@ $xoopsTpl->assign([
                       'xoops_theme' => $xoopsConfig['theme_set'],
                       'xoops_imageurl' => XOOPS_THEME_URL . '/' . $xoopsConfig['theme_set'] . '/',
                       'xoops_themecss' => xoops_getcss($xoopsConfig['theme_set']),
-                      'xoops_requesturi' => htmlspecialchars($GLOBALS['xoopsRequestUri'], ENT_QUOTES),
-                      'xoops_sitename' => htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES),
-                      'xoops_slogan' => htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES),
+                      'xoops_requesturi' => htmlspecialchars($GLOBALS['xoopsRequestUri'], ENT_QUOTES | ENT_HTML5),
+                      'xoops_sitename' => htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES | ENT_HTML5),
+                      'xoops_slogan' => htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES | ENT_HTML5),
                   ]);
 // Meta tags
 $configHandler = xoops_getHandler('config');
-$criteria = new CriteriaCompo(new Criteria('conf_modid', 0));
-$criteria->add(new Criteria('conf_catid', XOOPS_CONF_METAFOOTER));
+$criteria = new \CriteriaCompo(new \Criteria('conf_modid', 0));
+$criteria->add(new \Criteria('conf_catid', XOOPS_CONF_METAFOOTER));
 $config = $configHandler->getConfigs($criteria, true);
 foreach (array_keys($config) as $i) {
     // prefix each tag with 'xoops_'
@@ -57,7 +57,7 @@ if (defined('XOOPS_CUBE_LEGACY')) {
 
     $xoopsblock = $handler->create(false);
 } else {
-    $xoopsblock = new XoopsBlock();
+    $xoopsblock = new \XoopsBlock();
 }
 
 $block_arr = [];
@@ -108,7 +108,7 @@ if (is_object($xoopsUser)) {
             }
 
             if (!empty($GLOBALS['altsysAdminPageTitle'])) {
-                $xoops_breadcrumbs[] = ['name' => htmlspecialchars($GLOBALS['altsysAdminPageTitle'], ENT_QUOTES)];
+                $xoops_breadcrumbs[] = ['name' => htmlspecialchars($GLOBALS['altsysAdminPageTitle'], ENT_QUOTES | ENT_HTML5)];
             } elseif (!empty($modinfo['adminmenu'])) {
                 @include $mod_path . '/' . $modinfo['adminmenu'];
 
@@ -164,7 +164,7 @@ if (!empty($blockids)) {
 
             $block->assignVars($myrow);
         } else {
-            $block = new XoopsBlock($myrow);
+            $block = new \XoopsBlock($myrow);
         }
 
         $block_arr[$myrow['bid']] = $block;
@@ -190,7 +190,7 @@ foreach (array_keys($block_arr) as $i) {
     $btpl = $block_arr[$i]->getVar('template');
 
     if ('' != $btpl) {
-        if (empty($bcachetime) || !$xoopsTpl->is_cached('db:' . $btpl, 'blk_' . $block_arr[$i]->getVar('bid'))) {
+        if (empty($bcachetime) || !$xoopsTpl->isCached('db:' . $btpl, 'blk_' . $block_arr[$i]->getVar('bid'))) {
             $xoopsLogger->addBlock($block_arr[$i]->getVar('name'));
 
             $bresult = $block_arr[$i]->buildBlock();
@@ -199,11 +199,11 @@ foreach (array_keys($block_arr) as $i) {
                 continue;
             }
 
-            $xoopsTpl->assign_by_ref('block', $bresult);
+            $xoopsTpl->assignByRef('block', $bresult);
 
             $bcontent = $xoopsTpl->fetch('db:' . $btpl, 'blk_' . $block_arr[$i]->getVar('bid'));
 
-            $xoopsTpl->clear_assign('block');
+            $xoopsTpl->clearAssign('block');
         } else {
             $xoopsLogger->addBlock($block_arr[$i]->getVar('name'), true, $bcachetime);
 
@@ -212,7 +212,7 @@ foreach (array_keys($block_arr) as $i) {
     } else {
         $bid = $block_arr[$i]->getVar('bid');
 
-        if (empty($bcachetime) || !$xoopsTpl->is_cached('db:system_dummy.tpl', 'blk_' . $bid)) {
+        if (empty($bcachetime) || !$xoopsTpl->isCached('db:system_dummy.tpl', 'blk_' . $bid)) {
             $xoopsLogger->addBlock($block_arr[$i]->getVar('name'));
 
             $bresult = $block_arr[$i]->buildBlock();
@@ -221,11 +221,11 @@ foreach (array_keys($block_arr) as $i) {
                 continue;
             }
 
-            $xoopsTpl->assign_by_ref('dummy_content', $bresult['content']);
+            $xoopsTpl->assignByRef('dummy_content', $bresult['content']);
 
             $bcontent = $xoopsTpl->fetch('db:system_dummy.tpl', 'blk_' . $bid);
 
-            $xoopsTpl->clear_assign('block');
+            $xoopsTpl->clearAssign('block');
         } else {
             $xoopsLogger->addBlock($block_arr[$i]->getVar('name'), true, $bcachetime);
 
@@ -287,7 +287,7 @@ if (!$adminmenublock_exists) {
 
     $admin_menu_block[0]['title'] = 'Admin Menu';
 
-    $lblocks = &$xoopsTpl->get_template_vars('xoops_lblocks');
+    $lblocks = &$xoopsTpl->getTemplateVars('xoops_lblocks');
 
     if (!is_array($lblocks)) {
         $lblocks = [];

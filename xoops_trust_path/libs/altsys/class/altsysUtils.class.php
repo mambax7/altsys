@@ -6,11 +6,11 @@
 class altsysUtils
 {
     /**
-     * @param      $name
+     * @param string $name
      * @param bool $doRegist
      * @return array
      */
-    public static function getDelegateCallbackClassNames($name, $doRegist = true)
+    public static function getDelegateCallbackClassNames($name, bool $doRegist = true)
     {
         $names = [];
 
@@ -40,7 +40,7 @@ class altsysUtils
                     foreach (array_keys($callbacks[$priority]) as $idx) {
                         $callback = $callbacks[$priority][$idx][0];
 
-                        $_name = is_array($callback) ? (is_object($callback[0]) ? get_class($callback[0]) : $callback[0]) : $callback;
+                        $_name = \is_array($callback) ? (is_object($callback[0]) ? get_class($callback[0]) : $callback[0]) : $callback;
 
                         $names[$priority] = $_name;
                     }
@@ -56,9 +56,9 @@ class altsysUtils
     /**
      * @return bool
      */
-    public static function isInstalledXclHtmleditor()
+    public static function isInstalledXclHtmleditor(): bool
     {
-        if (defined('LEGACY_BASE_VERSION') && version_compare(LEGACY_BASE_VERSION, '2.2.0.0', '>=')) {
+        if (defined('LEGACY_BASE_VERSION') && version_compare(LEGACY_BASE_VERSION, '2.2', '>=')) {
             $cNames = self::getDelegateCallbackClassNames('Site.TextareaEditor.HTML.Show');
 
             if ($cNames) {
@@ -74,29 +74,25 @@ class altsysUtils
     }
 
     /**
-     * @param      $str
+     * @param string $str
      * @param int  $flags
      * @param null $encoding
      * @param bool $double_encode
      * @return array|string|string[]
      */
-    public static function htmlSpecialChars($str, $flags = ENT_COMPAT, $encoding = null, $double_encode = true)
+    public static function htmlSpecialChars($str, int $flags = ENT_COMPAT, $encoding = null, bool $double_encode = true)
     {
-        static $php523 = null;
-
-        if (null === $php523) {
-            $php523 = version_compare(PHP_VERSION, '5.2.3', '>=');
-        }
+        $phpVersion = (float)phpversion();
 
         if (null === $encoding) {
             $encoding = defined('_CHARSET') ? _CHARSET : '';
         }
 
-        if ($php523) {
-            return htmlspecialchars($str, $flags, $encoding, $double_encode);
+        if ($phpVersion > 7.4) {
+             return htmlspecialchars((string) $str, $flags, $encoding, $double_encode);
         }
 
-        $ret = htmlspecialchars($str, $flags, $encoding);
+        $ret = htmlspecialchars((string) $str, $flags, $encoding);
 
         if (!$double_encode) {
             $ret = str_replace('&amp;amp;', '&amp;', $ret);

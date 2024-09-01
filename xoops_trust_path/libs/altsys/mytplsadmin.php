@@ -222,7 +222,7 @@ if (is_array(@$_POST['del_do'])) {
 
             require_once XOOPS_ROOT_PATH . '/class/template.php';
 
-            $tpl = new XoopsTpl();
+            $tpl = new \XoopsTpl();
 
             $tpl->force_compile = true;
 
@@ -245,9 +245,9 @@ if (is_array(@$_POST['del_do'])) {
 
                 // remove templates_c
 
-                $tpl->clear_cache('db:' . $tplfile);
+                $tpl->clearCache('db:' . $tplfile);
 
-                $tpl->clear_compiled_tpl('db:' . $tplfile);
+                $tpl->clearCompiledTemplate('db:' . $tplfile);
             }
 
             redirect_header('?mode=admin&lib=altsys&page=mytplsadmin&dirname=' . $target_dirname, 1, _MYTPLSADMIN_DBUPDATED);
@@ -304,7 +304,7 @@ while ([$tplset] = $db->fetchRow($srs)) {
 $tplsets_th4disp = '';
 $tplset_options = "<option value=''>----</option>\n";
 foreach ($tplsets as $tplset) {
-    $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES);
+    $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES | ENT_HTML5);
 
     $active = $th_attr = '';
 
@@ -362,7 +362,7 @@ if ('_custom' == $target_dirname) {
 
 // beggining of table & form
 echo "
-    <form name='MainForm' action='?mode=admin&amp;lib=altsys&amp;page=mytplsadmin&amp;dirname=" . htmlspecialchars($target_dirname, ENT_QUOTES) . "' method='post'>
+    <form name='MainForm' action='?mode=admin&amp;lib=altsys&amp;page=mytplsadmin&amp;dirname=" . htmlspecialchars($target_dirname, ENT_QUOTES | ENT_HTML5) . "' method='post'>
     " . $xoopsGTicket->getTicketHtml(__LINE__) . "
     <table class='outer altsys_mytplsadmin'>
         <tr>
@@ -391,8 +391,8 @@ while (false !== ([$tpl_file, $tpl_desc, $type, $count] = $db->fetchRow($frs))) 
         <tr>
             <td class='$evenodd'>
                 <dl>
-                    <dt>" . htmlspecialchars($tpl_file, ENT_QUOTES) . '</dt>
-                    <dd>' . htmlspecialchars($tpl_desc, ENT_QUOTES) . "</dd>
+                    <dt>" . htmlspecialchars($tpl_file, ENT_QUOTES | ENT_HTML5) . '</dt>
+                    <dd>' . htmlspecialchars($tpl_desc, ENT_QUOTES | ENT_HTML5) . "</dd>
                 </dl>
             </td>
             <td class='$evenodd'>" . $type . '<br>(' . $count . ")</td>\n";
@@ -418,7 +418,7 @@ while (false !== ([$tpl_file, $tpl_desc, $type, $count] = $db->fetchRow($frs))) 
     // db template columns
 
     foreach ($tplsets as $tplset) {
-        $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES);
+        $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES | ENT_HTML5);
 
         // query for templates in db
 
@@ -431,7 +431,7 @@ while (false !== ([$tpl_file, $tpl_desc, $type, $count] = $db->fetchRow($frs))) 
         if (empty($tpl['tpl_id'])) {
             echo "<td class='$evenodd'>($numrows)</td>\n";
         } else {
-            $fingerprint = tplsadmin_get_fingerprint(explode("\n", $tpl['tpl_source']));
+            $fingerprint = tplsadmin_get_fingerprint(explode("\n", $tpl['tpl_source']??''));
 
             if (isset($fingerprints[$fingerprint])) {
                 $class = $fingerprints[$fingerprint];
@@ -448,11 +448,11 @@ while (false !== ([$tpl_file, $tpl_desc, $type, $count] = $db->fetchRow($frs))) 
                  . '<br>'
                  . mb_substr($fingerprint, 0, 16)
                  . "<br><input type='checkbox' name='{$tplset4disp}_check[{$tpl_file}]' value='1'> &nbsp; <a href='?mode=admin&amp;lib=altsys&amp;page=mytplsform&amp;tpl_file="
-                 . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES)
+                 . htmlspecialchars($tpl['tpl_file'], ENT_QUOTES | ENT_HTML5)
                  . '&amp;tpl_tplset='
-                 . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES)
+                 . htmlspecialchars($tpl['tpl_tplset'], ENT_QUOTES | ENT_HTML5)
                  . '&amp;dirname='
-                 . htmlspecialchars($target_dirname, ENT_QUOTES)
+                 . htmlspecialchars($target_dirname, ENT_QUOTES | ENT_HTML5)
                  . "'>"
                  . _EDIT
                  . "</a> ($numrows)</td>\n";
@@ -486,7 +486,7 @@ echo "
         </td>\n";
 
 foreach ($tplsets as $tplset) {
-    $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES);
+    $tplset4disp = htmlspecialchars($tplset, ENT_QUOTES | ENT_HTML5);
 
     echo "\t\t<td class='head'>
             " . ('default' == $tplset && '_custom' != $target_dirname ? '' : "<input name='del_do[{$tplset4disp}]' type='submit' value='"

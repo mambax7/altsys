@@ -52,7 +52,7 @@ class formcheckboxgroup extends XoopsFormCheckBox
         $memberHandler = xoops_getHandler('member');
 
         if (!$include_anon) {
-            $options = $memberHandler->getGroupList(new Criteria('groupid', XOOPS_GROUP_ANONYMOUS, '!='));
+            $options = $memberHandler->getGroupList(new \Criteria('groupid', XOOPS_GROUP_ANONYMOUS, '!='));
         } else {
             $options = $memberHandler->getGroupList();
         }
